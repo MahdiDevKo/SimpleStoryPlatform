@@ -1,0 +1,6 @@
+@SimpleStoryPlatform_HostAddress = http://localhost:5117
+
+GET {{SimpleStoryPlatform_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

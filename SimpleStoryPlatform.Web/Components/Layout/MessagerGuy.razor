@@ -1,0 +1,70 @@
+﻿@* @using SimpleStoryPlatform.Web.Services
+@inject LittleMessagerService msgService *@
+@implements IDisposable
+
+@if (showMessage)
+{
+    <div class="toast-message @messageType">@messageText</div>
+}
+
+@code {
+    bool showMessage;
+    string messageText = "";
+    string messageType = "";
+
+    protected override void OnInitialized()
+    {
+        msgService.OnShow += Show;
+    }
+
+    public void Dispose()
+    {
+        msgService.OnShow -= Show;
+    }
+
+    async void Show(string text, string type, int durration = 3000)
+    {
+        Console.WriteLine($"Show started: {text}");
+        messageText = text;
+        messageType = type;
+        showMessage = true;
+        await InvokeAsync(StateHasChanged);
+
+        await Task.Delay(durration);
+
+        showMessage = false;
+        Console.WriteLine($"Show endere: {text}");
+        await InvokeAsync(StateHasChanged);
+    }
+}
+
+
+<style>
+
+    .toast-message {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background-color: #333;
+        color: white;
+        padding: 12px 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        z-index: 9999;
+        font-size: 0.95em;
+        opacity: 1;
+        transition: opacity 0.5s ease-in-out;
+    }
+
+        .toast-message.success {
+            background-color: #4CAF50;
+        }
+
+        .toast-message.error {
+            background-color: #f44336;
+        }
+
+        .toast-message.info {
+            background-color: #2196F3;
+        }
+</style>

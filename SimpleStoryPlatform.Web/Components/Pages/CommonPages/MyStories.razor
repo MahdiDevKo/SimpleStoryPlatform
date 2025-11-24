@@ -1,0 +1,457 @@
+﻿@page "/my-stories"
+@using SimpleStoryPlatform.Application.DTOs.ReportDTOs.UserToServer
+@using SimpleStoryPlatform.Application.DTOs.StoryDTOs.ServerToUser
+@using SimpleStoryPlatform.Application.DTOs.StoryDTOs.UserToServer
+@using SimpleStoryPlatform.Application.Responses
+
+@rendermode InteractiveServer
+<h3>MyStories</h3>
+
+@code {
+    List<StoryPreviewDto> stories = new List<StoryPreviewDto>();
+
+    StoryReleaseRequestCreateDto ReleaseReuestDto = new StoryReleaseRequestCreateDto();
+
+    bool creatingNewStory = false;
+
+    StoryCreateDto storyCreateDto = new StoryCreateDto();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var response = await httpClient.GetAsync("Writers/My-Stories");
+
+        //success check
+        if (!response.IsSuccessStatusCode)
+        {
+            msgService.ShowMessage(response.StatusCode.ToString(), "error");
+            return;
+        }
+
+        var apiRes = await response.Content.ReadFromJsonAsync<BaseResponseWithData<List<StoryPreviewDto>?>>();
+
+        //success ckeck2
+        if (!apiRes.Success)
+        {
+            msgService.ShowMessage(apiRes.Message, "error");
+            return;
+        }
+
+        stories = apiRes.data;
+        StateHasChanged();
+    }
+
+    async void UnpublishStory(Guid storyGuid)
+    {
+        var response = await httpClient.PostAsJsonAsync("Writers/Unpublish-Story", storyGuid);
+
+        //success check
+        if (!response.IsSuccessStatusCode)
+        {
+            msgService.ShowMessage(response.StatusCode.ToString(), "error");
+            return;
+        }
+
+        var apiRes = await response.Content.ReadFromJsonAsync<BaseResponse>();
+
+        //success ckeck2
+        if (!apiRes.Success)
+        {
+            msgService.ShowMessage(apiRes.Message, "error");
+            return;
+        }
+
+        msgService.ShowMessage(apiRes.Message, "success");
+
+        stories.FirstOrDefault(s => s.PublicId == storyGuid).IsPublished = false;
+
+        StateHasChanged();
+    }
+
+    async void SendReleaseReuest(Guid storyGuid)
+    {
+        //null check
+        if (string.IsNullOrEmpty(ReleaseReuestDto.Text))
+        {
+            msgService.ShowMessage("متن درخواست نمیتواند خالی باشد", "error");
+            return;
+        }
+
+        ReleaseReuestDto.StoryGuid = storyGuid;
+
+        var response = await httpClient.PostAsJsonAsync("Writers/Release-Request", ReleaseReuestDto);
+
+        //success check
+        if (!response.IsSuccessStatusCode)
+        {
+            msgService.ShowMessage(response.StatusCode.ToString(), "error");
+            return;
+        }
+
+        var apiRes = await response.Content.ReadFromJsonAsync<BaseResponse>();
+
+        //success ckeck2
+        if (!apiRes.Success)
+        {
+            // msgService.ShowMessage(apiRes.Message, "error");
+            msgService.ShowMessage(apiRes.Message + storyGuid.ToString(), "error");
+            return;
+        }
+
+        msgService.ShowMessage(apiRes.Message, "success");
+    }
+
+    void ChangePageMode(bool isCreatingNewStory = true)
+    {
+        creatingNewStory = isCreatingNewStory;
+        StateHasChanged();
+    }
+
+    async void CreateNewStory()
+    {
+        var response = await httpClient.PostAsJsonAsync("Writers/Create-New-Story", storyCreateDto);
+
+        //success check
+        if (!response.IsSuccessStatusCode)
+        {
+            msgService.ShowMessage(response.StatusCode.ToString(), "error");
+            return;
+        }
+
+        var apiRes = await response.Content.ReadFromJsonAsync<BaseResponseWithData<Guid>>();
+
+        //success ckeck2
+        if (!apiRes.Success)
+        {
+            msgService.ShowMessage(apiRes.Message, "error");
+            return;
+        }
+
+        msgService.ShowMessage(apiRes.Message, "Success");
+
+        Navigation.NavigateTo($"edit-story/{apiRes.data}");
+
+    }
+
+    Guid? openedStrikeForm = null;
+
+    void ToggleStrikeForm(Guid storyId)
+    {
+        if (openedStrikeForm == storyId)
+            openedStrikeForm = null;
+        else
+            openedStrikeForm = storyId;
+}
+
+
+}
+@if (creatingNewStory)
+{
+    <div class="top-actions centered-actions">
+    <button class="btn-back" @onclick="() => ChangePageMode(false)">بازگشت به لیست</button>
+</div>
+
+<div class="story-create-container">
+    <div class="story-create-form">
+        <h3>ساخت داستان جدید</h3>
+
+        <input type="text" placeholder="نام داستان" @bind="storyCreateDto.Name" />
+
+        <textarea class="preview-input"
+                  placeholder="خلاصه داستان"
+                  @bind="storyCreateDto.Preview"></textarea>
+
+        <button class="btn-create" @onclick="CreateNewStory">ساخت داستان</button>
+    </div>
+</div>
+
+}
+else
+{
+    <div class="top-actions">
+        <button class="btn-create-new" @onclick="() => ChangePageMode(true)">ساخت داستان جدید</button>
+    </div>
+
+    @if (stories != null && stories.Count > 0)
+    {
+        foreach (var storyPreview in stories)
+        {
+            <div class="story-card">
+
+                <div class="story-image">
+                    <img src="/images/default-story.jpg" alt="Story image" />
+                </div>
+
+                <div class="story-content">
+
+                    <h4>@storyPreview.Name</h4>
+                    <p class="preview">@storyPreview.Preview</p>
+
+                    <div class="story-actions">
+
+                        @if (storyPreview.IsPublished)
+                        {
+                            <button class="btn-unpublish" @onclick="() => UnpublishStory(storyPreview.PublicId)">خروج از انتشار</button>
+                        }
+                        else
+                        {
+                            @* <button class="btn-publish" @onclick="() => PublishStory(storyPreview.PublicId)">انتشار</button> *@
+                            <a href="edit-story/@storyPreview.PublicId">
+                            <button class="btn-edit">ویرایش</button>
+                            </a>
+                        }
+
+                        
+
+                    </div>
+
+                    @if (storyPreview.IsStriked)
+                    {
+                        <p class="strike-warning">این داستان توسط ادمین مخفی شده!</p>
+
+                        <button class="btn-toggle" @onclick="() => ToggleStrikeForm(storyPreview.PublicId)">
+                            درخواست بازبینی
+                        </button>
+
+                        @if (openedStrikeForm == storyPreview.PublicId)
+                        {
+                            <div class="strike-form">
+                                <textarea @bind="ReleaseReuestDto.Text" placeholder="متن درخواست بازبینی"></textarea>
+                                <button class="btn-send" @onclick="() => SendReleaseReuest(storyPreview.PublicId)">
+                                    ارسال درخواست
+                                </button>
+                            </div>
+                        }
+                    }
+
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <p class="empty-message">داستانی برای نمایش وجود ندارد.</p>
+    }
+}
+
+<style>
+    
+    /* کارت داستان */
+.story-card {
+    display: flex;
+    gap: 20px;
+    padding: 18px;
+    background: #f7f7f9; /* سفید مایل به خاکستری */
+    border-radius: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #e2e2e7;
+    box-shadow: 0 0 8px rgba(0,0,0,0.05);
+}
+
+/* تصویر */
+.story-image img {
+    width: 140px;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+}
+
+/* بخش محتوا */
+.story-content {
+    flex: 1;
+    color: #111; /* مشکی نرم */
+}
+
+.story-content h4 {
+    margin: 0;
+    font-size: 22px;
+    font-weight: 600;
+    color: #111;
+}
+
+.preview {
+    margin: 6px 0 14px 0;
+    color: #333; /* خاکستری تیره */
+    line-height: 1.5;
+}
+
+/* اکشن‌ها */
+.story-actions {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+button {
+    border: none;
+    cursor: pointer;
+}
+
+.btn-edit,
+.btn-publish,
+.btn-unpublish,
+.btn-send,
+.btn-toggle,
+.btn-back,
+.btn-create,
+.btn-create-new {
+    padding: 7px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    color: white;
+    transition: 0.15s;
+}
+
+/* دکمه‌های اصلی */
+.btn-edit {
+    background: #2d8cff;
+}
+.btn-edit:hover {
+    background: #1b6ede;
+}
+
+.btn-publish {
+    background: #4caf50;
+}
+.btn-publish:hover {
+    background: #3d8e41;
+}
+
+.btn-unpublish {
+    background: #e7b22b;
+    color: #111;
+    font-weight: 600;
+}
+.btn-unpublish:hover {
+    background: #d6a018;
+}
+
+/* بخش استرایک */
+.strike-warning {
+    color: #d93025;
+    font-weight: 600;
+    margin-top: 8px;
+}
+
+.btn-toggle {
+    background: #555;
+}
+.btn-toggle:hover {
+    background: #333;
+}
+
+.strike-form {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.strike-form textarea {
+    width: 100%;
+    height: 90px;
+    border-radius: 8px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    color: #111;
+    background: white;
+}
+
+.btn-send {
+    background: #6a5acd;
+}
+.btn-send:hover {
+    background: #594cc1;
+}
+
+/* ساخت داستان جدید / برگشت */
+.btn-back {
+    background: #999;
+}
+.btn-back:hover {
+    background: #777;
+}
+
+.btn-create {
+    background: #2bb673;
+}
+.btn-create:hover {
+    background: #26a367;
+}
+
+.btn-create-new {
+    background: #4a4a4a;
+}
+.btn-create-new:hover {
+    background: #333;
+}
+
+/* پیام خالی */
+.empty-message {
+    color: #333;
+    text-align: center;
+    padding: 20px 0;
+}
+
+/* وسط‌چین کردن دکمه‌ی بالایی */
+.centered-actions {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+/* کانتینر کلی */
+.story-create-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+/* فرم ساخت داستان */
+.story-create-form {
+    width: 100%;
+    max-width: 420px;
+    background: #fafafa;
+    padding: 25px;
+    border-radius: 12px;
+    border: 1px solid #e1e1e1;
+    box-shadow: 0 0 8px rgba(0,0,0,0.06);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.story-create-form h3 {
+    margin: 0 0 10px 0;
+    text-align: center;
+    color: #111;
+    font-size: 22px;
+}
+
+/* ورودی‌ها */
+.story-create-form input,
+.story-create-form textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    background: white;
+    color: #111;
+    font-size: 15px;
+}
+
+.preview-input {
+    height: 100px;
+    resize: none;
+}
+
+/* دکمه ساخت */
+.story-create-form .btn-create {
+    width: 100%;
+    padding: 10px 0;
+    text-align: center;
+    border-radius: 8px;
+}
+
+
+</style>

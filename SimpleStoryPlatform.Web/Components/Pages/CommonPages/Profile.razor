@@ -1,0 +1,207 @@
+﻿@page "/profile"
+@using SimpleStoryPlatform.Application.DTOs.UserDTOs.ServerToUser
+@using SimpleStoryPlatform.Application.Responses
+
+@rendermode InteractiveServer
+
+
+
+<h3>Profile</h3>
+<p style="color:red">@errorText</p>
+@code {
+    string? errorText;
+    UserDetailsDto user;
+    protected async override Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        if (firstRender)
+        {
+            var response = await httpClient.GetAsync("Users/Profile");
+
+            if (!response.IsSuccessStatusCode) { errorText = response.StatusCode.ToString(); StateHasChanged(); return; }
+            // if (!response.IsSuccessStatusCode) { errorText = httpClient.BaseAddress.ToString(); StateHasChanged(); return; }
+
+            var result = await response.Content.ReadFromJsonAsync<BaseResponseWithData<UserDetailsDto>>();
+            if (result.Success)
+            {
+                user = result.data;
+                StateHasChanged();
+            }
+        }
+    }
+
+    bool showWarnings = true;
+    bool showInbox = true;
+}
+
+@if (user != null)
+{
+    <div class="user-profile">
+
+        <!-- اطلاعات کاربر -->
+        <div class="user-info">
+            <h3>اطلاعات کاربری</h3>
+            <div class="info-row">
+                <span class="info-label">نام کاربری:</span>
+                <span class="info-data">@user.Username</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">ایمیل:</span>
+                <span class="info-data">@user.Email</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">تاریخ ایجاد حساب:</span>
+                <span class="info-data">@user.CreatedAt.ToString("yyyy/MM/dd")</span>
+            </div>
+        </div>
+
+        <!-- هشدارها -->
+        @if (user.Warnings != null && user.Warnings.Count > 0)
+        {
+            <div class="user-warnings">
+                <button class="toggle-btn" @onclick="() => showWarnings = !showWarnings">
+                    هشدارها (@user.Warnings.Count)
+                </button>
+
+                @if (showWarnings)
+                {
+                    @foreach (var warning in user.Warnings)
+                    {
+                        <div class="warning-item">
+                            <div class="info-row">
+                                <span class="info-label">تاریخ:</span>
+                                <span class="info-data">@warning.CreatedAt.ToString("yyyy/MM/dd")</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">علت:</span>
+                                <span class="info-data">@warning.Reason</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">جزییات:</span>
+                                <span class="info-data">@warning.Details</span>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        }
+
+        <!-- نوتیفیکیشن‌ها -->
+        @if (user.Inbox != null && user.Inbox.Count > 0)
+        {
+            <div class="user-notifications">
+                <button class="toggle-btn" @onclick="() => showInbox = !showInbox">
+                    نوتیفیکیشن‌ها (@user.Inbox.Count)
+                </button>
+
+                @if (showInbox)
+                {
+                    @foreach (var notif in user.Inbox)
+                    {
+                        <div class="notif-item">
+                            <div class="info-row">
+                                <span class="info-label">تاریخ:</span>
+                                <span class="info-data">@notif.CreatedAt.ToString("yyyy/MM/dd")</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">موضوع:</span>
+                                <span class="info-data">@notif.Subject</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">متن:</span>
+                                <span class="info-data">@notif.Text</span>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        }
+
+    </div>
+}
+
+
+
+<style>
+
+    .user-profile {
+        max-width: 650px;
+        margin: 20px auto;
+        padding: 20px;
+        background: #f9f9f9;
+        border-radius: 12px;
+        border: 1px solid #e0e0e0;
+        box-shadow: 0 0 8px rgba(0,0,0,0.05);
+        color: #111;
+        font-family: sans-serif;
+    }
+
+    /* بخش اطلاعات کاربری */
+    .user-info h3 {
+        margin-bottom: 12px;
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 6px;
+        color: #333;
+    }
+
+    .info-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 6px 0;
+    }
+
+    .info-label {
+        font-weight: bold;
+        color: #555;
+        text-align: right;
+        flex: 1;
+    }
+
+    .info-data {
+        text-align: left;
+        flex: 2;
+        word-break: break-word;
+    }
+
+    /* دکمه کرکره‌ای */
+    .toggle-btn {
+        width: 100%;
+        padding: 10px;
+        margin: 15px 0 10px 0;
+        border: none;
+        border-radius: 8px;
+        background: #4a90e2;
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+        text-align: center;
+        transition: 0.2s;
+    }
+
+        .toggle-btn:hover {
+            background: #357ac7;
+        }
+
+    /* هشدارها و نوتیفیکیشن‌ها */
+    .warning-item,
+    .notif-item {
+        background: #ffffff;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 12px;
+        margin-bottom: 10px;
+        transition: 0.15s;
+    }
+
+        .warning-item:hover,
+        .notif-item:hover {
+            background: #f0f0f0;
+        }
+
+        /* جزئیات */
+        .warning-item .info-row,
+        .notif-item .info-row {
+            padding: 4px 0;
+        }
+
+</style>

@@ -1,0 +1,472 @@
+[
+  {
+    "ContainingType": "SimpleStoryPlatform.API.Controllers.AdminsController",
+    "Method": "AvailableReports",
+    "RelativePath": "Admins/Available-Reports",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "SimpleStoryPlatform.Application.Responses.BaseResponseWithData\u00601[[SimpleStoryPlatform.Application.DTOs.ReportDTOs.ServerToUser.AllReportsDto, SimpleStoryPlatform.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SimpleStoryPlatform.API.Controllers.AdminsController",
+    "Method": "CompleteReleaseRequest",
+    "RelativePath": "Admins/Complete-Report-ReleaseRequest",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "SimpleStoryPlatform.Application.DTOs.ReportDTOs.UserToServer.ReportCompleteDto\u00601[[SimpleStoryPlatform.Application.DTOs.ReportDTOs.ServerToUser.StoryReleaseRequestDetailsDto, SimpleStoryPlatform.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SimpleStoryPlatform.Application.Responses.BaseResponse",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SimpleStoryPlatform.API.Controllers.AdminsController",
+    "Method": "CompleteReviewReport",
+    "RelativePath": "Admins/Complete-Report-Review",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "SimpleStoryPlatform.Application.DTOs.ReportDTOs.UserToServer.ReportCompleteDto\u00601[[SimpleStoryPlatform.Application.DTOs.ReportDTOs.ServerToUser.ReviewReportDto, SimpleStoryPlatform.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SimpleStoryPlatform.Application.Responses.BaseResponse",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SimpleStoryPlatform.API.Controllers.AdminsController",
+    "Method": "CompleteStoryReport",
+    "RelativePath": "Admins/Complete-Report-Story",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "SimpleStoryPlatform.Application.DTOs.ReportDTOs.UserToServer.ReportCompleteDto\u00601[[SimpleStoryPlatform.Application.DTOs.ReportDTOs.ServerToUser.StoryReportDto, SimpleStoryPlatform.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SimpleStoryPlatform.Application.Responses.BaseResponse",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SimpleStoryPlatform.API.Controllers.PublicController",
+    "Method": "GetLastStories",
+    "RelativePath": "Public/LastStories",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "SimpleStoryPlatform.Application.Responses.BaseResponseWithData\u00601[[System.Collections.Generic.List\u00601[[SimpleStoryPlatform.Application.DTOs.StoryDTOs.ServerToUser.StoryPreviewDto, SimpleStoryPlatform.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SimpleStoryPlatform.API.Controllers.PublicController",
+    "Method": "login",
+    "RelativePath": "Public/Login",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "SimpleStoryPlatform.Application.DTOs.UserDTOs.UserToServer.UserLoginDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SimpleStoryPlatform.Application.Responses.BaseResponseWithData\u00601[[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SimpleStoryPlatform.API.Controllers.PublicController",
+    "Method": "ReadStory",
+    "RelativePath": "Public/Read-Story",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "storyGuid",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SimpleStoryPlatform.Application.Responses.BaseResponseWithData\u00601[[SimpleStoryPlatform.Application.DTOs.StoryDTOs.ServerToUser.StoryDetailsDto, SimpleStoryPlatform.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SimpleStoryPlatform.API.Controllers.PublicController",
+    "Method": "SearchStory",
+    "RelativePath": "Public/Search-Result",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "searchValue",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SimpleStoryPlatform.Application.Responses.BaseResponseWithData\u00601[[System.Collections.Generic.List\u00601[[SimpleStoryPlatform.Application.DTOs.StoryDTOs.ServerToUser.StoryPreviewDto, SimpleStoryPlatform.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SimpleStoryPlatform.API.Controllers.PublicController",
+    "Method": "signup",
+    "RelativePath": "Public/Signup",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "SimpleStoryPlatform.Application.DTOs.UserDTOs.UserToServer.UserCreateDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SimpleStoryPlatform.Application.Responses.BaseResponseWithData\u00601[[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SimpleStoryPlatform.Controllers.UsersController",
+    "Method": "AddReview",
+    "RelativePath": "Users/Add-Review",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "reviewCreateDto",
+        "Type": "SimpleStoryPlatform.Application.DTOs.StoryDTOs.UserToServer.StoryReviewCreateDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SimpleStoryPlatform.Application.Responses.BaseResponse",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SimpleStoryPlatform.Controllers.UsersController",
+    "Method": "GetUserDetails",
+    "RelativePath": "Users/Profile",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "SimpleStoryPlatform.Application.Responses.BaseResponseWithData\u00601[[SimpleStoryPlatform.Application.DTOs.UserDTOs.ServerToUser.UserDetailsDto, SimpleStoryPlatform.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SimpleStoryPlatform.Controllers.UsersController",
+    "Method": "ReportReview",
+    "RelativePath": "Users/Report-Review",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "reportDto",
+        "Type": "SimpleStoryPlatform.Application.DTOs.UserDTOs.UserToServer.UserReportDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SimpleStoryPlatform.Application.Responses.BaseResponse",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SimpleStoryPlatform.Controllers.UsersController",
+    "Method": "ReportStory",
+    "RelativePath": "Users/Report-Story",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "reportDto",
+        "Type": "SimpleStoryPlatform.Application.DTOs.UserDTOs.UserToServer.UserReportDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SimpleStoryPlatform.Application.Responses.BaseResponse",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SimpleStoryPlatform.API.Controllers.WritersController",
+    "Method": "CreateStory",
+    "RelativePath": "Writers/Create-New-Story",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "createDto",
+        "Type": "SimpleStoryPlatform.Application.DTOs.StoryDTOs.UserToServer.StoryCreateDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SimpleStoryPlatform.Application.Responses.BaseResponseWithData\u00601[[System.Guid, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SimpleStoryPlatform.API.Controllers.WritersController",
+    "Method": "GetMyStories",
+    "RelativePath": "Writers/My-Stories",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "SimpleStoryPlatform.Application.Responses.BaseResponseWithData\u00601[[System.Collections.Generic.List\u00601[[SimpleStoryPlatform.Application.DTOs.StoryDTOs.ServerToUser.StoryPreviewDto, SimpleStoryPlatform.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SimpleStoryPlatform.API.Controllers.WritersController",
+    "Method": "GetStoryDetails",
+    "RelativePath": "Writers/My-Story-Details",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "storyGuid",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SimpleStoryPlatform.Application.Responses.BaseResponseWithData\u00601[[SimpleStoryPlatform.Application.DTOs.StoryDTOs.ServerToUser.StoryDetailsDto, SimpleStoryPlatform.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SimpleStoryPlatform.API.Controllers.WritersController",
+    "Method": "StoryReleaseRequest",
+    "RelativePath": "Writers/Release-Request",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "releaseRequestDto",
+        "Type": "SimpleStoryPlatform.Application.DTOs.ReportDTOs.UserToServer.StoryReleaseRequestCreateDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SimpleStoryPlatform.Application.Responses.BaseResponse",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SimpleStoryPlatform.API.Controllers.WritersController",
+    "Method": "UnpunblishStory",
+    "RelativePath": "Writers/Unpublish-Story",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "storyGuid",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SimpleStoryPlatform.Application.Responses.BaseResponse",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SimpleStoryPlatform.API.Controllers.WritersController",
+    "Method": "UpdateStory",
+    "RelativePath": "Writers/Update-Story",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "storyDto",
+        "Type": "SimpleStoryPlatform.Application.DTOs.StoryDTOs.ServerToUser.StoryDetailsDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SimpleStoryPlatform.Application.Responses.BaseResponseWithData\u00601[[SimpleStoryPlatform.Application.DTOs.StoryDTOs.ServerToUser.StoryDetailsDto, SimpleStoryPlatform.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  }
+]

@@ -1,0 +1,153 @@
+﻿@page "/"
+@page "/home"
+@using SimpleStoryPlatform.Application.DTOs.StoryDTOs.ServerToUser
+@using SimpleStoryPlatform.Application.Responses
+
+@rendermode InteractiveServer
+
+@code {
+    List<StoryPreviewDto>? lastStories;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var response = await httpClient.GetAsync("Public/LastStories");
+
+        if (!response.IsSuccessStatusCode) { msgService.ShowMessage(response.StatusCode.ToString()); StateHasChanged(); return; }
+
+        var apiResponse = await response.Content.ReadFromJsonAsync<BaseResponseWithData<List<StoryPreviewDto>>>();
+
+        if (apiResponse == null) { msgService.ShowMessage("cannot convert [response] to [apiResponse]!!!"); StateHasChanged(); return; }
+
+        if (!apiResponse.Success) { msgService.ShowMessage(apiResponse.Message); StateHasChanged(); return; }
+
+        lastStories = apiResponse.data;
+        StateHasChanged();
+
+        await base.OnInitializedAsync();
+    }
+
+    void ShowTestMsg()
+    {
+        msgService.ShowMessage("this is test message");
+    }
+}
+
+@if (lastStories != null)
+{
+    <div class="stories-container">
+        <div>
+            <p>آخرین داستان های منتشر شده:</p>
+
+        </div>
+
+        @foreach (var story in lastStories)
+        {
+            <div class="story-card">
+                <div class="story-image">
+                    <img src="/images/default-story.jpg" alt="Story image" />
+                </div>
+
+                <div class="story-content">
+                    <div class="story-info">
+                        <h4>@story.Name</h4>
+                        <p>@story.Preview</p>
+                    </div>
+
+                    <div class="story-writer">
+                        <div class="writer-name">
+                            <span>@story.Writer.FirstName @story.Writer.LastName</span>
+                        </div>
+                        <div class="writer-username">
+                            <p>@story.Writer.Username</p>
+                        </div>
+                    </div>
+                    <a href="ReadStory/@story.PublicId">
+                        <button>
+                            جزییات و مطالعه
+                        </button>
+                        </a>
+                    
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <h3>درحال بارگذاری هستیم. لطفا صبر کنید</h3>
+}
+<style>
+
+    .stories-container {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        padding: 10px;
+        text-align: right;
+    }
+
+    .story-card {
+        display: flex;
+        background: #f8f8f8;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        overflow: hidden;
+        height: 180px;
+    }
+
+    .story-image {
+        width: 35%;
+        background: #ddd;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+        .story-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+    .story-content {
+        width: 65%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 12px 16px;
+    }
+
+    .story-info {
+        flex: 0 0 65%;
+    }
+
+        .story-info h4 {
+            margin: 0;
+            font-size: 1.2em;
+            color: #333;
+        }
+
+        .story-info p {
+            margin-top: 6px;
+            color: #666;
+            font-size: 0.95em;
+        }
+
+    .story-writer {
+        flex: 0 0 35%;
+        border-top: 1px solid #e0e0e0;
+        padding-top: 8px;
+    }
+
+    .writer-name span {
+        font-weight: bold;
+        color: #444;
+    }
+
+    .writer-username p {
+        margin: 4px 0 0;
+        color: #777;
+        font-size: 0.9em;
+    }
+
+</style>

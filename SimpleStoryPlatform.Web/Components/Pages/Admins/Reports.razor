@@ -1,0 +1,463 @@
+﻿@page "/reports"
+@using SimpleStoryPlatform.Application.DTOs.ReportDTOs.ServerToUser
+@using SimpleStoryPlatform.Application.DTOs.ReportDTOs.UserToServer
+@using SimpleStoryPlatform.Application.Responses
+
+@rendermode InteractiveServer
+
+<h3>Reports</h3>
+
+@code {
+    bool ShowStories = false;
+    bool ShowComments = false;
+    bool ShowRequests = false;
+
+    //reports bag :D
+    public List<ReviewReportDto>? ReviewReports { get; set; }
+    public List<StoryReportDto>? StoryReports { get; set; }
+    public List<StoryReleaseRequestDetailsDto>? StoryReleaseRequests { get; set; }
+
+    bool IsReportAccepted = false;
+    string? SpecialMessage;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var response = await httpClient.GetAsync("Admins/Available-Reports");
+
+        //success check
+        if (!response.IsSuccessStatusCode)
+        {
+            msgService.ShowMessage(response.StatusCode.ToString(), "error");
+            return;
+        }
+
+        var apiRes = await response.Content.ReadFromJsonAsync<BaseResponseWithData<AllReportsDto>>();
+
+        //success ckeck2
+        if (!apiRes.Success)
+        {
+            msgService.ShowMessage(apiRes.Message, "error");
+            return;
+        }
+
+        //everything is fine
+        StoryReports = apiRes.data.StoryReports;
+        ReviewReports = apiRes.data.ReviewReports;
+        StoryReleaseRequests = apiRes.data.StoryReleaseRequests;
+
+        StateHasChanged();
+    }
+
+    async void CompeleteStoryReport(StoryReportDto storyReport)
+    {
+        ReportCompleteDto<StoryReportDto?> sendingDto = new ReportCompleteDto<StoryReportDto?>()
+        {
+            report = storyReport,
+            ReporterGuid = storyReport.CreatedBy,
+            ReportGuid = storyReport.PublicId,
+            TargetUserGuid = storyReport.TargetUser.PublicId,
+
+            IsAccepted = IsReportAccepted,
+            SpicialMessage = SpecialMessage
+        };
+
+        var response = await httpClient.PostAsJsonAsync("Admins/Complete-Report-Story", sendingDto);
+
+        if (await CheckServerReponse(response))
+        {
+            if (IsReportAccepted)
+                StoryReports.RemoveAll(sr => sr.StoryGuid == storyReport.StoryGuid);
+            else
+                StoryReports.Remove(storyReport);
+
+            ClearLocalVariables();
+
+        }
+    }
+
+    async void CompeleteCommentReport(ReviewReportDto reviewRepory)
+    {
+        ReportCompleteDto<ReviewReportDto?> sendingDto = new ReportCompleteDto<ReviewReportDto?>()
+        {
+            report = reviewRepory,
+            ReporterGuid = reviewRepory.CreatedBy,
+            ReportGuid = reviewRepory.PublicId,
+            TargetUserGuid = reviewRepory.TargetUser.PublicId,
+
+            IsAccepted = IsReportAccepted,
+            SpicialMessage = SpecialMessage
+        };
+
+        var response = await httpClient.PostAsJsonAsync("Admins/Complete-Report-Review", sendingDto);
+
+        if (await CheckServerReponse(response))
+        {
+            ReviewReports.Remove(reviewRepory);
+            ClearLocalVariables();
+        }
+    }
+
+    async void CompeleteReleaseRequest(StoryReleaseRequestDetailsDto releaseReqDto)
+    {
+        ReportCompleteDto<StoryReleaseRequestDetailsDto?> sendingDto = new ReportCompleteDto<StoryReleaseRequestDetailsDto?>()
+        {
+            report = releaseReqDto,
+            ReportGuid = releaseReqDto.PublicId,
+            TargetUserGuid = releaseReqDto.CreatedBy,
+
+            IsAccepted = IsReportAccepted,
+            SpicialMessage = SpecialMessage
+        };
+
+        var response = await httpClient.PostAsJsonAsync("Admins/Complete-Report-ReleaseRequest", sendingDto);
+
+        if (await CheckServerReponse(response))
+        {
+            StoryReleaseRequests.Remove(releaseReqDto);
+            ClearLocalVariables();
+        }
+    }
+
+    async Task<bool> CheckServerReponse(HttpResponseMessage? res)
+    {
+        if (res == null)
+        {
+            msgService.ShowMessage("مشکلی پیش آمده", "error");
+            return false;
+        }
+
+        //success check
+        if (!res.IsSuccessStatusCode)
+        {
+            msgService.ShowMessage("Server statuse code: " + res.StatusCode.ToString(), "error");
+            return false;
+        }
+
+        var apiRes = await res.Content.ReadFromJsonAsync<BaseResponse>();
+
+        //success ckeck2
+        if (!apiRes.Success)
+        {
+            msgService.ShowMessage(apiRes.Message, "error");
+            return false;
+        }
+
+        msgService.ShowMessage(apiRes.Message, "success");
+        return true;
+    }
+
+    void ClearLocalVariables()
+    {
+        SpecialMessage = "";
+        IsReportAccepted = false;
+        StateHasChanged();
+    }
+}
+
+<div class="reports-container">
+
+    <!-- داستان ها -->
+    <button class="accordion-button" @onclick="() => ShowStories = !ShowStories">
+        <span>گزارشات داستان‌ها</span>
+        <span class="report-count">@StoryReports?.Count()</span>
+    </button>
+
+    <div class="accordion-content" style="display:@(ShowStories ? "block" : "none")">
+        @if (StoryReports == null || !StoryReports.Any())
+        {
+            <p style="color:red">هیچ گذارشی برای داستان‌ها وجود ندارد.</p>
+        }
+        else
+        {
+            @foreach (var storyReport in StoryReports)
+            {
+                <div class="report-box">
+
+                    <!-- متن گزارش -->
+                    <div class="report-text">
+                        <p>علت گزارش:</p>
+                        <p>@(string.IsNullOrEmpty(storyReport.ReportText) ? "(بدون متن)" : storyReport.ReportText)</p>
+                    </div>
+
+                    <!-- اطلاعات کاربر -->
+                    <div class="target-user-status">
+                        <p>@storyReport.TargetUser.FirstName @storyReport.TargetUser.LastName</p>
+
+                        <div class="target-user-warnings">
+                            <p>اخطارهای متهم:</p>
+
+                            @if (storyReport.TargetUser.Warnings == null || storyReport.TargetUser.Warnings.Count == 0)
+                            {
+                                <p>هیچ اخطاری دریافت نکرده.</p>
+                            }
+                            else
+                            {
+                                @foreach (var w in storyReport.TargetUser.Warnings)
+                                {
+                                    <div class="warningBox">
+                                        <p>علت: @w.Reason</p>
+                                        <p>موضوع: @w.Subject</p>
+                                        <p>جزئیات: @w.Details</p>
+                                        <p>ساخته شده در @((DateTime.Now - w.CreatedAt).Days) روز پیش</p>
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </div>
+
+                    <button @onclick="@(() => Navigation.NavigateTo($"ReadStory/{storyReport.StoryGuid}"))">
+                        مطالعه داستان
+                    </button>
+
+                    <label>
+                        <input type="checkbox" @bind="IsReportAccepted" /> قبول گزارش
+                    </label>
+
+                    @if (IsReportAccepted)
+                    {
+                        <textarea @bind="SpecialMessage" placeholder="پیام شما به متخلف (اختیاری)" class="special-message"></textarea>
+                    }
+
+                    <button @onclick="() => CompeleteStoryReport(storyReport)">تکمیل</button>
+                </div>
+            }
+        }
+    </div>
+
+
+
+    <!-- کامنت‌ها -->
+    <button class="accordion-button" @onclick="() => ShowComments = !ShowComments">
+        <span>گزارشات کامنت‌ها</span>
+        <span class="report-count">@ReviewReports?.Count()</span>
+    </button>
+
+    <div class="accordion-content" style="display:@(ShowComments ? "block" : "none")">
+        @if (ReviewReports == null || !ReviewReports.Any())
+        {
+            <p style="color:red">هیچ گزارشی برای کامنت‌ها وجود ندارد.</p>
+        }
+        else
+        {
+            @foreach (var commentReport in ReviewReports)
+            {
+                <div class="report-box">
+
+                    <!-- متن گزارش -->
+                    <div class="report-text">
+                        <p>علت گزارش:</p>
+                        <p>@(string.IsNullOrEmpty(commentReport.ReportText) ? "(بدون متن)" : commentReport.ReportText)</p>
+                    </div>
+
+                    <!-- کاربر -->
+                    <div class="target-user-status">
+                        <p>@commentReport.TargetUser.FirstName @commentReport.TargetUser.LastName</p>
+
+                        <div class="target-user-warnings">
+                            <p>اخطارهای متهم:</p>
+
+                            @if (commentReport.TargetUser.Warnings == null || commentReport.TargetUser.Warnings.Count == 0)
+                            {
+                                <p>هیچ اخطاری دریافت نکرده.</p>
+                            }
+                            else
+                            {
+                                @foreach (var w in commentReport.TargetUser.Warnings)
+                                {
+                                    <div class="warningBox">
+                                        <p>علت: @w.Reason</p>
+                                        <p>موضوع: @w.Subject</p>
+                                        <p>جزئیات: @w.Details</p>
+                                        <p>ساخته شده در @((DateTime.Now - w.CreatedAt).Days) روز پیش</p>
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </div>
+
+                    <!-- کامنت -->
+                    <div class="reported-comment">
+                        <p>محتوای کامنت:</p>
+                        <p>@commentReport.Object.Data</p>
+                    </div>
+
+                    <label>
+                        <input type="checkbox" @bind="IsReportAccepted" /> قبول گزارش
+                    </label>
+
+                    @if (IsReportAccepted)
+                    {
+                        <textarea @bind="SpecialMessage" placeholder="پیام شما به متخلف (اختیاری)" class="special-message"></textarea>
+                    }
+
+                    <button @onclick="() => CompeleteCommentReport(commentReport)">تکمیل</button>
+                </div>
+            }
+        }
+    </div>
+
+
+    <!-- درخواست‌ها -->
+    <button class="accordion-button" @onclick="() => ShowRequests = !ShowRequests">
+        <span>درخواست‌های بازبینی</span>
+        <span class="report-count">@StoryReleaseRequests?.Count()</span>
+    </button>
+
+    <div class="accordion-content" style="display:@(ShowRequests ? "block" : "none")">
+        @if (StoryReleaseRequests == null || !StoryReleaseRequests.Any())
+        {
+            <p style="color:red">هیچ درخواست بازبینی‌ای وجود ندارد.</p>
+        }
+        else
+        {
+            @foreach (var req in StoryReleaseRequests)
+            {
+                <div class="report-box">
+
+                    @if (!string.IsNullOrEmpty(req.ReportText))
+                    {
+                        <div class="report-text">
+                            <p>متن درخواست:</p>
+                            <p>@req.ReportText</p>
+                        </div>
+                    }
+
+                    <div class="target-user-status">
+                        <p>@req.Report.TargetUser.FirstName @req.Report.TargetUser.LastName</p>
+
+                        <div class="target-user-warnings">
+                            <p>اخطارهای متهم:</p>
+
+                            @if (req.Report.TargetUser.Warnings == null || req.Report.TargetUser.Warnings.Count == 0)
+                            {
+                                <p>هیچ اخطاری دریافت نکرده.</p>
+                            }
+                            else
+                            {
+                                @foreach (var w in req.Report.TargetUser.Warnings)
+                                {
+                                    <div class="warningBox">
+                                        <p>علت: @w.Reason</p>
+                                        <p>موضوع: @w.Subject</p>
+                                        <p>جزئیات: @w.Details</p>
+                                        <p>ساخته شده در @((DateTime.Now - w.CreatedAt).Days) روز پیش</p>
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </div>
+
+                    <button @onclick="@(() => Navigation.NavigateTo($"ReadStory/{req.Report.StoryGuid}"))">
+                        مطالعه داستان
+                    </button>
+
+                    <label>
+                        <input type="checkbox" @bind="IsReportAccepted" /> قبول گزارش
+                    </label>
+
+                    @if (IsReportAccepted)
+                    {
+                        <textarea @bind="SpecialMessage" placeholder="پیام شما به متخلف (اختیاری)" class="special-message"></textarea>
+                    }
+
+                    <button @onclick="() => CompeleteReleaseRequest(req)">تکمیل</button>
+                </div>
+            }
+        }
+    </div>
+
+</div>
+
+
+<style>
+    .reports-container {
+        width: 100%;
+        max-width: 900px;
+        margin: 0 auto;
+        direction: rtl;
+        font-family: sans-serif;
+    }
+
+    .accordion-button {
+        width: 100%;
+        background: #3f51b5;
+        color: white;
+        padding: 18px;
+        margin: 10px 0;
+        border: none;
+        border-radius: 8px;
+        font-size: 20px;
+        text-align: right;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: pointer;
+    }
+
+        .accordion-button:hover {
+            background: #303f9f;
+        }
+
+    .accordion-content {
+        background: #f7f7f7;
+        margin-bottom: 20px;
+        padding: 15px;
+        border-radius: 8px;
+        display: none;
+    }
+
+    .report-box {
+        background: white;
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .report-text, .target-user-status, .reported-comment {
+        margin-bottom: 15px;
+        padding: 10px;
+        background: #eeeeee;
+        border-radius: 6px;
+    }
+
+    .warningBox {
+        background: #fff3cd;
+        padding: 10px;
+        border-radius: 6px;
+        margin-bottom: 10px;
+    }
+
+    .special-message {
+        width: 100%;
+        padding: 10px;
+        min-height: 100px;
+        resize: vertical;
+        margin-top: 10px;
+        border-radius: 6px;
+        border: 1px solid #999;
+    }
+
+    button {
+        cursor: pointer;
+        background: #4caf50;
+        color: white;
+        border: none;
+        padding: 10px 18px;
+        border-radius: 6px;
+        margin-top: 10px;
+    }
+
+        button:hover {
+            background: #449944;
+        }
+
+    .report-count {
+        background: white;
+        color: #3f51b5;
+        font-weight: bold;
+        padding: 5px 10px;
+        border-radius: 6px;
+    }
+
+</style>

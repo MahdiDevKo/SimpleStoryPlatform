@@ -1,0 +1,123 @@
+﻿@page "/login"
+@rendermode InteractiveServer
+
+@using SimpleStoryPlatform.Application.DTOs.UserDTOs.UserToServer
+@using SimpleStoryPlatform.Application.Responses
+
+@inject IJSRuntime JS
+
+@inject IHttpClientFactory httpClientFactory
+@code {
+
+    bool isLogin = true;
+    string submitText = "ورود";
+    string changeButtonText = "حساب کاربری نداری؟ همین حالا یکی بساز!";
+    string errorText = "";
+    string SuckText = "test";
+
+
+    UserCreateDto createDto = new UserCreateDto();
+    UserLoginDto loginDto = new UserLoginDto();
+
+    void ChangeMethod()
+    {
+        isLogin = !isLogin;
+        if (isLogin)
+        {
+            submitText = "ورود";
+            changeButtonText = "حساب کاربری نداری؟ همین حالا یکی بساز!";
+        }
+        else
+        {
+            submitText = "ثبتنام";
+            changeButtonText = "حساب کاربری داری؟ وارد شو!";
+        }
+    }
+
+    async Task GetRequestAsync()
+    {
+        if (isLogin)
+            await RequestFromApiAsync("Public/Login");
+        else
+            await RequestFromApiAsync("Public/Signup");
+    }
+    async Task RequestFromApiAsync(string url)
+    {
+        HttpResponseMessage? response;
+        if (isLogin)
+            response = await httpClient.PostAsJsonAsync(url, loginDto);
+        else
+            response = await httpClient.PostAsJsonAsync(url, createDto);
+
+        if (!response.IsSuccessStatusCode) { errorText = $"StatusCode: {response.StatusCode}"; StateHasChanged(); return; }
+
+
+        var result = await response.Content.ReadFromJsonAsync<BaseResponseWithData<string>>();
+
+        if (!result.Success) { errorText = result.Message; return; }
+        var token = result.data;
+
+        await JS.InvokeVoidAsync("eval", $"document.cookie = 'Token={token}; path=/; expires={DateTime.UtcNow.AddHours(12).ToString("R")}'");
+
+        Navigation.NavigateTo("/",true);
+    }
+}
+<h3 style="color:red">@errorText</h3>
+<h3 style="color:green">@SuckText</h3>
+
+<div class="auth-container">
+
+    @if (isLogin)
+    {
+        <!-- Login Box -->
+        <div class="login-box">
+            <div>
+                <input @bind="loginDto.Username" placeholder="نام کاربری" />
+            </div>
+
+            <div>
+                <input type="password" @bind="loginDto.Password" placeholder="رمز عبور" />
+            </div>
+        </div>
+    }
+    else
+    {
+        <!-- Register Box -->
+        <div class="register-box">
+            <div>
+                <input @bind="createDto.FirstName" placeholder="نام" />
+            </div>
+
+            <div>
+                <input @bind="createDto.LastName" placeholder="نام خانوادگی" />
+            </div>
+
+            <div>
+                <input @bind="createDto.Email" placeholder="ایمیل" />
+            </div>
+
+            <div>
+                <input @bind="createDto.Username" placeholder="نام کاربری" />
+            </div>
+
+            <div>
+                <input type="password" @bind="createDto.Password" placeholder="رمز عبور" />
+            </div>
+
+            <div>
+                <input type="password" @bind="createDto.PasswordTwo" placeholder="تکرار رمز عبور" />
+            </div>
+        </div>
+    }
+
+    <div class="button-group">
+        <button @onclick="GetRequestAsync">@submitText</button>
+    </div>
+
+    <!-- لینک به جای دکمه -->
+    <div class="switch-method">
+        <span @onclick="ChangeMethod" style="cursor:pointer; color:blue; text-decoration:underline;">
+            @changeButtonText
+        </span>
+    </div>
+</div>

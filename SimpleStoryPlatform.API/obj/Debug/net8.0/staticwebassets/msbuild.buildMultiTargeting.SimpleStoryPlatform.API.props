@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\SimpleStoryPlatform.API.props" />
+</Project>

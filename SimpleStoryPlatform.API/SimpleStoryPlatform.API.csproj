@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.10">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SimpleStoryPlatform.Features\SimpleStoryPlatform.Application.csproj" />
+    <ProjectReference Include="..\SimpleStoryPlatform.Identity\SimpleStoryPlatform.Identity.csproj" />
+    <ProjectReference Include="..\SimpleStoryPlatform.Infrastructure\SimpleStoryPlatform.Infrastructure.csproj" />
+    <ProjectReference Include="..\SimpleStoryPlatform.Web\SimpleStoryPlatform.Web.csproj" />
+  </ItemGroup>
+
+</Project>

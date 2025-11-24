@@ -1,0 +1,479 @@
+﻿@page "/edit-story/{storyGuid:guid}"
+@using SimpleStoryPlatform.Application.DTOs.StoryDTOs.ServerToUser
+@using SimpleStoryPlatform.Application.Responses
+
+@rendermode InteractiveServer
+
+<h3>EditStory</h3>
+
+@code {
+    [Parameter]
+    public Guid storyGuid { get; set; }
+
+    StoryDetailsDto? story;
+    StorySectionDto currentSection = new StorySectionDto();
+    protected override async Task OnInitializedAsync()
+    {
+        var response = await httpClient.PostAsJsonAsync("Writers/My-Story-Details", storyGuid);
+
+        //success check
+        if (!response.IsSuccessStatusCode)
+        {
+            msgService.ShowMessage(response.StatusCode.ToString(), "error");
+            return;
+        }
+
+        var apiRes = await response.Content.ReadFromJsonAsync<BaseResponseWithData<StoryDetailsDto>>();
+
+        //success ckeck2
+        if (!apiRes.Success)
+        {
+            msgService.ShowMessage(apiRes.Message, "error");
+            return;
+        }
+
+        story = apiRes.data;
+        OpenPage(0);
+        StateHasChanged();
+    }
+
+    bool next = true, past = false;
+    int CurrentIndex;
+    void OpenPage(int index)
+    {
+        if (index > -1 && index < story.Data.Count)
+        {
+            CurrentIndex = index;
+            currentSection = story.Data[index];
+            next = index < story.Data.Count - 1;
+            past = index > 0;
+            StateHasChanged();
+        }
+    }
+
+    void CreateNewSection()
+    {
+        story.Data.Add(new StorySectionDto()
+        {
+            Narration = $"قسمت {story.Data.Count + 1} از داستان"
+        });
+
+        OpenPage(CurrentIndex + 1);
+    }
+
+    void DeleteCurrentSection()
+    {
+        if (CurrentIndex == 0)
+        {
+            msgService.ShowMessage("نمیتوانید قسمت اول داستان را حذف کنید!");
+            return;
+        }
+
+        story.Data.RemoveAt(CurrentIndex);
+
+        msgService.ShowMessage($"قسمت {CurrentIndex + 1} از داستان حذف شد.");
+
+        OpenPage(CurrentIndex - 1);
+    }
+    async void SaveChanges(bool exit = false)
+    {
+        var response = await httpClient.PostAsJsonAsync("Writers/Update-Story", story);
+
+        //success check
+        if (!response.IsSuccessStatusCode)
+        {
+            msgService.ShowMessage(response.StatusCode.ToString(), "error");
+            return;
+        }
+
+        var apiRes = await response.Content.ReadFromJsonAsync<BaseResponseWithData<StoryDetailsDto>>();
+
+        //success ckeck2
+        if (!apiRes.Success)
+        {
+            msgService.ShowMessage(apiRes.Message, "error");
+            return;
+        }
+        else
+        {
+            if (exit || story.IsPublished)
+                Navigation.NavigateTo("my-stories");
+            else
+            {
+                msgService.ShowMessage(apiRes.Message, "success");
+                story = apiRes.data;
+            }
+        }
+    }
+
+
+    //chatGTP section
+    bool showBasicInfo = false;
+
+    void ToggleBasicInfo()
+    {
+        showBasicInfo = !showBasicInfo;
+    }
+
+}
+
+@if (story != null)
+{
+    <!-- نوار ابزار بالا -->
+    <div class="edit-toolbar">
+        <div class="publish-toggle">
+            <label>
+                <input type="checkbox" @bind="story.IsPublished" />
+                انتشار داستان
+            </label>
+            <p class="publish-warning">
+                توجه: با فعال کردن حالت انتشار، امکان ویرایش داستان وجود نخواهد داشت.
+            </p>
+        </div>
+
+        <div class="toolbar-buttons">
+            <button class="btn-save" @onclick="() => SaveChanges()">ذخیره</button>
+            <button class="btn-save-exit" @onclick="() => SaveChanges(true)">ذخیره و خروج</button>
+        </div>
+    </div>
+
+    <!-- دکمه کرکره‌ای برای ویرایش اطلاعات پایه -->
+    <div class="basic-info-toggle">
+        <button class="btn-toggle-basic" @onclick="ToggleBasicInfo">
+            ویرایش اطلاعات پایه
+        </button>
+    </div>
+
+    @if (showBasicInfo)
+    {
+        <!-- مشخصات پایه -->
+        <div class="story-basic-info">
+            <div class="info-block">
+                <label>نام داستان</label>
+                <input type="text" @bind="story.Name" placeholder="نام داستان" />
+            </div>
+
+            <div class="info-block">
+                <label>خلاصه داستان</label>
+                <textarea @bind="story.Preview" placeholder="خلاصه داستان"></textarea>
+            </div>
+        </div>
+    }
+
+
+
+    <!-- محیط ویرایش -->
+    <div class="edit-layout">
+
+        <!-- ستون چپ: تصویر -->
+        <div class="side-panel left-panel">
+            <div class="story-image-box">
+                <img src="@("/images/storySectionsDef.jpg")" alt="Story image" />
+            </div>
+
+            <button class="btn-select" @onclick="() => msgService.ShowMessage()">انتخاب تصویر</button>
+            <button class="btn-select" @onclick="() => msgService.ShowMessage()">انتخاب آهنگ</button>
+        </div>
+
+
+        <!-- ستون راست: متن و کنترل بخش‌ها -->
+        <div class="side-panel right-panel">
+            <label>روایت</label>
+            <textarea class="section-editor"
+                      @bind="currentSection.Narration"
+                      placeholder="روایت این قسمت را بنویسید..."></textarea>
+
+            <div class="section-controls">
+                <button class="nav-btn danger" disabled="@(past == false)" @onclick="DeleteCurrentSection">
+                    حذف این قسمت
+                </button>
+
+                <button class="nav-btn" disabled="@(past == false)" @onclick="() => OpenPage(CurrentIndex - 1)">
+                    قسمت قبل
+                </button>
+                <button class="nav-btn" disabled="@(next == false)" @onclick="() => OpenPage(CurrentIndex + 1)">
+                    قسمت بعد
+                </button>
+
+                <button class="nav-btn new-section" disabled="@(next)" @onclick="CreateNewSection">
+                    + قسمت جدید
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+}
+else
+{
+    <p>در حال دریافت داستان...</p>
+}
+
+
+<style>
+    /* ─────────────────────────────── */
+    /*  Toolbar بالا                   */
+    /* ─────────────────────────────── */
+    .edit-toolbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        padding: 15px;
+        background: #f3f3f3;
+        border-radius: 10px;
+        border: 1px solid #ddd;
+        margin-bottom: 25px;
+    }
+
+    .publish-toggle {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+        .publish-toggle label {
+            font-weight: bold;
+            color: #111;
+        }
+
+    .publish-warning {
+        margin: 0;
+        font-size: 13px;
+        color: #b88600; /* زرد مایل به نارنجی */
+    }
+
+    .toolbar-buttons {
+        display: flex;
+        gap: 12px;
+    }
+
+    /* دکمه‌های ذخیره */
+    .btn-save,
+    .btn-save-exit {
+        padding: 8px 18px;
+        border: none;
+        border-radius: 8px;
+        font-size: 14px;
+        cursor: pointer;
+        background: #e0e0e0;
+        color: #000;
+        transition: 0.2s;
+    }
+
+        .btn-save:hover,
+        .btn-save-exit:hover {
+            background: #d5d5d5;
+        }
+
+
+
+    /* ─────────────────────────────── */
+    /*  اطلاعات پایه داستان            */
+    /* ─────────────────────────────── */
+    .story-basic-info {
+        background: #fafafa;
+        padding: 20px;
+        border-radius: 12px;
+        border: 1px solid #e1e1e1;
+        margin-bottom: 25px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .info-block {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+
+        .info-block label {
+            font-size: 15px;
+            font-weight: bold;
+            color: #111;
+        }
+
+        .info-block input,
+        .info-block textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            background: white;
+            color: #111;
+            font-size: 14px;
+        }
+
+        .info-block textarea {
+            height: 80px;
+        }
+
+
+
+    /* ─────────────────────────────── */
+    /*  محیط اصلی ویرایش               */
+    /* ─────────────────────────────── */
+    .edit-layout {
+        display: flex;
+        gap: 25px;
+    }
+
+    .side-panel {
+        background: #fafafa;
+        border: 1px solid #e1e1e1;
+        padding: 18px;
+        border-radius: 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .left-panel {
+        width: 35%;
+        align-items: center;
+    }
+
+    .right-panel {
+        width: 65%;
+    }
+
+
+
+    /* ─────────────────────────────── */
+    /*  سمت چپ: تصویر                   */
+    /* ─────────────────────────────── */
+    .story-image-box {
+        width: 100%;
+        border-radius: 10px;
+        overflow: hidden;
+        border: 1px solid #ddd;
+    }
+
+        .story-image-box img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+    .btn-select {
+        width: 100%;
+        padding: 8px 0;
+        border: none;
+        border-radius: 8px;
+        background: #e0e0e0;
+        color: #111;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+        .btn-select:hover {
+            background: #d3d3d3;
+        }
+
+
+
+    /* ─────────────────────────────── */
+    /*  سمت راست: متن روایت            */
+    /* ─────────────────────────────── */
+    .right-panel label {
+        font-weight: bold;
+        color: #111;
+    }
+
+    .section-editor {
+        width: 100%;
+        height: 260px;
+        resize: none;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        padding: 12px;
+        font-size: 15px;
+        background: white;
+        color: #111;
+    }
+
+
+
+    /* ─────────────────────────────── */
+    /*  کنترل بخش‌های داستان            */
+    /* ─────────────────────────────── */
+    .section-controls {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .nav-btn {
+        padding: 8px 12px;
+        border: none;
+        border-radius: 8px;
+        background: #e0e0e0;
+        color: #000;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+        .nav-btn:hover {
+            background: #d5d5d5;
+        }
+
+        .nav-btn:disabled {
+            background: #bbb;
+            cursor: not-allowed;
+        }
+
+        .nav-btn.danger {
+            background: #e88a8a;
+            color: #000;
+        }
+
+            .nav-btn.danger:hover {
+                background: #dd7777;
+            }
+
+    .new-section {
+        background: #d8f2d8;
+    }
+
+        .new-section:hover {
+            background: #c7e8c7;
+        }
+
+
+
+    /* ─────────────────────────────── */
+    /*  واکنش‌گرا                       */
+    /* ─────────────────────────────── */
+    @@media (max-width: 900px) {
+        .edit-layout {
+            flex-direction: column;
+        }
+
+        .left-panel,
+        .right-panel {
+            width: 100%;
+        }
+    }
+
+
+    .basic-info-toggle {
+        margin-bottom: 15px;
+        text-align: center;
+    }
+
+    .btn-toggle-basic {
+        padding: 8px 16px;
+        border-radius: 8px;
+        border: none;
+        background: #4a90e2;
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.15s;
+    }
+
+        .btn-toggle-basic:hover {
+            background: #357ac7;
+        }
+
+</style>

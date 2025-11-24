@@ -1,0 +1,17 @@
+C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.Identity\bin\Debug\net8.0\SimpleStoryPlatform.Identity.deps.json
+C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.Identity\bin\Debug\net8.0\SimpleStoryPlatform.Identity.dll
+C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.Identity\bin\Debug\net8.0\SimpleStoryPlatform.Identity.pdb
+C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.Identity\bin\Debug\net8.0\SimpleStoryPlatform.Application.dll
+C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.Identity\bin\Debug\net8.0\SimpleStoryPlatform.Domain.dll
+C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.Identity\bin\Debug\net8.0\SimpleStoryPlatform.Domain.pdb
+C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.Identity\bin\Debug\net8.0\SimpleStoryPlatform.Application.pdb
+C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.Identity\obj\Debug\net8.0\SimpleStoryPlatform.Identity.csproj.AssemblyReference.cache
+C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.Identity\obj\Debug\net8.0\SimpleStoryPlatform.Identity.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.Identity\obj\Debug\net8.0\SimpleStoryPlatform.Identity.AssemblyInfoInputs.cache
+C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.Identity\obj\Debug\net8.0\SimpleStoryPlatform.Identity.AssemblyInfo.cs
+C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.Identity\obj\Debug\net8.0\SimpleStoryPlatform.Identity.csproj.CoreCompileInputs.cache
+C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.Identity\obj\Debug\net8.0\SimpleSt.A75CA95F.Up2Date
+C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.Identity\obj\Debug\net8.0\SimpleStoryPlatform.Identity.dll
+C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.Identity\obj\Debug\net8.0\refint\SimpleStoryPlatform.Identity.dll
+C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.Identity\obj\Debug\net8.0\SimpleStoryPlatform.Identity.pdb
+C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.Identity\obj\Debug\net8.0\ref\SimpleStoryPlatform.Identity.dll

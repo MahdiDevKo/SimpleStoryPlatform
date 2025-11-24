@@ -1,0 +1,131 @@
+﻿@using Blazored.LocalStorage
+@using System.IdentityModel.Tokens.Jwt;
+@using System.Security.Claims;
+@using SimpleStoryPlatform.Application.DTOs.UserDTOs.ServerToUser
+@using SimpleStoryPlatform.Application.Responses
+
+@rendermode InteractiveServer
+<MessagerGuy />
+@code {
+    #region Personal Info (from token)
+    private string? username;
+    private string? role;
+    private string? firstName;
+    private string? lastName;
+    // private Guid? publicId;
+    #endregion
+
+    private string avatarUrl = "/images/profiles/def.png";
+    bool isLoggedIn = false;
+    bool isTokenChecked = false;
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            var response = await httpClient.GetAsync("Users/Profile");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var userDetails = await response.Content.ReadFromJsonAsync<BaseResponseWithData<UserDetailsDto>>();
+
+                if (userDetails != null)
+                {
+                    username = userDetails.data.Username;
+                    role = userDetails.data.Role;
+                    firstName = userDetails.data.FirstName;
+                    lastName = userDetails.data.LastName;
+                    isLoggedIn = true;
+
+                }
+            }
+
+            isTokenChecked = true;
+            StateHasChanged();
+        }
+    }
+
+    void GoToLogin()
+    {
+        Navigation.NavigateTo("login");
+    }
+}
+@if (isTokenChecked)
+{
+    @if (isLoggedIn)
+    {
+        <div class="d-flex align-items-center gap-2">
+            <img src="@avatarUrl" alt="avatar" width="40" height="40" style="border-radius:50%; object-fit:cover;" />
+            <div style="line-height:1;">
+                <div style="font-weight:600;color:white;">@firstName @lastName</div>
+                <div style="font-size:0.85rem; color:white;">@username</div>
+            </div>
+            <div style="margin-left:10px; font-size:0.9rem; font-weight:500;color:yellow;">
+                @role
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="nav-item px-3">
+                <NavLink class="nav-link" href="login" Match="NavLinkMatch.All">
+                    ورود / ثبتنام
+                </NavLink>
+            </div>
+       
+    }
+}
+else
+{
+    <p>صبر کن دارم لود میکنم</p>
+}
+<div class="top-row ps-3 navbar navbar-dark">
+
+    <div class="container-fluid">
+        <a class="navbar-brand" href="">پروژه ی تمرینی (حالشو ببر)</a>
+    </div>
+</div>
+
+<input type="checkbox" title="Navigation menu" class="navbar-toggler" />
+
+<div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
+    <nav class="flex-column">
+
+        @if (!string.IsNullOrEmpty(role))
+        {
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                    <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> خانه
+                </NavLink>
+            </div>
+
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="profile">
+                    <span class="bi bi-person-circle" aria-hidden="true"></span> پروفایل
+                </NavLink>
+            </div>
+
+            if (role == "admin" || role == "owner")
+            {
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="reports">
+                        <span class="bi bi-shield" aria-hidden="true"></span> رسیدگی به گذارشات
+                    </NavLink>
+                </div>
+            }
+
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="library">
+                    <span class="bi bi-collection" aria-hidden="true"></span> کتابخانه شخصی
+                </NavLink>
+            </div>
+
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="my-stories">
+                    <span class="bi bi-pencil-square" aria-hidden="true"></span> داستان های من
+                </NavLink>
+            </div>
+        }
+        
+    </nav>
+</div>
+
