@@ -20,7 +20,7 @@ This project became that foundation — a fully functional, realistic platform t
 
 ## Core Features
 
-### ✔ Backend Architecture
+### Backend Architecture
 - Clean Architecture with strict layer separation  
 - CQRS pattern implemented using **MediatR**  
 - API-driven structure with clear boundaries  
@@ -85,5 +85,5 @@ This project became that foundation — a fully functional, realistic platform t
 
 ---
 
-## 📦 Status
+## Status
 Developed by MahdiDevKo
