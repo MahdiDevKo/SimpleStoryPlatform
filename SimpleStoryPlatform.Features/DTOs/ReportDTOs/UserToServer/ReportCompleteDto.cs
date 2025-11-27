@@ -8,6 +8,7 @@ namespace SimpleStoryPlatform.Application.DTOs.ReportDTOs.UserToServer
 {
     public class ReportCompleteDto<T> 
     {
+        //need to be COMPLETELY refactored
         public T report { get; set; }
         public Guid ReporterGuid { get; set; }
         public Guid TargetUserGuid { get; set; }

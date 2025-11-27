@@ -605,17 +605,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/GuidBaseResponseWithData"
+                  "$ref": "#/components/schemas/GuidNullableBaseResponseWithData"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GuidBaseResponseWithData"
+                  "$ref": "#/components/schemas/GuidNullableBaseResponseWithData"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GuidBaseResponseWithData"
+                  "$ref": "#/components/schemas/GuidNullableBaseResponseWithData"
                 }
               }
             }
@@ -923,7 +923,7 @@
         },
         "additionalProperties": false
       },
-      "GuidBaseResponseWithData": {
+      "GuidNullableBaseResponseWithData": {
         "type": "object",
         "properties": {
           "success": {
@@ -942,7 +942,8 @@
           },
           "data": {
             "type": "string",
-            "format": "uuid"
+            "format": "uuid",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -1036,19 +1037,15 @@
         "additionalProperties": false
       },
       "StoryCreateDto": {
-        "required": [
-          "name",
-          "preview"
-        ],
         "type": "object",
         "properties": {
           "name": {
-            "minLength": 1,
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "preview": {
-            "minLength": 1,
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "writerGuid": {
             "type": "string",

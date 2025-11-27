@@ -26,7 +26,7 @@ namespace SimpleStoryPlatform.API.Controllers
         private Guid GetPublicId()
             => Guid.Parse(User.FindFirst("PublicId")?.Value);
         [HttpPost("Create-New-Story")]
-        public async Task<BaseResponseWithData<Guid>> CreateStory([FromBody] StoryCreateDto createDto)
+        public async Task<BaseResponseWithData<Guid?>> CreateStory([FromBody] StoryCreateDto createDto)
         {
             createDto.WriterGuid = GetPublicId();
 

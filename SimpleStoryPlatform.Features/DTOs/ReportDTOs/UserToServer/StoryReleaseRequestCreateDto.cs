@@ -9,6 +9,6 @@ namespace SimpleStoryPlatform.Application.DTOs.ReportDTOs.UserToServer
     public class StoryReleaseRequestCreateDto
     {
         public Guid StoryGuid { get; set; }
-        public string Text { get; set; }
+        public string Text { get; set; } = "";
     }
 }

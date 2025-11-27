@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace SimpleStoryPlatform.Application.Features.Writers.Handlers.Commands
 {
-    public class StoryCreateCommandHandler : IRequestHandler<StoryCreateCommand, BaseResponseWithData<Guid>>
+    public class StoryCreateCommandHandler : IRequestHandler<StoryCreateCommand, BaseResponseWithData<Guid?>>
     {
         IStoryRepository _storyRepo;
         IUserRepository _userRepo;
@@ -24,9 +24,9 @@ namespace SimpleStoryPlatform.Application.Features.Writers.Handlers.Commands
             _storyRepo = storyRepository;
             _userRepo = userRepo;
         }
-        public async Task<BaseResponseWithData<Guid>> Handle(StoryCreateCommand request, CancellationToken cancellationToken)
+        public async Task<BaseResponseWithData<Guid?>> Handle(StoryCreateCommand request, CancellationToken cancellationToken)
         {
-            var response = new BaseResponseWithData<Guid>();
+            var response = new BaseResponseWithData<Guid?>();
 
             var user = await _userRepo.GetByGuidAsync(request.createDto.WriterGuid);
 

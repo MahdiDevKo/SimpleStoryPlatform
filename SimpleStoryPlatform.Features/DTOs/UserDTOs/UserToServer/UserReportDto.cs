@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SimpleStoryPlatform.Application.DTOs.UserDTOs.UserToServer
 {
-    public class UserReportDto
+    public class UserReportDto      //deosn,t need any validator
     {
         public Guid UserGuid { get; set; }
         public Guid ObjectGuid { get; set; }
