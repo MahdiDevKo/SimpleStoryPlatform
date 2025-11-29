@@ -2,6 +2,7 @@
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
+using SimpleStoryPlatform.Application.DTOs.SearchOptionsDTOs.Validators.SearchRequestValidators;
 using SimpleStoryPlatform.Application.DTOs.StoryDTOs.UserToServer.Validators;
 using SimpleStoryPlatform.Application.DTOs.UserDTOs.UserToServer.Validators;
 using SimpleStoryPlatform.Application.DTOs.UserDTOs.UserToServer.Validators.RulesCore;
@@ -29,6 +30,9 @@ namespace SimpleStoryPlatform.Application
             services.AddValidatorsFromAssemblyContaining<UserPassValidatorRule>();
             services.AddValidatorsFromAssemblyContaining<StoryCreateDtoValidator>();
             services.AddValidatorsFromAssemblyContaining<StoryReviewCreateDtoValidator>();
+
+            services.AddValidatorsFromAssemblyContaining<StorySearchRequestValidator>();
+            services.AddValidatorsFromAssemblyContaining<UserSearchRequestValidator>();
 
             return services;
         }

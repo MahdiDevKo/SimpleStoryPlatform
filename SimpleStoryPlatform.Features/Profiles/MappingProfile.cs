@@ -7,6 +7,7 @@ using SimpleStoryPlatform.Application.DTOs.StoryDTOs.UserToServer;
 using SimpleStoryPlatform.Application.DTOs.UserDTOs.ServerToUser;
 using SimpleStoryPlatform.Application.DTOs.UserDTOs.UserToServer;
 using SimpleStoryPlatform.Application.Features.Writers.Requests.Commands;
+using SimpleStoryPlatform.Application.Responses;
 using SimpleStoryPlatform.Domain.Entites;
 using SimpleStoryPlatform.Domain.Entites.Report;
 using System;
@@ -77,6 +78,12 @@ namespace SimpleStoryPlatform.Application.Profiles
                 .ReverseMap();
 
             CreateMap<Notification, NotificationDto>().ReverseMap();
+
+
+            //CreateMap<PageResponse<,>, PageResponse<,>>
+            CreateMap(typeof(PageResponse<>), typeof(PageResponse<>));
+
+
 
         }
     }

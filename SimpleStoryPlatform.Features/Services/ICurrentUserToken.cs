@@ -9,5 +9,7 @@ namespace SimpleStoryPlatform.Application.Services
     public interface ICurrentUserToken
     {
         Guid? UserGuid { get; }
+        string? UserRole { get; }
+        string? UserName { get; }
     }
 }

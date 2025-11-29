@@ -33,6 +33,10 @@ namespace SimpleStoryPlatform.Infrastructure.DbSettings
         private class FakeCurrentUserToken : ICurrentUserToken
         {
             public Guid? UserGuid => null; // یا Guid.Empty اگه خواستی
+
+            public string UserRole => null;
+
+            public string UserName => null;
         }
     }
 

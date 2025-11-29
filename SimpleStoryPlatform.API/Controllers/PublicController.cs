@@ -2,11 +2,13 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.JsonWebTokens;
+using SimpleStoryPlatform.Application.DTOs.SearchOptionsDTOs;
 using SimpleStoryPlatform.Application.DTOs.StoryDTOs.ServerToUser;
 using SimpleStoryPlatform.Application.DTOs.UserDTOs.ServerToUser;
 using SimpleStoryPlatform.Application.DTOs.UserDTOs.UserToServer;
 using SimpleStoryPlatform.Application.Features.Users.Requests.Commands;
 using SimpleStoryPlatform.Application.Features.Users.Requests.Queries;
+using SimpleStoryPlatform.Application.Requests;
 using SimpleStoryPlatform.Application.Responses;
 using SimpleStoryPlatform.Application.Services;
 using SimpleStoryPlatform.Controllers;
@@ -31,13 +33,20 @@ namespace SimpleStoryPlatform.API.Controllers
         => User.FindFirst("Role")?.Value.ToString();
 
         [HttpGet("LastStories")]
-        public async Task<BaseResponseWithData<List<StoryPreviewDto>?>> GetLastStories()
+        public async Task<PageResponse<StoryPreviewDto>> GetLastStories()
         {
-            var request = new UserSearchStoryRequest();
+            var request = new UserSearchStoryRequest()
+            {
+                info = new SearchRequest<StorySearchOptionsDto>()
+                {
+                    PageNumber = 1,
+                    Options = new StorySearchOptionsDto()
+                }
+            };
 
             var response = await _mediator.Send(request);
 
-            response.data = response.data
+            response.Items = response.Items
                 .OrderByDescending(s => s.CreatedAt)
                 .ToList();
 
@@ -57,7 +66,7 @@ namespace SimpleStoryPlatform.API.Controllers
 
             return response;
         }
-        
+
         [HttpPost("Login")]
         public async Task<ActionResult<BaseResponseWithData<string>>> login([FromBody] UserLoginDto dto)
         {
@@ -99,18 +108,14 @@ namespace SimpleStoryPlatform.API.Controllers
         }
 
         [HttpGet("Search-Result")]
-        public async Task<ActionResult<BaseResponseWithData<List<StoryPreviewDto>?>>> SearchStory([FromBody] string? searchValue)
+        public async Task<ActionResult<PageResponse<StoryPreviewDto>>> SearchStory([FromBody] SearchRequest<StorySearchOptionsDto>? searchOtions)
         {
-            var request = new UserSearchStoryRequest() { searchValue = searchValue };
-
-            //check for token and role
-            if (!string.IsNullOrEmpty(GetRole()))
-                request.IsAdmin = (GetRole() == "admin" || GetRole() == "owner");
+            var request = new UserSearchStoryRequest() { info = searchOtions};
 
             var response = await _mediator.Send(request);
 
             return response;
         }
-        
+
     }
 }

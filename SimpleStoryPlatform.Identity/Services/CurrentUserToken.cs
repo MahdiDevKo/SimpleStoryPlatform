@@ -39,5 +39,16 @@ namespace SimpleStoryPlatform.Identity.Services
                 return string.IsNullOrEmpty(role) ? "default" : role;
             }
         }
+
+        public string? UserName
+        {
+            get
+            {
+                string? role = _httpContextAccessor.HttpContext?.User?
+                    .FindFirst("Username")?.Value;
+
+                return string.IsNullOrEmpty(role) ? "default" : role;
+            }
+        }
     }
 }
