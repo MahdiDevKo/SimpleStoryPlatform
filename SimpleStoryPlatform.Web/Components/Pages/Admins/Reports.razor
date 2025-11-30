@@ -8,6 +8,13 @@
 <h3>Reports</h3>
 
 @code {
+    /*
+     * need to be refactored
+     * need to be refactored
+     * need to be refactored
+     * need to be refactored
+     * need to be refactored
+     */
     bool ShowStories = false;
     bool ShowComments = false;
     bool ShowRequests = false;
@@ -50,13 +57,9 @@
 
     async void CompeleteStoryReport(StoryReportDto storyReport)
     {
-        ReportCompleteDto<StoryReportDto?> sendingDto = new ReportCompleteDto<StoryReportDto?>()
+        ReportCompleteDto sendingDto = new ReportCompleteDto()
         {
-            report = storyReport,
-            ReporterGuid = storyReport.CreatedBy,
             ReportGuid = storyReport.PublicId,
-            TargetUserGuid = storyReport.TargetUser.PublicId,
-
             IsAccepted = IsReportAccepted,
             SpicialMessage = SpecialMessage
         };
@@ -77,12 +80,9 @@
 
     async void CompeleteCommentReport(ReviewReportDto reviewRepory)
     {
-        ReportCompleteDto<ReviewReportDto?> sendingDto = new ReportCompleteDto<ReviewReportDto?>()
+        ReportCompleteDto sendingDto = new ReportCompleteDto()
         {
-            report = reviewRepory,
-            ReporterGuid = reviewRepory.CreatedBy,
             ReportGuid = reviewRepory.PublicId,
-            TargetUserGuid = reviewRepory.TargetUser.PublicId,
 
             IsAccepted = IsReportAccepted,
             SpicialMessage = SpecialMessage
@@ -99,11 +99,9 @@
 
     async void CompeleteReleaseRequest(StoryReleaseRequestDetailsDto releaseReqDto)
     {
-        ReportCompleteDto<StoryReleaseRequestDetailsDto?> sendingDto = new ReportCompleteDto<StoryReleaseRequestDetailsDto?>()
+        ReportCompleteDto sendingDto = new ReportCompleteDto()
         {
-            report = releaseReqDto,
             ReportGuid = releaseReqDto.PublicId,
-            TargetUserGuid = releaseReqDto.CreatedBy,
 
             IsAccepted = IsReportAccepted,
             SpicialMessage = SpecialMessage

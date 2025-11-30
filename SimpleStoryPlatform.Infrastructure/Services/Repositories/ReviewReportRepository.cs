@@ -19,6 +19,17 @@ namespace SimpleStoryPlatform.Infrastructure.Services.Repositories
             _context = context;
         }
 
+        public async Task DeleteSameReportsAsync(int reviewId)
+        {
+            var sameReports = await _context.ReviewReports
+                .Where(rr => rr.ReviewId == reviewId)
+                .ToListAsync();
+
+            _context.ReviewReports.RemoveRange(sameReports);
+
+            await _context.SaveChangesAsync();
+        }
+
         public async Task<List<StoryReviewReport>> GetAllWithDetail()
         {
             var reports = await _context.ReviewReports

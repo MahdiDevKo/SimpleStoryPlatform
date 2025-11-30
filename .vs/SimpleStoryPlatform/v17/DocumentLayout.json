@@ -1,28 +1,7 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{79605688-E78F-486A-B895-24664E3CF96B}|SimpleStoryPlatform.Features\\SimpleStoryPlatform.Application.csproj|c:\\users\\hp\\source\\repos\\simplestoryplatform\\simplestoryplatform.features\\profiles\\mappingprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{79605688-E78F-486A-B895-24664E3CF96B}|SimpleStoryPlatform.Features\\SimpleStoryPlatform.Application.csproj|solutionrelative:simplestoryplatform.features\\profiles\\mappingprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0F3F1741-5AC8-4697-B0F6-8BC50AC47712}|SimpleStoryPlatform.Identity\\SimpleStoryPlatform.Identity.csproj|c:\\users\\hp\\source\\repos\\simplestoryplatform\\simplestoryplatform.identity\\services\\currentusertoken.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0F3F1741-5AC8-4697-B0F6-8BC50AC47712}|SimpleStoryPlatform.Identity\\SimpleStoryPlatform.Identity.csproj|solutionrelative:simplestoryplatform.identity\\services\\currentusertoken.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{27CC4E8E-89E7-4043-811F-E30B906A80B0}|SimpleStoryPlatform.Infrastructure\\SimpleStoryPlatform.Infrastructure.csproj|c:\\users\\hp\\source\\repos\\simplestoryplatform\\simplestoryplatform.infrastructure\\dbsettings\\storyplatformdbcontextfactory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{27CC4E8E-89E7-4043-811F-E30B906A80B0}|SimpleStoryPlatform.Infrastructure\\SimpleStoryPlatform.Infrastructure.csproj|solutionrelative:simplestoryplatform.infrastructure\\dbsettings\\storyplatformdbcontextfactory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{79605688-E78F-486A-B895-24664E3CF96B}|SimpleStoryPlatform.Features\\SimpleStoryPlatform.Application.csproj|c:\\users\\hp\\source\\repos\\simplestoryplatform\\simplestoryplatform.features\\services\\icurrentusertoken.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{79605688-E78F-486A-B895-24664E3CF96B}|SimpleStoryPlatform.Features\\SimpleStoryPlatform.Application.csproj|solutionrelative:simplestoryplatform.features\\services\\icurrentusertoken.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D05F58C1-46FF-51EE-5389-F3178B939E8B}|SimpleStoryPlatform.API\\SimpleStoryPlatform.API.csproj|c:\\users\\hp\\source\\repos\\simplestoryplatform\\simplestoryplatform.api\\controllers\\publiccontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D05F58C1-46FF-51EE-5389-F3178B939E8B}|SimpleStoryPlatform.API\\SimpleStoryPlatform.API.csproj|solutionrelative:simplestoryplatform.api\\controllers\\publiccontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    }
-  ],
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -30,7 +9,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": -1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -39,71 +18,6 @@
             {
               "$type": "Bookmark",
               "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "MappingProfile.cs",
-              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\SimpleStoryPlatform.Features\\Profiles\\MappingProfile.cs",
-              "RelativeDocumentMoniker": "SimpleStoryPlatform.Features\\Profiles\\MappingProfile.cs",
-              "ToolTip": "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\SimpleStoryPlatform.Features\\Profiles\\MappingProfile.cs",
-              "RelativeToolTip": "SimpleStoryPlatform.Features\\Profiles\\MappingProfile.cs",
-              "ViewState": "AgIAAEUAAAAAAAAAAAAAwFEAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-29T14:11:51.203Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "ICurrentUserToken.cs",
-              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\SimpleStoryPlatform.Features\\Services\\ICurrentUserToken.cs",
-              "RelativeDocumentMoniker": "SimpleStoryPlatform.Features\\Services\\ICurrentUserToken.cs",
-              "ToolTip": "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\SimpleStoryPlatform.Features\\Services\\ICurrentUserToken.cs",
-              "RelativeToolTip": "SimpleStoryPlatform.Features\\Services\\ICurrentUserToken.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAoAAAAfAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-29T14:06:51.326Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "StoryPlatformDbContextFactory.cs",
-              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\SimpleStoryPlatform.Infrastructure\\DbSettings\\StoryPlatformDbContextFactory.cs",
-              "RelativeDocumentMoniker": "SimpleStoryPlatform.Infrastructure\\DbSettings\\StoryPlatformDbContextFactory.cs",
-              "ToolTip": "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\SimpleStoryPlatform.Infrastructure\\DbSettings\\StoryPlatformDbContextFactory.cs",
-              "RelativeToolTip": "SimpleStoryPlatform.Infrastructure\\DbSettings\\StoryPlatformDbContextFactory.cs",
-              "ViewState": "AgIAABQAAAAAAAAAAAArwCAAAAA+AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-29T14:06:26.593Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "CurrentUserToken.cs",
-              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\SimpleStoryPlatform.Identity\\Services\\CurrentUserToken.cs",
-              "RelativeDocumentMoniker": "SimpleStoryPlatform.Identity\\Services\\CurrentUserToken.cs",
-              "ToolTip": "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\SimpleStoryPlatform.Identity\\Services\\CurrentUserToken.cs",
-              "RelativeToolTip": "SimpleStoryPlatform.Identity\\Services\\CurrentUserToken.cs",
-              "ViewState": "AgIAABgAAAAAAAAAAAAYwCoAAAAWAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-29T14:05:30.428Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "PublicController.cs",
-              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\SimpleStoryPlatform.API\\Controllers\\PublicController.cs",
-              "RelativeDocumentMoniker": "SimpleStoryPlatform.API\\Controllers\\PublicController.cs",
-              "ToolTip": "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\SimpleStoryPlatform.API\\Controllers\\PublicController.cs",
-              "RelativeToolTip": "SimpleStoryPlatform.API\\Controllers\\PublicController.cs",
-              "ViewState": "AgIAAEMAAAAAAAAAAAAkwHYAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-29T14:03:20.619Z",
-              "EditorCaption": ""
             }
           ]
         }

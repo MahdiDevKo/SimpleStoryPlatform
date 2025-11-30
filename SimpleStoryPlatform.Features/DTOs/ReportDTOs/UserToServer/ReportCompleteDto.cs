@@ -6,12 +6,9 @@ using System.Threading.Tasks;
 
 namespace SimpleStoryPlatform.Application.DTOs.ReportDTOs.UserToServer
 {
-    public class ReportCompleteDto<T> 
+    public class ReportCompleteDto
     {
-        //need to be COMPLETELY refactored
-        public T report { get; set; }
-        public Guid ReporterGuid { get; set; }
-        public Guid TargetUserGuid { get; set; }
+        //deosn't need validator
         public Guid ReportGuid { get; set; }
         public bool IsAccepted { get; set; }
         public string? SpicialMessage { get; set; }

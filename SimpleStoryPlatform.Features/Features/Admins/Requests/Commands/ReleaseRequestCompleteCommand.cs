@@ -9,8 +9,8 @@ using System.Threading.Tasks;
 
 namespace SimpleStoryPlatform.Application.Features.Admins.Requests.Commands
 {
-    public class AdminsCompleteReportCommand<T> : IRequest<BaseResponse>
+    public class ReleaseRequestCompleteCommand : IRequest<BaseResponse>
     {
-        public ReportCompleteDto<T> reportInfo { get; set; }
+        public ReportCompleteDto info { get; set; }
     }
 }

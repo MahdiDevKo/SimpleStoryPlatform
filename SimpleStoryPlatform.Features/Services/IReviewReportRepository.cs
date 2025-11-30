@@ -11,5 +11,7 @@ namespace SimpleStoryPlatform.Application.Services
     {
         Task<List<StoryReviewReport>> GetAllWithDetail();
         Task<StoryReviewReport?> GetReportWithDetails(Guid reportGuid);
+
+        Task DeleteSameReportsAsync(int reviewId);
     }
 }
