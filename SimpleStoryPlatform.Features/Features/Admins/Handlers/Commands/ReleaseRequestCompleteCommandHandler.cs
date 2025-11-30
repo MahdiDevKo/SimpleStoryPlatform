@@ -18,17 +18,20 @@ namespace SimpleStoryPlatform.Application.Features.Admins.Handlers.Commands
         private readonly IStoryReleaseRepository _releaseRepo;
         private readonly IStoryRepository _storyRepo;
         private readonly INotificationRepository _notifRepo;
+        private readonly ICurrentUserToken _currentUser;
         public ReleaseRequestCompleteCommandHandler(
             IStoryReleaseRepository storyReleaseRepository,
             IStoryRepository storyRepo,
             INotificationRepository notifRepo,
-            IUserRepository userRepository
+            IUserRepository userRepository,
+            ICurrentUserToken currentUserToken
             )
         {
             _releaseRepo = storyReleaseRepository;
             _storyRepo = storyRepo;
             _notifRepo = notifRepo;
             _userRepo = userRepository;
+            _currentUser = currentUserToken;
         }
         public async Task<BaseResponse> Handle(ReleaseRequestCompleteCommand request, CancellationToken cancellationToken)
         {
@@ -38,6 +41,8 @@ namespace SimpleStoryPlatform.Application.Features.Admins.Handlers.Commands
 
             //null check
             if (releaseRequest == null) { response.Message = "this report deosn't exsits anymore..."; return response; }
+
+            if (releaseRequest.CreatedBy == _currentUser.UserGuid) { response.Message = "you cant accept your own report!"; return response; }
 
             //complete the request
             releaseRequest.IsComplete = true;

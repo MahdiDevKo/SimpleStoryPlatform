@@ -17,16 +17,19 @@ namespace SimpleStoryPlatform.Application.Features.Admins.Handlers.Commands
         private readonly IStoryReportRepository _storyReportRepo;
         private readonly IStoryRepository _storyRepo;
         private readonly INotificationRepository _notifRepo;
+        private readonly ICurrentUserToken _currentUser;
         public StoryReportCompleteCommandHandler(IUserRepository userRepository,
             IStoryReportRepository storyReportRepo,
             IStoryRepository storyRepo,
-            INotificationRepository notifRepo
+            INotificationRepository notifRepo,
+            ICurrentUserToken current
             )
         {
             _userRepo = userRepository;
             _storyReportRepo = storyReportRepo;
             _storyRepo = storyRepo;
             _notifRepo = notifRepo;
+            _currentUser = current;
         }
         public async Task<BaseResponse> Handle(StoryReportCompleteCommand request, CancellationToken cancellationToken)
         {
@@ -36,6 +39,8 @@ namespace SimpleStoryPlatform.Application.Features.Admins.Handlers.Commands
 
             //null check
             if (report == null) { response.Message = "cant find the report..."; return response; }
+
+            if (report.CreatedBy == _currentUser.UserGuid) { response.Message = "you cant accept your own report!"; return response; }
 
             //close the report
             report.IsComplete = true;
