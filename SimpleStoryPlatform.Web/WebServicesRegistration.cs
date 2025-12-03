@@ -1,6 +1,4 @@
-﻿using SimpleStoryPlatform.Application.Services;
-
-namespace SimpleStoryPlatform.Web
+﻿namespace SimpleStoryPlatform.Web
 {
     public static class WebServicesRegistration
     {

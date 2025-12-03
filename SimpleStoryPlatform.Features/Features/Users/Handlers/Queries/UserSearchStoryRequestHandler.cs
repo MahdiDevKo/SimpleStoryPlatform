@@ -31,6 +31,8 @@ namespace SimpleStoryPlatform.Application.Features.Users.Handlers.Queries
 
             IQueryable<Story> query = _storyRepo.GetQueryable();
 
+            query = query.Include(s => s.Writer);
+
             if (!string.IsNullOrEmpty(request.info.Options.StoryName))
                 query = query
                     .Where(s => s.Name
@@ -38,7 +40,6 @@ namespace SimpleStoryPlatform.Application.Features.Users.Handlers.Queries
 
             if (!string.IsNullOrEmpty(request.info.Options.WriterUsername))
                 query = query
-                    .Include(s => s.Writer)
                     .Where(s => s.Writer.Username
                     .Contains(request.info.Options.WriterUsername));
 

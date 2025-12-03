@@ -197,3 +197,4 @@ C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.API\obj\Debug\n
 C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.API\obj\Debug\net8.0\SimpleStoryPlatform.API.genruntimeconfig.cache
 C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.API\obj\Debug\net8.0\ref\SimpleStoryPlatform.API.dll
 C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.API\obj\Debug\net8.0\SimpleStoryPlatform.API.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.API\bin\Debug\net8.0\Newtonsoft.Json.dll

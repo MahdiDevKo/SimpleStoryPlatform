@@ -1,8 +1,6 @@
 ﻿@using Blazored.LocalStorage
 @using System.IdentityModel.Tokens.Jwt;
 @using System.Security.Claims;
-@using SimpleStoryPlatform.Application.DTOs.UserDTOs.ServerToUser
-@using SimpleStoryPlatform.Application.Responses
 
 @rendermode InteractiveServer
 <MessagerGuy />
@@ -22,22 +20,26 @@
     {
         if (firstRender)
         {
-            var response = await httpClient.GetAsync("Users/Profile");
-
-            if (response.IsSuccessStatusCode)
+            try
             {
-                var userDetails = await response.Content.ReadFromJsonAsync<BaseResponseWithData<UserDetailsDto>>();
-
-                if (userDetails != null)
+                var apires = await clientAli.ProfileAsync();
+                if (apires.Success)
                 {
-                    username = userDetails.data.Username;
-                    role = userDetails.data.Role;
-                    firstName = userDetails.data.FirstName;
-                    lastName = userDetails.data.LastName;
+                    username = apires.Data.Username;
+                    role = apires.Data.Role;
+                    firstName = apires.Data.FirstName;
+                    lastName = apires.Data.LastName;
                     isLoggedIn = true;
-
                 }
+                else
+                    msgService.ShowMessage(apires.Message, "error");
             }
+            catch(Exception e)
+            {
+                msgService.ShowMessage(e.Message, "error");
+            }
+
+
 
             isTokenChecked = true;
             StateHasChanged();
@@ -127,5 +129,4 @@ else
         }
         
     </nav>
-</div>
-
+</div> 

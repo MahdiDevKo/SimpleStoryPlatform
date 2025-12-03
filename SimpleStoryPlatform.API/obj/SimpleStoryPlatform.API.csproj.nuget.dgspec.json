@@ -490,11 +490,7 @@
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
-            "projectReferences": {
-              "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\SimpleStoryPlatform.Features\\SimpleStoryPlatform.Application.csproj": {
-                "projectPath": "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\SimpleStoryPlatform.Features\\SimpleStoryPlatform.Application.csproj"
-              }
-            }
+            "projectReferences": {}
           }
         },
         "warningProperties": {
@@ -519,6 +515,10 @@
             "Microsoft.AspNetCore.Components.Authorization": {
               "target": "Package",
               "version": "[8.0.0, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.4, )"
             },
             "System.IdentityModel.Tokens.Jwt": {
               "target": "Package",

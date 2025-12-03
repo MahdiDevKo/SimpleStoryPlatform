@@ -1,8 +1,4 @@
 ﻿@page "/my-stories"
-@using SimpleStoryPlatform.Application.DTOs.ReportDTOs.UserToServer
-@using SimpleStoryPlatform.Application.DTOs.StoryDTOs.ServerToUser
-@using SimpleStoryPlatform.Application.DTOs.StoryDTOs.UserToServer
-@using SimpleStoryPlatform.Application.Responses
 
 @rendermode InteractiveServer
 <h3>MyStories</h3>
@@ -18,53 +14,41 @@
 
     protected override async Task OnInitializedAsync()
     {
-        var response = await httpClient.GetAsync("Writers/My-Stories");
 
-        //success check
-        if (!response.IsSuccessStatusCode)
+        try
         {
-            msgService.ShowMessage(response.StatusCode.ToString(), "error");
-            return;
+            var apiRes = await clientAli.MyStoriesAsync();
+
+            if (apiRes.Success)
+            {
+                stories = apiRes.Data.ToList();
+                StateHasChanged();
+            }
+            else
+                msgService.ShowMessage(apiRes.Message, "error");
         }
+        catch(Exception e){ msgService.ShowMessage(e.Message, "error"); }
 
-        var apiRes = await response.Content.ReadFromJsonAsync<BaseResponseWithData<List<StoryPreviewDto>?>>();
-
-        //success ckeck2
-        if (!apiRes.Success)
-        {
-            msgService.ShowMessage(apiRes.Message, "error");
-            return;
-        }
-
-        stories = apiRes.data;
-        StateHasChanged();
     }
 
     async void UnpublishStory(Guid storyGuid)
     {
-        var response = await httpClient.PostAsJsonAsync("Writers/Unpublish-Story", storyGuid);
-
-        //success check
-        if (!response.IsSuccessStatusCode)
+        try
         {
-            msgService.ShowMessage(response.StatusCode.ToString(), "error");
-            return;
+
+            var apiRes = await clientAli.UnpublishStoryAsync(storyGuid);
+
+            if (apiRes.Success)
+            {
+                msgService.ShowMessage(apiRes.Message, "success");
+                stories.FirstOrDefault(s => s.PublicId == storyGuid).IsPublished = false;
+
+                StateHasChanged();
+            }
+            else
+                msgService.ShowMessage(apiRes.Message, "error");
         }
-
-        var apiRes = await response.Content.ReadFromJsonAsync<BaseResponse>();
-
-        //success ckeck2
-        if (!apiRes.Success)
-        {
-            msgService.ShowMessage(apiRes.Message, "error");
-            return;
-        }
-
-        msgService.ShowMessage(apiRes.Message, "success");
-
-        stories.FirstOrDefault(s => s.PublicId == storyGuid).IsPublished = false;
-
-        StateHasChanged();
+        catch(Exception e){ msgService.ShowMessage(e.Message, "error"); }
     }
 
     async void SendReleaseReuest(Guid storyGuid)
@@ -78,26 +62,17 @@
 
         ReleaseReuestDto.StoryGuid = storyGuid;
 
-        var response = await httpClient.PostAsJsonAsync("Writers/Release-Request", ReleaseReuestDto);
-
-        //success check
-        if (!response.IsSuccessStatusCode)
+        try
         {
-            msgService.ShowMessage(response.StatusCode.ToString(), "error");
-            return;
+            var apiRes = await clientAli.ReleaseRequestAsync(ReleaseReuestDto);
+
+            if (apiRes.Success)
+                msgService.ShowMessage(apiRes.Message, "success");
+
+            else
+                msgService.ShowMessage(apiRes.Message, "error");
         }
-
-        var apiRes = await response.Content.ReadFromJsonAsync<BaseResponse>();
-
-        //success ckeck2
-        if (!apiRes.Success)
-        {
-            // msgService.ShowMessage(apiRes.Message, "error");
-            msgService.ShowMessage(apiRes.Message + storyGuid.ToString(), "error");
-            return;
-        }
-
-        msgService.ShowMessage(apiRes.Message, "success");
+        catch(Exception e){ msgService.ShowMessage(e.Message, "error"); }
     }
 
     void ChangePageMode(bool isCreatingNewStory = true)
@@ -108,27 +83,21 @@
 
     async void CreateNewStory()
     {
-        var response = await httpClient.PostAsJsonAsync("Writers/Create-New-Story", storyCreateDto);
+        
 
-        //success check
-        if (!response.IsSuccessStatusCode)
-        {
-            msgService.ShowMessage(response.StatusCode.ToString(), "error");
-            return;
-        }
+            try
+            {
+                var apiRes = await clientAli.CreateNewStoryAsync(storyCreateDto);
 
-        var apiRes = await response.Content.ReadFromJsonAsync<BaseResponseWithData<Guid>>();
+                if (apiRes.Success)
+                    Navigation.NavigateTo($"edit-story/{apiRes.Data}");
 
-        //success ckeck2
-        if (!apiRes.Success)
-        {
-            msgService.ShowMessage(apiRes.Message, "error");
-            return;
-        }
+                else
+                    msgService.ShowMessage(apiRes.Message, "error");
+            }
+            catch(Exception e){ msgService.ShowMessage(e.Message, "error"); }
 
-        msgService.ShowMessage(apiRes.Message, "Success");
-
-        Navigation.NavigateTo($"edit-story/{apiRes.data}");
+       
 
     }
 
@@ -138,9 +107,10 @@
     {
         if (openedStrikeForm == storyId)
             openedStrikeForm = null;
+    
         else
             openedStrikeForm = storyId;
-}
+    }
 
 
 }
@@ -194,7 +164,7 @@ else
                         }
                         else
                         {
-                            @* <button class="btn-publish" @onclick="() => PublishStory(storyPreview.PublicId)">انتشار</button> *@
+                            
                             <a href="edit-story/@storyPreview.PublicId">
                             <button class="btn-edit">ویرایش</button>
                             </a>

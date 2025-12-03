@@ -1,6 +1,4 @@
 ﻿@page "/edit-story/{storyGuid:guid}"
-@using SimpleStoryPlatform.Application.DTOs.StoryDTOs.ServerToUser
-@using SimpleStoryPlatform.Application.Responses
 
 @rendermode InteractiveServer
 
@@ -14,26 +12,22 @@
     StorySectionDto currentSection = new StorySectionDto();
     protected override async Task OnInitializedAsync()
     {
-        var response = await httpClient.PostAsJsonAsync("Writers/My-Story-Details", storyGuid);
-
-        //success check
-        if (!response.IsSuccessStatusCode)
+        try
         {
-            msgService.ShowMessage(response.StatusCode.ToString(), "error");
-            return;
+            var apiRes = await clientAli.MyStoryDetailsAsync(storyGuid);
+
+            if(apiRes.Success)
+            {
+                story = apiRes.Data;
+                OpenPage(0);
+            }
+            else
+                msgService.ShowMessage(apiRes.Message, "error");
         }
+        catch(Exception e){ msgService.ShowMessage(e.Message, "error"); }
 
-        var apiRes = await response.Content.ReadFromJsonAsync<BaseResponseWithData<StoryDetailsDto>>();
 
-        //success ckeck2
-        if (!apiRes.Success)
-        {
-            msgService.ShowMessage(apiRes.Message, "error");
-            return;
-        }
 
-        story = apiRes.data;
-        OpenPage(0);
         StateHasChanged();
     }
 
@@ -44,7 +38,7 @@
         if (index > -1 && index < story.Data.Count)
         {
             CurrentIndex = index;
-            currentSection = story.Data[index];
+            currentSection = story.Data.ToList()[index];
             next = index < story.Data.Count - 1;
             past = index > 0;
             StateHasChanged();
@@ -69,7 +63,7 @@
             return;
         }
 
-        story.Data.RemoveAt(CurrentIndex);
+        story.Data.ToList().RemoveAt(CurrentIndex);
 
         msgService.ShowMessage($"قسمت {CurrentIndex + 1} از داستان حذف شد.");
 
@@ -77,33 +71,25 @@
     }
     async void SaveChanges(bool exit = false)
     {
-        var response = await httpClient.PostAsJsonAsync("Writers/Update-Story", story);
-
-        //success check
-        if (!response.IsSuccessStatusCode)
+        try
         {
-            msgService.ShowMessage(response.StatusCode.ToString(), "error");
-            return;
-        }
+            var apiRes = await clientAli.UpdateStoryAsync(story);
 
-        var apiRes = await response.Content.ReadFromJsonAsync<BaseResponseWithData<StoryDetailsDto>>();
-
-        //success ckeck2
-        if (!apiRes.Success)
-        {
-            msgService.ShowMessage(apiRes.Message, "error");
-            return;
-        }
-        else
+        if (apiRes.Success)
         {
             if (exit || story.IsPublished)
                 Navigation.NavigateTo("my-stories");
             else
             {
                 msgService.ShowMessage(apiRes.Message, "success");
-                story = apiRes.data;
+                story = apiRes.Data;
             }
         }
+        else
+            msgService.ShowMessage(apiRes.Message, "error");
+        }
+        catch (Exception e) { msgService.ShowMessage(e.Message, "error"); }
+
     }
 
 
@@ -476,4 +462,4 @@ else
             background: #357ac7;
         }
 
-</style>
+</style> 

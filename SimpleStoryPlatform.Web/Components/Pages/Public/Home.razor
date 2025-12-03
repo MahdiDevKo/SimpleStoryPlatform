@@ -1,26 +1,28 @@
 ﻿@page "/"
 @page "/home"
-@using SimpleStoryPlatform.Application.DTOs.StoryDTOs.ServerToUser
-@using SimpleStoryPlatform.Application.Responses
 
 @rendermode InteractiveServer
 
 @code {
     List<StoryPreviewDto>? lastStories;
 
+    int totalPages;
+    int pageSize;
+    int currentPage;
+
     protected override async Task OnInitializedAsync()
     {
-        var response = await httpClient.GetAsync("Public/LastStories");
+        var apires = await clientAli.LastStoriesAsync();
 
-        if (!response.IsSuccessStatusCode) { msgService.ShowMessage(response.StatusCode.ToString()); StateHasChanged(); return; }
+        if (apires != null)
+        {
+            lastStories = apires.Items.ToList();
 
-        var apiResponse = await response.Content.ReadFromJsonAsync<BaseResponseWithData<List<StoryPreviewDto>>>();
+            totalPages = apires.TotalPages;
+            pageSize = apires.PageSize;
+            currentPage = apires.CurrentPage;
+        }
 
-        if (apiResponse == null) { msgService.ShowMessage("cannot convert [response] to [apiResponse]!!!"); StateHasChanged(); return; }
-
-        if (!apiResponse.Success) { msgService.ShowMessage(apiResponse.Message); StateHasChanged(); return; }
-
-        lastStories = apiResponse.data;
         StateHasChanged();
 
         await base.OnInitializedAsync();
@@ -65,8 +67,8 @@
                         <button>
                             جزییات و مطالعه
                         </button>
-                        </a>
-                    
+                    </a>
+
                 </div>
             </div>
         }

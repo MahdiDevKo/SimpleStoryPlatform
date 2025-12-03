@@ -1,6 +1,32 @@
 [
   {
     "ContainingType": "SimpleStoryPlatform.API.Controllers.AdminsController",
+    "Method": "AvailableReleaseRequests",
+    "RelativePath": "Admins/Available-ReleaseRequests",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "req",
+        "Type": "SimpleStoryPlatform.Application.Requests.BaseRequest",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SimpleStoryPlatform.Application.Responses.PageResponse\u00601[[SimpleStoryPlatform.Application.DTOs.ReportDTOs.ServerToUser.StoryReleaseRequestDetailsDto, SimpleStoryPlatform.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SimpleStoryPlatform.API.Controllers.AdminsController",
     "Method": "AvailableReports",
     "RelativePath": "Admins/Available-Reports",
     "HttpMethod": "GET",
@@ -21,6 +47,58 @@
   },
   {
     "ContainingType": "SimpleStoryPlatform.API.Controllers.AdminsController",
+    "Method": "AvailableReviewReports",
+    "RelativePath": "Admins/Available-Review-Reports",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "req",
+        "Type": "SimpleStoryPlatform.Application.Requests.BaseRequest",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SimpleStoryPlatform.Application.Responses.PageResponse\u00601[[SimpleStoryPlatform.Application.DTOs.ReportDTOs.ServerToUser.ReviewReportDto, SimpleStoryPlatform.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SimpleStoryPlatform.API.Controllers.AdminsController",
+    "Method": "AvailableStoryReports",
+    "RelativePath": "Admins/Available-Story-Reports",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "req",
+        "Type": "SimpleStoryPlatform.Application.Requests.BaseRequest",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SimpleStoryPlatform.Application.Responses.PageResponse\u00601[[SimpleStoryPlatform.Application.DTOs.ReportDTOs.ServerToUser.StoryReportDto, SimpleStoryPlatform.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SimpleStoryPlatform.API.Controllers.AdminsController",
     "Method": "CompleteReleaseRequest",
     "RelativePath": "Admins/Complete-Report-ReleaseRequest",
     "HttpMethod": "POST",
@@ -29,7 +107,7 @@
     "Parameters": [
       {
         "Name": "dto",
-        "Type": "SimpleStoryPlatform.Application.DTOs.ReportDTOs.UserToServer.ReportCompleteDto\u00601[[SimpleStoryPlatform.Application.DTOs.ReportDTOs.ServerToUser.StoryReleaseRequestDetailsDto, SimpleStoryPlatform.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "SimpleStoryPlatform.Application.DTOs.ReportDTOs.UserToServer.ReportCompleteDto",
         "IsRequired": true
       }
     ],
@@ -55,7 +133,7 @@
     "Parameters": [
       {
         "Name": "dto",
-        "Type": "SimpleStoryPlatform.Application.DTOs.ReportDTOs.UserToServer.ReportCompleteDto\u00601[[SimpleStoryPlatform.Application.DTOs.ReportDTOs.ServerToUser.ReviewReportDto, SimpleStoryPlatform.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "SimpleStoryPlatform.Application.DTOs.ReportDTOs.UserToServer.ReportCompleteDto",
         "IsRequired": true
       }
     ],
@@ -81,7 +159,7 @@
     "Parameters": [
       {
         "Name": "dto",
-        "Type": "SimpleStoryPlatform.Application.DTOs.ReportDTOs.UserToServer.ReportCompleteDto\u00601[[SimpleStoryPlatform.Application.DTOs.ReportDTOs.ServerToUser.StoryReportDto, SimpleStoryPlatform.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "SimpleStoryPlatform.Application.DTOs.ReportDTOs.UserToServer.ReportCompleteDto",
         "IsRequired": true
       }
     ],

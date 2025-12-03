@@ -1,7 +1,4 @@
 ﻿@page "/reports"
-@using SimpleStoryPlatform.Application.DTOs.ReportDTOs.ServerToUser
-@using SimpleStoryPlatform.Application.DTOs.ReportDTOs.UserToServer
-@using SimpleStoryPlatform.Application.Responses
 
 @rendermode InteractiveServer
 
@@ -20,128 +17,161 @@
     bool ShowRequests = false;
 
     //reports bag :D
-    public List<ReviewReportDto>? ReviewReports { get; set; }
-    public List<StoryReportDto>? StoryReports { get; set; }
-    public List<StoryReleaseRequestDetailsDto>? StoryReleaseRequests { get; set; }
+    StoryReportDtoPageResponse? StoryReports { get; set; }
+
+    ReviewReportDtoPageResponse? ReviewReports { get; set; }
+
+    StoryReleaseRequestDetailsDtoPageResponse? StoryReleaseRequests { get; set; }
+
 
     bool IsReportAccepted = false;
     string? SpecialMessage;
 
     protected override async Task OnInitializedAsync()
     {
-        var response = await httpClient.GetAsync("Admins/Available-Reports");
 
-        //success check
-        if (!response.IsSuccessStatusCode)
-        {
-            msgService.ShowMessage(response.StatusCode.ToString(), "error");
-            return;
-        }
-
-        var apiRes = await response.Content.ReadFromJsonAsync<BaseResponseWithData<AllReportsDto>>();
-
-        //success ckeck2
-        if (!apiRes.Success)
-        {
-            msgService.ShowMessage(apiRes.Message, "error");
-            return;
-        }
-
-        //everything is fine
-        StoryReports = apiRes.data.StoryReports;
-        ReviewReports = apiRes.data.ReviewReports;
-        StoryReleaseRequests = apiRes.data.StoryReleaseRequests;
-
-        StateHasChanged();
     }
 
-    async void CompeleteStoryReport(StoryReportDto storyReport)
+    async Task UpdateStoryReports()
     {
-        ReportCompleteDto sendingDto = new ReportCompleteDto()
+        try
         {
-            ReportGuid = storyReport.PublicId,
-            IsAccepted = IsReportAccepted,
-            SpicialMessage = SpecialMessage
-        };
+            var apiRes = await clientAli.AvailableStoryReportsAsync(new BaseRequest() { PageNumber = 1, PageSize = 10});
 
-        var response = await httpClient.PostAsJsonAsync("Admins/Complete-Report-Story", sendingDto);
+            if (apiRes.Success)
+            {
+                StoryReports = apiRes;
 
-        if (await CheckServerReponse(response))
-        {
-            if (IsReportAccepted)
-                StoryReports.RemoveAll(sr => sr.StoryGuid == storyReport.StoryGuid);
+                StateHasChanged();
+            }
             else
-                StoryReports.Remove(storyReport);
-
-            ClearLocalVariables();
-
+                msgService.ShowMessage(apiRes.Message, "error");
         }
+        catch (Exception e) { msgService.ShowMessage(e.Message, "error"); }
     }
 
-    async void CompeleteCommentReport(ReviewReportDto reviewRepory)
+    async Task UpdateReviewReports()
+    {
+        try
+        {
+            var apiRes = await clientAli.AvailableReviewReportsAsync(new BaseRequest() { PageNumber = 1, PageSize = 10 });
+
+            if (apiRes.Success)
+            {
+                ReviewReports = apiRes;
+
+                StateHasChanged();
+            }
+            else
+                msgService.ShowMessage(apiRes.Message, "error");
+        }
+        catch (Exception e) { msgService.ShowMessage(e.Message, "error"); }
+    }
+
+    async Task UpdateReleaseRequests()
+    {
+        try
+        {
+            var apiRes = await clientAli.AvailableReleaseRequestsAsync(new BaseRequest() { PageNumber = 1, PageSize = 10 });
+
+            if (apiRes.Success)
+            {
+                StoryReleaseRequests = apiRes;
+
+                StateHasChanged();
+            }
+            else
+                msgService.ShowMessage(apiRes.Message, "error");
+        }
+        catch (Exception e) { msgService.ShowMessage(e.Message, "error"); }
+    }
+
+    async void CompeleteStoryReport(Guid storyReportGuid)
     {
         ReportCompleteDto sendingDto = new ReportCompleteDto()
         {
-            ReportGuid = reviewRepory.PublicId,
+            ReportGuid = storyReportGuid,
+            IsAccepted = IsReportAccepted,
+            SpicialMessage = SpecialMessage
+        };
+
+        try
+        {
+            var apiRes = await clientAli.CompleteReportStoryAsync(sendingDto);
+
+            if (apiRes.Success)
+            {
+                msgService.ShowMessage(apiRes.Message, "success");
+
+                await UpdateStoryReports();
+
+                ClearLocalVariables();
+
+                StateHasChanged();
+            }
+            else
+                msgService.ShowMessage(apiRes.Message, "error");
+        }
+        catch (Exception e) { msgService.ShowMessage(e.Message, "error"); }
+    }
+
+    async void CompeleteCommentReport(Guid reviewReporyGuid)
+    {
+        ReportCompleteDto sendingDto = new ReportCompleteDto()
+        {
+            ReportGuid = reviewReporyGuid,
 
             IsAccepted = IsReportAccepted,
             SpicialMessage = SpecialMessage
         };
 
-        var response = await httpClient.PostAsJsonAsync("Admins/Complete-Report-Review", sendingDto);
-
-        if (await CheckServerReponse(response))
+        try
         {
-            ReviewReports.Remove(reviewRepory);
-            ClearLocalVariables();
+            var apiRes = await clientAli.CompleteReportReviewAsync(sendingDto);
+
+            if (apiRes.Success)
+            {
+                msgService.ShowMessage(apiRes.Message, "success");
+
+                await UpdateStoryReports();
+
+                ClearLocalVariables();
+
+                StateHasChanged();
+            }
+            else
+                msgService.ShowMessage(apiRes.Message, "error");
         }
+        catch (Exception e) { msgService.ShowMessage(e.Message, "error"); }
     }
 
-    async void CompeleteReleaseRequest(StoryReleaseRequestDetailsDto releaseReqDto)
+    async void CompeleteReleaseRequest(Guid releaseReqGuid)
     {
         ReportCompleteDto sendingDto = new ReportCompleteDto()
         {
-            ReportGuid = releaseReqDto.PublicId,
-
+            ReportGuid = releaseReqGuid,
             IsAccepted = IsReportAccepted,
             SpicialMessage = SpecialMessage
         };
 
-        var response = await httpClient.PostAsJsonAsync("Admins/Complete-Report-ReleaseRequest", sendingDto);
-
-        if (await CheckServerReponse(response))
+        try
         {
-            StoryReleaseRequests.Remove(releaseReqDto);
-            ClearLocalVariables();
+            var apiRes = await clientAli.CompleteReportReleaseRequestAsync(sendingDto);
+
+            if (apiRes.Success)
+            {
+                msgService.ShowMessage(apiRes.Message, "success");
+
+                await UpdateStoryReports();
+
+                ClearLocalVariables();
+
+                StateHasChanged();
+            }
+            else
+                msgService.ShowMessage(apiRes.Message, "error");
         }
-    }
-
-    async Task<bool> CheckServerReponse(HttpResponseMessage? res)
-    {
-        if (res == null)
-        {
-            msgService.ShowMessage("مشکلی پیش آمده", "error");
-            return false;
-        }
-
-        //success check
-        if (!res.IsSuccessStatusCode)
-        {
-            msgService.ShowMessage("Server statuse code: " + res.StatusCode.ToString(), "error");
-            return false;
-        }
-
-        var apiRes = await res.Content.ReadFromJsonAsync<BaseResponse>();
-
-        //success ckeck2
-        if (!apiRes.Success)
-        {
-            msgService.ShowMessage(apiRes.Message, "error");
-            return false;
-        }
-
-        msgService.ShowMessage(apiRes.Message, "success");
-        return true;
+        catch (Exception e) { msgService.ShowMessage(e.Message, "error"); }
     }
 
     void ClearLocalVariables()
@@ -150,24 +180,60 @@
         IsReportAccepted = false;
         StateHasChanged();
     }
+
+    async Task StoryReportsListStates()
+    {
+        ShowStories = !ShowStories;
+
+        if(StoryReports == null && ShowStories)
+            await UpdateStoryReports();
+
+        StateHasChanged();
+    }
+
+    async Task ReivewReportsListStates()
+    {
+        ShowComments = !ShowComments;
+
+        if (ReviewReports == null && ShowComments)
+            await UpdateReviewReports();
+
+        StateHasChanged();
+    }
+
+    async Task ReleaseRequestsListStates()
+    {
+        ShowRequests = !ShowRequests;
+
+        if (StoryReleaseRequests == null && ShowRequests)
+            await UpdateReleaseRequests();
+
+        StateHasChanged();
+    }
+
 }
 
 <div class="reports-container">
 
     <!-- داستان ها -->
-    <button class="accordion-button" @onclick="() => ShowStories = !ShowStories">
+    <button class="accordion-button" @onclick="StoryReportsListStates">
         <span>گزارشات داستان‌ها</span>
-        <span class="report-count">@StoryReports?.Count()</span>
+        <span class="report-count">@StoryReports?.TotalItems</span>
     </button>
 
     <div class="accordion-content" style="display:@(ShowStories ? "block" : "none")">
-        @if (StoryReports == null || !StoryReports.Any())
+        @if (StoryReports == null)
         {
-            <p style="color:red">هیچ گذارشی برای داستان‌ها وجود ندارد.</p>
+            <p style="color:yellow">بارگذاری نشده...</p>
         }
+        else if (StoryReports.TotalItems == 0)
+        {
+            <p style="color:green">هیچ گذارشی برای داستان‌ها وجود ندارد.</p>
+        }
+         
         else
         {
-            @foreach (var storyReport in StoryReports)
+            @foreach (var storyReport in StoryReports.Items)
             {
                 <div class="report-box">
 
@@ -216,7 +282,7 @@
                         <textarea @bind="SpecialMessage" placeholder="پیام شما به متخلف (اختیاری)" class="special-message"></textarea>
                     }
 
-                    <button @onclick="() => CompeleteStoryReport(storyReport)">تکمیل</button>
+                    <button @onclick="() => CompeleteStoryReport(storyReport.PublicId)">تکمیل</button>
                 </div>
             }
         }
@@ -225,19 +291,23 @@
 
 
     <!-- کامنت‌ها -->
-    <button class="accordion-button" @onclick="() => ShowComments = !ShowComments">
+    <button class="accordion-button" @onclick="ReivewReportsListStates">
         <span>گزارشات کامنت‌ها</span>
-        <span class="report-count">@ReviewReports?.Count()</span>
+        <span class="report-count">@ReviewReports?.TotalItems</span>
     </button>
 
     <div class="accordion-content" style="display:@(ShowComments ? "block" : "none")">
-        @if (ReviewReports == null || !ReviewReports.Any())
+        @if (ReviewReports == null)
         {
-            <p style="color:red">هیچ گزارشی برای کامنت‌ها وجود ندارد.</p>
+            <p style="color:yellow">بارگذاری نشده...</p>
+        }
+        else if (ReviewReports.TotalItems == 0)
+        {
+            <p style="color:green">هیچ گذارشی برای کامنت ها وجود ندارد.</p>
         }
         else
         {
-            @foreach (var commentReport in ReviewReports)
+            @foreach (var commentReport in ReviewReports.Items)
             {
                 <div class="report-box">
 
@@ -288,7 +358,7 @@
                         <textarea @bind="SpecialMessage" placeholder="پیام شما به متخلف (اختیاری)" class="special-message"></textarea>
                     }
 
-                    <button @onclick="() => CompeleteCommentReport(commentReport)">تکمیل</button>
+                    <button @onclick="() => CompeleteCommentReport(commentReport.PublicId)">تکمیل</button>
                 </div>
             }
         }
@@ -296,19 +366,23 @@
 
 
     <!-- درخواست‌ها -->
-    <button class="accordion-button" @onclick="() => ShowRequests = !ShowRequests">
+    <button class="accordion-button" @onclick="ReleaseRequestsListStates">
         <span>درخواست‌های بازبینی</span>
-        <span class="report-count">@StoryReleaseRequests?.Count()</span>
+        <span class="report-count">@StoryReleaseRequests?.TotalItems</span>
     </button>
 
     <div class="accordion-content" style="display:@(ShowRequests ? "block" : "none")">
-        @if (StoryReleaseRequests == null || !StoryReleaseRequests.Any())
+        @if (StoryReleaseRequests == null)
         {
-            <p style="color:red">هیچ درخواست بازبینی‌ای وجود ندارد.</p>
+            <p style="color:yellow">بارگذاری نشده...</p>
+        }
+        else if (StoryReleaseRequests.TotalItems == 0)
+        {
+            <p style="color:green">هیچ درخواستی برای آزادی داستان‌ها وجود ندارد.</p>
         }
         else
         {
-            @foreach (var req in StoryReleaseRequests)
+            @foreach (var req in StoryReleaseRequests.Items)
             {
                 <div class="report-box">
 
@@ -358,7 +432,7 @@
                         <textarea @bind="SpecialMessage" placeholder="پیام شما به متخلف (اختیاری)" class="special-message"></textarea>
                     }
 
-                    <button @onclick="() => CompeleteReleaseRequest(req)">تکمیل</button>
+                    <button @onclick="() => CompeleteReleaseRequest(req.PublicId)">تکمیل</button>
                 </div>
             }
         }

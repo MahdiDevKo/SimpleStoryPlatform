@@ -1,7 +1,16 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{46FDF70A-8364-4CA1-B4FF-9800E969DE54}|SimpleStoryPlatform.Web\\SimpleStoryPlatform.Web.csproj|c:\\users\\hp\\source\\repos\\simplestoryplatform\\simplestoryplatform.web\\components\\pages\\admins\\reports.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{46FDF70A-8364-4CA1-B4FF-9800E969DE54}|SimpleStoryPlatform.Web\\SimpleStoryPlatform.Web.csproj|solutionrelative:simplestoryplatform.web\\components\\pages\\admins\\reports.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D05F58C1-46FF-51EE-5389-F3178B939E8B}|SimpleStoryPlatform.API\\SimpleStoryPlatform.API.csproj|c:\\users\\hp\\source\\repos\\simplestoryplatform\\simplestoryplatform.api\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{D05F58C1-46FF-51EE-5389-F3178B939E8B}|SimpleStoryPlatform.API\\SimpleStoryPlatform.API.csproj|solutionrelative:simplestoryplatform.api\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,7 +18,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Bookmark",
@@ -18,6 +27,32 @@
             {
               "$type": "Bookmark",
               "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Reports.razor",
+              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\SimpleStoryPlatform.Web\\Components\\Pages\\Admins\\Reports.razor",
+              "RelativeDocumentMoniker": "SimpleStoryPlatform.Web\\Components\\Pages\\Admins\\Reports.razor",
+              "ToolTip": "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\SimpleStoryPlatform.Web\\Components\\Pages\\Admins\\Reports.razor",
+              "RelativeToolTip": "SimpleStoryPlatform.Web\\Components\\Pages\\Admins\\Reports.razor",
+              "ViewState": "AgIAAGgBAAAAAAAAAAAtwIABAAA7AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-12-02T23:01:31.875Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "launchSettings.json",
+              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\SimpleStoryPlatform.API\\Properties\\launchSettings.json",
+              "RelativeDocumentMoniker": "SimpleStoryPlatform.API\\Properties\\launchSettings.json",
+              "ToolTip": "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\SimpleStoryPlatform.API\\Properties\\launchSettings.json",
+              "RelativeToolTip": "SimpleStoryPlatform.API\\Properties\\launchSettings.json",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAABgAAAAbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-12-02T22:59:02.923Z",
+              "EditorCaption": ""
             }
           ]
         }

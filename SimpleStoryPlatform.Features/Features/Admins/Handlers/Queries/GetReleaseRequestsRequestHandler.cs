@@ -39,6 +39,8 @@ namespace SimpleStoryPlatform.Application.Features.Admins.Handlers.Queries
 
             response = _mapper.Map<PageResponse<StoryReleaseRequestDetailsDto>>(repoRes);
 
+            response.Items = _mapper.Map<List<StoryReleaseRequestDetailsDto>>(repoRes.Items);
+
             response.Success = true;
 
             return response;

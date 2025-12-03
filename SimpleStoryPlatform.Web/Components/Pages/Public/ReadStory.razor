@@ -1,10 +1,5 @@
 ﻿<h3>ReadStory</h3>
 @page "/ReadStory/{storyGuid:guid}"
-@using SimpleStoryPlatform.Application.DTOs.StoryDTOs.ServerToUser
-@using SimpleStoryPlatform.Application.DTOs.StoryDTOs.UserToServer
-@using SimpleStoryPlatform.Application.DTOs.UserDTOs.UserToServer
-@using SimpleStoryPlatform.Application.Responses
-
 @rendermode InteractiveServer
 
 @code {
@@ -19,22 +14,30 @@
     {
         if (storyGuid == null) { msgService.ShowMessage("ورودی نامعتبر است.", "error"); StateHasChanged(); return; }
 
-        var response = await httpClient.PostAsJsonAsync("Public/Read-Story", (Guid)storyGuid);
-
-        if (!response.IsSuccessStatusCode) { msgService.ShowMessage(response.StatusCode.ToString(), "error"); StateHasChanged(); return; }
-
-        var apiRes = await response.Content.ReadFromJsonAsync<BaseResponseWithData<StoryDetailsDto?>>();
-
-        if (!apiRes.Success) { msgService.ShowMessage(apiRes.Message, "error"); StateHasChanged(); return; }
-
-        story = apiRes.data;
-
-        OpenPage(0);
-
-        StateHasChanged();
+        await RefreshInformation();
 
         await base.OnInitializedAsync();
     }
+
+    async Task RefreshInformation(int pageIndex = 0)
+    {
+        try
+        {
+            var apiRes = await clientAli.ReadStoryAsync(storyGuid);
+
+            story = apiRes.Data;
+
+            OpenPage(pageIndex);
+
+            StateHasChanged();
+
+        }
+        catch (Exception e)
+        {
+            msgService.ShowMessage(e.Message, "error");
+        }
+    }
+
     bool next = true, past = false;
     int CurrentIndex;
     void OpenPage(int index)
@@ -42,7 +45,7 @@
         if (index > -1 && index < story.Data.Count)
         {
             CurrentIndex = index;
-            currentSection = story.Data[index];
+            currentSection = story.Data.ToList()[index];
             next = index < story.Data.Count - 1;
             past = index > 0;
             StateHasChanged();
@@ -58,34 +61,24 @@
 
     async Task SubmitComment()
     {
+        //condition check
         if (commentDto.Data.Length > 0 && commentDto.Score > 0 && commentDto.Score <= 5)
         {
             commentDto.StoryGuid = (Guid)storyGuid;
-
-            var response = await httpClient.PostAsJsonAsync("Users/Add-Review", commentDto);
-
-            if (!response.IsSuccessStatusCode)
+            try
             {
-                msgService.ShowMessage(response.StatusCode.ToString(), "error");
-                return;
-            }
-            else
-            {
-                msgService.ShowMessage("نظر ثبت شد.", "success");
+                var apiRes = await clientAli.AddReviewAsync(commentDto);
 
-                story.Reviews.Add(new StoryReviewDto()
+                if (apiRes.Success)
                 {
-                    CreatedAt = DateTime.UtcNow,
-                    Data = commentDto.Data,
-                    Score = commentDto.Score,
-                    User = new Application.DTOs.UserDTOs.ServerToUser.UserPreviewDto()
-                    {
-                        FirstName = "شما"
-                    }
-                });
-
-                StateHasChanged();
+                    await RefreshInformation();
+                    msgService.ShowMessage(apiRes.Message, "success");
+                }
+                else
+                    msgService.ShowMessage(apiRes.Message, "error");
             }
+            catch (Exception e) { msgService.ShowMessage(e.Message, "error"); }
+
         }
         else
         {
@@ -101,12 +94,18 @@
             Text = commentReportText
         };
 
-        var success = await SendReport(dto, "Users/Report-Review");
-        if (success)
+        try
         {
-            commentReportText = "";
-            StateHasChanged();
+
+            var apiRes = await clientAli.ReportReviewAsync(dto);
+            if (apiRes.Success)
+            {
+                commentReportText = "";
+                msgService.ShowMessage(apiRes.Message, "success");
+                StateHasChanged();
+            }
         }
+        catch (Exception e) { msgService.ShowMessage(e.Message, "error"); }
     }
 
     async void ReportStory(Guid storyGuid)
@@ -117,29 +116,19 @@
             Text = storyReportText
         };
 
-        var success = await SendReport(dto, "Users/Report-Story");
-        if (success)
+        try
         {
-            storyReportText = "";
-            StateHasChanged();
+
+            var apiRes = await clientAli.ReportStoryAsync(dto);
+            if (apiRes.Success)
+            {
+                commentReportText = "";
+                msgService.ShowMessage(apiRes.Message, "success");
+                StateHasChanged();
+            }
         }
+        catch (Exception e) { msgService.ShowMessage(e.Message, "error"); }
     }
-
-    async Task<bool> SendReport(UserReportDto reportDto, string apiUrl)
-    {
-        var response = await httpClient.PostAsJsonAsync(apiUrl, reportDto);
-
-        if (!response.IsSuccessStatusCode) { msgService.ShowMessage(response.StatusCode.ToString(), "error"); StateHasChanged(); return false; }
-
-        var apiRes = await response.Content.ReadFromJsonAsync<BaseResponseWithData<StoryDetailsDto?>>();
-
-        if (!apiRes.Success) { msgService.ShowMessage(apiRes.Message, "error"); StateHasChanged(); return false; }
-
-        msgService.ShowMessage(apiRes.Message, "success");
-        return true;
-    }
-
-
     //chatGPT Section
     bool showStoryReport = false;
 
@@ -153,15 +142,6 @@
         else
             showCommentReport.Add(commentId);
     }
-    //failed prompt:
-    /*
-     * خیلی خب، آخرین تغییراتم انجام بدیم و بعد من میدم...
-اول از همه، درحال حاضر دکمه ی ریپورت داستان، زیر نام اون هست! نه در کنار اون.. اول اون باید درست شه
-دوم، اینکه من میخوام یه سمت تصویر، عکس اون قسمت از داستان یا همون StorySection باشه و در سمت دیگه، مقدار narration اون قسمت باشه، نه زیرش!
-و یچیز دیگه، مقدار narration باید مقداری مستقل باشه تا با کم و زیاد شدنش، تصویر جابجا نشه. و توی باکس خودش scroll بشه
-و مورد آخر، اینکه آیکونی ای که برای ریپورت کامنت هست هم مشکل آیکون قبلی رو داره. ازت میخوام که اگر میشه، فقط و فقط کدهای css رو تغییر بدی، ولی اگر واقا نیاز بود که html رو هم تغییر بدی، اشکالی نداره
-کل کدهای این صفحه:
-     */
 }
 
 
@@ -204,7 +184,7 @@
 
         <!-- سمت چپ: تصویر -->
         <div class="story-image">
-            <img src="@((!string.IsNullOrEmpty(currentSection.BGImageUrl)) ? $"/images/storySections/{currentSection.BGImageUrl}" : "/images/storySectionsDef.jpg")" alt="Background image" />
+            <img src="@((!string.IsNullOrEmpty(currentSection.BgImageUrl)) ? $"/images/storySections/{currentSection.BgImageUrl}" : "/images/storySectionsDef.jpg")" alt="Background image" />
         </div>
 
         <!-- سمت راست: متن و دکمه‌ها -->

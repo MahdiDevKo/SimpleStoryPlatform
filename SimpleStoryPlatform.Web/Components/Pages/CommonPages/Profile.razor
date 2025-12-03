@@ -1,10 +1,6 @@
 ﻿@page "/profile"
-@using SimpleStoryPlatform.Application.DTOs.UserDTOs.ServerToUser
-@using SimpleStoryPlatform.Application.Responses
 
 @rendermode InteractiveServer
-
-
 
 <h3>Profile</h3>
 <p style="color:red">@errorText</p>
@@ -16,17 +12,20 @@
         await base.OnAfterRenderAsync(firstRender);
         if (firstRender)
         {
-            var response = await httpClient.GetAsync("Users/Profile");
 
-            if (!response.IsSuccessStatusCode) { errorText = response.StatusCode.ToString(); StateHasChanged(); return; }
-            // if (!response.IsSuccessStatusCode) { errorText = httpClient.BaseAddress.ToString(); StateHasChanged(); return; }
-
-            var result = await response.Content.ReadFromJsonAsync<BaseResponseWithData<UserDetailsDto>>();
-            if (result.Success)
+            try
             {
-                user = result.data;
-                StateHasChanged();
+                var apiRes = await clientAli.ProfileAsync();
+
+                if (apiRes.Success)
+                {
+                    user = apiRes.Data;
+                    StateHasChanged();
+                }
+                else
+                    msgService.ShowMessage(apiRes.Message, "error");
             }
+            catch (Exception e) { msgService.ShowMessage(e.Message, "error"); }
         }
     }
 

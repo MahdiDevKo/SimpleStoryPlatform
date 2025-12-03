@@ -5,6 +5,7 @@ using SimpleStoryPlatform.Web;
 using SimpleStoryPlatform.Web.Components;
 using SimpleStoryPlatform.Web.MiddleWares;
 using SimpleStoryPlatform.Web.Services;
+using SimpleStoryPlatform.Web.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,7 +41,13 @@ builder.Services.AddScoped(sp =>
     var factory = sp.GetRequiredService<IHttpClientFactory>();
     return factory.CreateClient("ApiClient");
 });
+//builder.Services.AddScoped<IClient, Client>();
 
+builder.Services.AddScoped<IClient>(sp =>
+{
+    var httpClient = sp.GetRequiredService<HttpClient>();
+    return new Client(sp.GetRequiredService<IConfiguration>()["ApiBaseUrl"], httpClient);
+});
 
 var app = builder.Build();
 

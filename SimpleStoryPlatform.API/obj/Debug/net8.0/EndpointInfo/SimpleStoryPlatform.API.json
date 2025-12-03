@@ -34,6 +34,150 @@
         }
       }
     },
+    "/Admins/Available-Story-Reports": {
+      "post": {
+        "tags": [
+          "Admins"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BaseRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BaseRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/BaseRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/StoryReportDtoPageResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StoryReportDtoPageResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StoryReportDtoPageResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Admins/Available-Review-Reports": {
+      "post": {
+        "tags": [
+          "Admins"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BaseRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BaseRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/BaseRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReviewReportDtoPageResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReviewReportDtoPageResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReviewReportDtoPageResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Admins/Available-ReleaseRequests": {
+      "post": {
+        "tags": [
+          "Admins"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BaseRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BaseRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/BaseRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/StoryReleaseRequestDetailsDtoPageResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StoryReleaseRequestDetailsDtoPageResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StoryReleaseRequestDetailsDtoPageResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/Admins/Complete-Report-Story": {
       "post": {
         "tags": [
@@ -43,17 +187,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/StoryReportDtoReportCompleteDto"
+                "$ref": "#/components/schemas/ReportCompleteDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/StoryReportDtoReportCompleteDto"
+                "$ref": "#/components/schemas/ReportCompleteDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/StoryReportDtoReportCompleteDto"
+                "$ref": "#/components/schemas/ReportCompleteDto"
               }
             }
           }
@@ -91,17 +235,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ReviewReportDtoReportCompleteDto"
+                "$ref": "#/components/schemas/ReportCompleteDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/ReviewReportDtoReportCompleteDto"
+                "$ref": "#/components/schemas/ReportCompleteDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/ReviewReportDtoReportCompleteDto"
+                "$ref": "#/components/schemas/ReportCompleteDto"
               }
             }
           }
@@ -139,17 +283,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/StoryReleaseRequestDetailsDtoReportCompleteDto"
+                "$ref": "#/components/schemas/ReportCompleteDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/StoryReleaseRequestDetailsDtoReportCompleteDto"
+                "$ref": "#/components/schemas/ReportCompleteDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/StoryReleaseRequestDetailsDtoReportCompleteDto"
+                "$ref": "#/components/schemas/ReportCompleteDto"
               }
             }
           }
@@ -903,6 +1047,20 @@
         },
         "additionalProperties": false
       },
+      "BaseRequest": {
+        "type": "object",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
       "BaseResponse": {
         "type": "object",
         "properties": {
@@ -977,6 +1135,23 @@
         },
         "additionalProperties": false
       },
+      "ReportCompleteDto": {
+        "type": "object",
+        "properties": {
+          "reportGuid": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "isAccepted": {
+            "type": "boolean"
+          },
+          "spicialMessage": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "ReviewReportDto": {
         "type": "object",
         "properties": {
@@ -1008,30 +1183,45 @@
         },
         "additionalProperties": false
       },
-      "ReviewReportDtoReportCompleteDto": {
+      "ReviewReportDtoPageResponse": {
         "type": "object",
         "properties": {
-          "report": {
-            "$ref": "#/components/schemas/ReviewReportDto"
-          },
-          "reporterGuid": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "targetUserGuid": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "reportGuid": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "isAccepted": {
+          "success": {
             "type": "boolean"
           },
-          "spicialMessage": {
+          "message": {
             "type": "string",
             "nullable": true
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ReviewReportDto"
+            },
+            "nullable": true
+          },
+          "currentPage": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalItems": {
+            "type": "integer",
+            "format": "int32"
           }
         },
         "additionalProperties": false
@@ -1295,30 +1485,45 @@
         },
         "additionalProperties": false
       },
-      "StoryReleaseRequestDetailsDtoReportCompleteDto": {
+      "StoryReleaseRequestDetailsDtoPageResponse": {
         "type": "object",
         "properties": {
-          "report": {
-            "$ref": "#/components/schemas/StoryReleaseRequestDetailsDto"
-          },
-          "reporterGuid": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "targetUserGuid": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "reportGuid": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "isAccepted": {
+          "success": {
             "type": "boolean"
           },
-          "spicialMessage": {
+          "message": {
             "type": "string",
             "nullable": true
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/StoryReleaseRequestDetailsDto"
+            },
+            "nullable": true
+          },
+          "currentPage": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalItems": {
+            "type": "integer",
+            "format": "int32"
           }
         },
         "additionalProperties": false
@@ -1355,30 +1560,45 @@
         },
         "additionalProperties": false
       },
-      "StoryReportDtoReportCompleteDto": {
+      "StoryReportDtoPageResponse": {
         "type": "object",
         "properties": {
-          "report": {
-            "$ref": "#/components/schemas/StoryReportDto"
-          },
-          "reporterGuid": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "targetUserGuid": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "reportGuid": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "isAccepted": {
+          "success": {
             "type": "boolean"
           },
-          "spicialMessage": {
+          "message": {
             "type": "string",
             "nullable": true
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/StoryReportDto"
+            },
+            "nullable": true
+          },
+          "currentPage": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalItems": {
+            "type": "integer",
+            "format": "int32"
           }
         },
         "additionalProperties": false
