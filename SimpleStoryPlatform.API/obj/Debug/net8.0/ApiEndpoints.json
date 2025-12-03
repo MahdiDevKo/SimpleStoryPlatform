@@ -531,13 +531,13 @@
     "Parameters": [
       {
         "Name": "storyDto",
-        "Type": "SimpleStoryPlatform.Application.DTOs.StoryDTOs.ServerToUser.StoryDetailsDto",
+        "Type": "SimpleStoryPlatform.Application.DTOs.StoryDTOs.UserToServer.StoryUpdateDto",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "SimpleStoryPlatform.Application.Responses.BaseResponseWithData\u00601[[SimpleStoryPlatform.Application.DTOs.StoryDTOs.ServerToUser.StoryDetailsDto, SimpleStoryPlatform.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "SimpleStoryPlatform.Application.Responses.BaseResponse",
         "MediaTypes": [
           "text/plain",
           "application/json",

@@ -25,9 +25,14 @@
         {
             var apiRes = await clientAli.ReadStoryAsync(storyGuid);
 
-            story = apiRes.Data;
+            if (apiRes.Success)
+            {
+                story = apiRes.Data;
 
-            OpenPage(pageIndex);
+                OpenPage(pageIndex);
+            }
+            else
+                msgService.ShowMessage(apiRes.Message, "error");
 
             StateHasChanged();
 
@@ -71,7 +76,7 @@
 
                 if (apiRes.Success)
                 {
-                    await RefreshInformation();
+                    await RefreshInformation(CurrentIndex);
                     msgService.ShowMessage(apiRes.Message, "success");
                 }
                 else
@@ -124,8 +129,11 @@
             {
                 commentReportText = "";
                 msgService.ShowMessage(apiRes.Message, "success");
-                StateHasChanged();
             }
+            else
+                msgService.ShowMessage(apiRes.Message, "error");
+
+            StateHasChanged();
         }
         catch (Exception e) { msgService.ShowMessage(e.Message, "error"); }
     }
@@ -216,7 +224,7 @@
 
             @if (story.Reviews != null)
             {
-                @foreach (var comment in story.Reviews)
+                @foreach (var comment in story.Reviews.ToList())
                 {
                     <div class="comment">
                         <div class="comment-header">

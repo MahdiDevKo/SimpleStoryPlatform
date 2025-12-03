@@ -58,7 +58,7 @@ namespace SimpleStoryPlatform.API.Controllers
         }
 
         [HttpPost("Update-Story")]
-        public async Task<BaseResponseWithData<StoryDetailsDto>> UpdateStory([FromBody] StoryDetailsDto storyDto)
+        public async Task<BaseResponse> UpdateStory([FromBody] StoryUpdateDto storyDto)
         {
             var request = new StoryUpdateCommand() 
             {

@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using SimpleStoryPlatform.Application.DTOs.StoryDTOs.ServerToUser;
+using SimpleStoryPlatform.Application.DTOs.StoryDTOs.UserToServer;
 using SimpleStoryPlatform.Application.Responses;
 using System;
 using System.Collections.Generic;
@@ -9,10 +10,10 @@ using System.Threading.Tasks;
 
 namespace SimpleStoryPlatform.Application.Features.Writers.Requests.Commands
 {
-    public class StoryUpdateCommand : IRequest<BaseResponseWithData<StoryDetailsDto>>
+    public class StoryUpdateCommand : IRequest<BaseResponse>
     {
         public Guid userGuid { get; set; }
         public bool Publish { get; set; }
-        public StoryDetailsDto storyDto { get; set; }
+        public StoryUpdateDto storyDto { get; set; }
     }
 }

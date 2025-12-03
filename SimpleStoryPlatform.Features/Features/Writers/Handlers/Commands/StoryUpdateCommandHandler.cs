@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
 using SimpleStoryPlatform.Application.DTOs.StoryDTOs.ServerToUser;
+using SimpleStoryPlatform.Application.DTOs.StoryDTOs.UserToServer;
 using SimpleStoryPlatform.Application.Features.Writers.Requests.Commands;
 using SimpleStoryPlatform.Application.Responses;
 using SimpleStoryPlatform.Application.Services;
@@ -14,7 +15,7 @@ using System.Xml;
 
 namespace SimpleStoryPlatform.Application.Features.Writers.Handlers.Commands
 {
-    public class StoryUpdateCommandHandler : IRequestHandler<StoryUpdateCommand, BaseResponseWithData<StoryDetailsDto>>
+    public class StoryUpdateCommandHandler : IRequestHandler<StoryUpdateCommand, BaseResponse>
     {
         IStoryRepository _storyRepo;
         IMapper _mapper;
@@ -23,9 +24,9 @@ namespace SimpleStoryPlatform.Application.Features.Writers.Handlers.Commands
             _mapper = mapper;
             _storyRepo = storyRepository;
         }
-        public async Task<BaseResponseWithData<StoryDetailsDto>> Handle(StoryUpdateCommand request, CancellationToken cancellationToken)
+        public async Task<BaseResponse> Handle(StoryUpdateCommand request, CancellationToken cancellationToken)
         {
-            var response = new BaseResponseWithData<StoryDetailsDto>() { data = request.storyDto };
+            var response = new BaseResponse();
 
             var story = await _storyRepo.GetStoryDetails(request.storyDto.PublicId);
 
@@ -47,7 +48,6 @@ namespace SimpleStoryPlatform.Application.Features.Writers.Handlers.Commands
 
                 story = await _storyRepo.UpdateEntityAsync(story);
 
-                response.data = _mapper.Map<StoryDetailsDto>(story);
                 response.Success = true;
                 response.Message = "داستان شما با موفقیت بروزرسانی شد!";
             }

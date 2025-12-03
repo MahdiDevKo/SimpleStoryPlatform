@@ -6,21 +6,28 @@
 @code {
     List<StoryPreviewDto>? lastStories;
 
-    int totalPages;
-    int pageSize;
-    int currentPage;
+    public StorySearchOptionsDtoSearchRequest optionsDto = new StorySearchOptionsDtoSearchRequest();
+
+    int helperVariable;
+    StoryPreviewDtoPageResponse? storyPageReponse;
 
     protected override async Task OnInitializedAsync()
     {
-        var apires = await clientAli.LastStoriesAsync();
-
-        if (apires != null)
+        //getting last sotries
+        try
         {
-            lastStories = apires.Items.ToList();
+            var apires = await clientAli.LastStoriesAsync();
 
-            totalPages = apires.TotalPages;
-            pageSize = apires.PageSize;
-            currentPage = apires.CurrentPage;
+            if (apires.Success)
+            {
+                lastStories = apires.Items.ToList();
+            }
+            else
+                msgService.ShowMessage(apires.Message, "error");
+        }
+        catch (Exception e)
+        {
+            msgService.ShowMessage(e.Message, "error");
         }
 
         StateHasChanged();
@@ -28,9 +35,26 @@
         await base.OnInitializedAsync();
     }
 
-    void ShowTestMsg()
+    async Task LoadPage(int page = 1)
     {
-        msgService.ShowMessage("this is test message");
+        try
+        {
+            optionsDto.PageNumber = page;
+
+            var apires = await clientAli.SearchResultAsync(optionsDto);
+
+            if (apires.Success)
+            {
+                storyPageReponse = apires;
+                lastStories = null;
+            }
+            else
+                msgService.ShowMessage(apires.Message, "error");
+        }
+        catch (Exception e)
+        {
+            msgService.ShowMessage(e.Message, "error");
+        }
     }
 }
 
@@ -73,6 +97,55 @@
             </div>
         }
     </div>
+
+}
+else if(storyPageReponse.Items != null)
+{
+    <div class="stories-container">
+        <div>
+            <p>آخرین داستان های منتشر شده:</p>
+
+        </div>
+
+        @foreach (var story in storyPageReponse.Items)
+        {
+            <div class="story-card">
+                <div class="story-image">
+                    <img src="/images/default-story.jpg" alt="Story image" />
+                </div>
+
+                <div class="story-content">
+                    <div class="story-info">
+                        <h4>@story.Name</h4>
+                        <p>@story.Preview</p>
+                    </div>
+
+                    <div class="story-writer">
+                        <div class="writer-name">
+                            <span>@story.Writer.FirstName @story.Writer.LastName</span>
+                        </div>
+                        <div class="writer-username">
+                            <p>@story.Writer.Username</p>
+                        </div>
+                    </div>
+                    <a href="ReadStory/@story.PublicId">
+                        <button>
+                            جزییات و مطالعه
+                        </button>
+                    </a>
+
+                </div>
+            </div>
+        }
+    </div>
+
+    <span>
+        @for (int i = 0; i < storyPageReponse.TotalPages; i++)
+        {
+            helperVariable = i + 1;
+            <button @onclick="() => LoadPage(helperVariable)">@(i + 1)</button>
+        }
+    </span>
 }
 else
 {

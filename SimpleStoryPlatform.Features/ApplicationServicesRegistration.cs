@@ -30,6 +30,7 @@ namespace SimpleStoryPlatform.Application
             services.AddValidatorsFromAssemblyContaining<UserPassValidatorRule>();
             services.AddValidatorsFromAssemblyContaining<StoryCreateDtoValidator>();
             services.AddValidatorsFromAssemblyContaining<StoryReviewCreateDtoValidator>();
+            services.AddValidatorsFromAssemblyContaining<StoryUpdateDtoValidator>();
 
             services.AddValidatorsFromAssemblyContaining<StorySearchRequestValidator>();
             services.AddValidatorsFromAssemblyContaining<UserSearchRequestValidator>();

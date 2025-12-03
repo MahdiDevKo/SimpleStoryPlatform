@@ -5,6 +5,7 @@
 <h3>Reports</h3>
 
 @code {
+    int helperVariable;
     /*
      * need to be refactored
      * need to be refactored
@@ -27,20 +28,22 @@
     bool IsReportAccepted = false;
     string? SpecialMessage;
 
-    protected override async Task OnInitializedAsync()
-    {
+    // protected override async Task OnInitializedAsync()
+    // {
 
-    }
+    // }
 
-    async Task UpdateStoryReports()
+    async Task UpdateStoryReports(int page = 1)
     {
         try
         {
-            var apiRes = await clientAli.AvailableStoryReportsAsync(new BaseRequest() { PageNumber = 1, PageSize = 10});
+            var apiRes = await clientAli.AvailableStoryReportsAsync(new BaseRequest() { PageNumber = page, PageSize = 10 });
 
             if (apiRes.Success)
             {
                 StoryReports = apiRes;
+
+                msgService.ShowMessage($"reportes added. count: {apiRes.Items.Count} AND PAGE INDEX: {page}");
 
                 StateHasChanged();
             }
@@ -50,11 +53,11 @@
         catch (Exception e) { msgService.ShowMessage(e.Message, "error"); }
     }
 
-    async Task UpdateReviewReports()
+    async Task UpdateReviewReports(int page = 1)
     {
         try
         {
-            var apiRes = await clientAli.AvailableReviewReportsAsync(new BaseRequest() { PageNumber = 1, PageSize = 10 });
+            var apiRes = await clientAli.AvailableReviewReportsAsync(new BaseRequest() { PageNumber = page, PageSize = 10 });
 
             if (apiRes.Success)
             {
@@ -68,11 +71,11 @@
         catch (Exception e) { msgService.ShowMessage(e.Message, "error"); }
     }
 
-    async Task UpdateReleaseRequests()
+    async Task UpdateReleaseRequests(int page = 1)
     {
         try
         {
-            var apiRes = await clientAli.AvailableReleaseRequestsAsync(new BaseRequest() { PageNumber = 1, PageSize = 10 });
+            var apiRes = await clientAli.AvailableReleaseRequestsAsync(new BaseRequest() { PageNumber = page, PageSize = 10 });
 
             if (apiRes.Success)
             {
@@ -185,7 +188,7 @@
     {
         ShowStories = !ShowStories;
 
-        if(StoryReports == null && ShowStories)
+        if (StoryReports == null && ShowStories)
             await UpdateStoryReports();
 
         StateHasChanged();
@@ -230,7 +233,7 @@
         {
             <p style="color:green">هیچ گذارشی برای داستان‌ها وجود ندارد.</p>
         }
-         
+
         else
         {
             @foreach (var storyReport in StoryReports.Items)
@@ -285,7 +288,17 @@
                     <button @onclick="() => CompeleteStoryReport(storyReport.PublicId)">تکمیل</button>
                 </div>
             }
+
+            <span>
+                @for (int i = 0; i < StoryReports.TotalPages; i++)
+                {
+                    helperVariable = i +1;
+                    <button @onclick="() => UpdateStoryReports(helperVariable)">@(i + 1)</button>
+                }
+            </span>
         }
+
+
     </div>
 
 
@@ -361,6 +374,14 @@
                     <button @onclick="() => CompeleteCommentReport(commentReport.PublicId)">تکمیل</button>
                 </div>
             }
+
+            <span>
+                @for (int i = 0; i < ReviewReports.TotalPages; i++)
+                {
+                    helperVariable = i + 1;
+                    <button @onclick="() => UpdateReviewReports(helperVariable)">@(i + 1)</button>
+                }
+            </span>
         }
     </div>
 
@@ -435,6 +456,14 @@
                     <button @onclick="() => CompeleteReleaseRequest(req.PublicId)">تکمیل</button>
                 </div>
             }
+
+            <span>
+                @for (int i = 0; i < StoryReleaseRequests.TotalPages; i++)
+                {
+                    helperVariable = i + 1;
+                    <button @onclick="() => UpdateReleaseRequests(helperVariable)">@(i + 1)</button>
+                }
+            </span>
         }
     </div>
 

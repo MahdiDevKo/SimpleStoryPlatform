@@ -1,4 +1,5 @@
-﻿using SimpleStoryPlatform.Application.DTOs.UserDTOs.ServerToUser;
+﻿using SimpleStoryPlatform.Application.DTOs.StoryDTOs.UserToServer.Validators.RuleCore;
+using SimpleStoryPlatform.Application.DTOs.UserDTOs.ServerToUser;
 using SimpleStoryPlatform.Domain.Entites;
 using System;
 using System.Collections.Generic;
