@@ -17,13 +17,18 @@ namespace SimpleStoryPlatform.Application.Features.Users.Handlers.Queries
     public class UserSearchStoryRequestHandler : IRequestHandler<UserSearchStoryRequest, PageResponse<StoryPreviewDto>>
     {
         private readonly ICurrentUserToken _currentUser;
-        IStoryRepository _storyRepo;
-        IMapper _mapper;
-        public UserSearchStoryRequestHandler(IMapper mapper, IStoryRepository storyRepository, ICurrentUserToken currentUser)
+        private readonly IStoryRepository _storyRepo;
+        private readonly IUserRepository _userRepo;
+        private readonly IMapper _mapper;
+        public UserSearchStoryRequestHandler(IMapper mapper,
+            IStoryRepository storyRepository,
+            ICurrentUserToken currentUser,
+            IUserRepository userRepo)
         {
             _mapper = mapper;
             _storyRepo = storyRepository;
             _currentUser = currentUser;
+            _userRepo = userRepo;
         }
         public async Task<PageResponse<StoryPreviewDto>> Handle(UserSearchStoryRequest request, CancellationToken cancellationToken)
         {
@@ -32,6 +37,13 @@ namespace SimpleStoryPlatform.Application.Features.Users.Handlers.Queries
             IQueryable<Story> query = _storyRepo.GetQueryable();
 
             query = query.Include(s => s.Writer);
+
+            if(_currentUser.UserGuid != null)
+            {
+                var userLibrary = await _userRepo.GetLibraryAsync(_currentUser.UserGuid);
+
+                query.Where(s => !userLibrary.Contains(s.PublicId));
+            }
 
             if (!string.IsNullOrEmpty(request.info.Options.StoryName))
                 query = query
@@ -52,6 +64,14 @@ namespace SimpleStoryPlatform.Application.Features.Users.Handlers.Queries
             var pageReponse = await _storyRepo.GetPageAsync(request.info, query);
 
             response = _mapper.Map<PageResponse<StoryPreviewDto>?>(pageReponse);
+
+            //null check for repository response...
+            if(response == null)
+            {
+                response = new PageResponse<StoryPreviewDto>();
+                response.Message = "there was an error in getting stories list AND MAPPER";
+                return response;
+            }
 
             response.Success = true;
 

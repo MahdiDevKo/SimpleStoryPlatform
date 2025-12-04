@@ -16,7 +16,7 @@ namespace SimpleStoryPlatform.Domain.Entites
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Password { get; set; }
-        public List<Guid>? Library { get; set; }
+        public List<Guid> Library { get; set; } = new List<Guid>();
 
         public bool IsBan { get; set; }
         public DateTime? UnBanDate { get; set; }

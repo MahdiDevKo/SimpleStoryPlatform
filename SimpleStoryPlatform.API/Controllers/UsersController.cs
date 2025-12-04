@@ -79,5 +79,26 @@ namespace SimpleStoryPlatform.Controllers
 
             return response;
         }
+
+        [HttpPost("Add-Story_To_Library")]
+        public async Task<BaseResponse> AddStory([FromBody] Guid storyGuid)
+        {
+            var request = new UserAddStoryToLibraryCommand() { storyGuid = storyGuid};
+
+            var response = await _mediator.Send(request);
+
+            return response;
+        }
+
+
+        [HttpGet("Get-Library")]
+        public async Task<BaseResponseWithData<Guid[]?>> GetLibrary()
+        {
+            var request = new UserGetLibraryRequest();
+
+            var response = await _mediator.Send(request);
+
+            return response;
+        }
     }
 }
