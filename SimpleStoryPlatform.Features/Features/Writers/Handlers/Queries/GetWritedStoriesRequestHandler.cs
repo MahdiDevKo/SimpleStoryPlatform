@@ -12,30 +12,41 @@ using System.Threading.Tasks;
 
 namespace SimpleStoryPlatform.Application.Features.Writers.Handlers.Queries
 {
-    public class GetWritedStoriesRequestHandler : IRequestHandler<GetWritedStoriesRequest, BaseResponseWithData<List<StoryPreviewDto>?>>
+    public class GetWritedStoriesRequestHandler : IRequestHandler<GetWritedStoriesRequest, PageResponse<StoryPreviewDto>>
     {
         IStoryRepository _storyRepo;
+        ICurrentUserToken _currentUser;
+        IUserRepository _userRepo;
         IMapper _mapper;
-        public GetWritedStoriesRequestHandler(IMapper mapper, IStoryRepository storyRepository)
+        public GetWritedStoriesRequestHandler(IMapper mapper,
+            IStoryRepository storyRepository,
+            ICurrentUserToken currentUser,
+            IUserRepository userRepository)
         {
             _mapper = mapper;
             _storyRepo = storyRepository;
+            _currentUser = currentUser;
+            _userRepo = userRepository;
         }
-        public async Task<BaseResponseWithData<List<StoryPreviewDto>?>> Handle(GetWritedStoriesRequest request, CancellationToken cancellationToken)
+
+        public async Task<PageResponse<StoryPreviewDto>> Handle(GetWritedStoriesRequest request, CancellationToken cancellationToken)
         {
-            var response = new BaseResponseWithData<List<StoryPreviewDto>?>();
+            var response = new PageResponse<StoryPreviewDto>();
 
-            if (request.UserGuid != null)
-            {
-                var result = await _storyRepo.GetWritedStories(request.UserGuid);
+            var userGuid = _currentUser.UserGuid;
 
-                if(result.Any())
-                    response.data = _mapper.Map<List<StoryPreviewDto>>(result);
+            if (userGuid == null) { response.Message = "you are NOT loged in"; return response; }
 
-                response.Success = true;
-            }
-            else
-                response.Message = "مشکلی در اعتبار سنجی حساب کاربری شما پیش اومده.";
+            var query = _storyRepo.GetQueryable();
+
+            query = query.Where(s => s.Writer.CreatedBy == _currentUser.UserGuid);
+
+            var pageReponse = await _storyRepo.GetPageAsync(request.requestProp, query);
+
+            if (pageReponse.Items != null)
+                response = _mapper.Map<PageResponse<StoryPreviewDto>>(pageReponse);
+
+            response.Success = true;
 
             return response;
         }

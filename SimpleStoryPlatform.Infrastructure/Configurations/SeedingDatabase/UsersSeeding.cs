@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SimpleStoryPlatform.Domain.Entites;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,7 +32,7 @@ namespace SimpleStoryPlatform.Infrastructure.Configurations.SeedingDatabase
                     IsBan = false,
                     UnBanDate = null,
                     WritedStories = null,
-                    Library = null,
+                    Library = new List<Guid>(),
                     Warnings = null
                 },
                 new User()
@@ -51,7 +52,7 @@ namespace SimpleStoryPlatform.Infrastructure.Configurations.SeedingDatabase
                     IsBan = false,
                     UnBanDate = null,
                     WritedStories = null,
-                    Library = null,
+                    Library = new List<Guid>(),
                     Warnings = null
                 }
             );

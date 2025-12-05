@@ -7,6 +7,7 @@ using SimpleStoryPlatform.Application.DTOs.StoryDTOs.UserToServer;
 using SimpleStoryPlatform.Application.Features.Users.Requests.Queries;
 using SimpleStoryPlatform.Application.Features.Writers.Requests.Commands;
 using SimpleStoryPlatform.Application.Features.Writers.Requests.Queries;
+using SimpleStoryPlatform.Application.Requests;
 using SimpleStoryPlatform.Application.Responses;
 
 namespace SimpleStoryPlatform.API.Controllers
@@ -37,10 +38,14 @@ namespace SimpleStoryPlatform.API.Controllers
             return response;
         }
 
-        [HttpGet("My-Stories")]
-        public async Task<BaseResponseWithData<List<StoryPreviewDto>?>> GetMyStories()
+        [HttpPost("My-Stories")]
+        public async Task<PageResponse<StoryPreviewDto>> GetMyStories([FromBody] BaseRequest? req)
         {
-            var request = new GetWritedStoriesRequest() {UserGuid = GetPublicId() };
+            var request = new GetWritedStoriesRequest();
+
+
+            if (req != null)
+                request.requestProp = req;
 
             var response = await _mediator.Send(request);
 
