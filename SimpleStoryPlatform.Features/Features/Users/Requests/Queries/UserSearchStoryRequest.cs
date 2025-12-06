@@ -13,6 +13,6 @@ namespace SimpleStoryPlatform.Application.Features.Users.Requests.Queries
 {
     public class UserSearchStoryRequest : IRequest<PageResponse<StoryPreviewDto>>
     {
-        public SearchRequest<StorySearchOptionsDto> info { get; set; }
+        public SearchRequest<StorySearchOptionsDto> info { get; set; } = new SearchRequest<StorySearchOptionsDto>();
     }
 }

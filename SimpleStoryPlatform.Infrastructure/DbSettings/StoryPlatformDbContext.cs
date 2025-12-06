@@ -45,6 +45,24 @@ namespace SimpleStoryPlatform.Infrastructure.DbSettings
                 .WithOne(s => s.Writer)
                 .HasForeignKey(s => s.WriterId);
 
+            //writed by chatGPT
+            modelBuilder.Entity<User>()
+                .HasMany(u => u.Library)
+                .WithMany(s => s.InLibraryOf)
+                .UsingEntity<Dictionary<string, object>>(
+                    "StoryUser",
+                    j => j
+                        .HasOne<Story>()
+                        .WithMany()
+                        .HasForeignKey("LibraryId")
+                        .OnDelete(DeleteBehavior.NoAction),
+                    j => j
+                        .HasOne<User>()
+                        .WithMany()
+                        .HasForeignKey("InLibraryOfId")
+                        .OnDelete(DeleteBehavior.NoAction));
+
+
             modelBuilder.Entity<User>()
                 .HasMany(u => u.Warnings)
                 .WithOne(r => r.ReciverUser);
@@ -115,9 +133,9 @@ namespace SimpleStoryPlatform.Infrastructure.DbSettings
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<StoryReviewReport>()
-                .HasOne(s=> s.TargetUser)
+                .HasOne(s => s.TargetUser)
                 .WithMany()
-                .HasForeignKey(s=> s.TargetUserId)
+                .HasForeignKey(s => s.TargetUserId)
                 .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<StoryReport>()

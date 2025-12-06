@@ -1,6 +1,7 @@
 ﻿using SimpleStoryPlatform.Domain.Entites.Report;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Numerics;
 using System.Text;
@@ -16,13 +17,12 @@ namespace SimpleStoryPlatform.Domain.Entites
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Password { get; set; }
-        public List<Guid> Library { get; set; } = new List<Guid>();
-
         public bool IsBan { get; set; }
         public DateTime? UnBanDate { get; set; }
         public string? BanReason { get; set; }
 
         //relations
+        public ICollection<Story> Library { get; set; } = new List<Story>();
         public ICollection<Notification>? Inbox { get; set; }
         public ICollection<Warning>? Warnings { get; set; }
         public ICollection<Story>? WritedStories { get; set; }

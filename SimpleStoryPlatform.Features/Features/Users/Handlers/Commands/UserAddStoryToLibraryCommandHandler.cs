@@ -36,13 +36,13 @@ namespace SimpleStoryPlatform.Application.Features.Users.Handlers.Commands
 
             if (story == null) { response.Message = "cant find your desired story..."; return response; }
 
-            var userLibrary = await _userRepo.GetLibraryAsync(_currentUser.UserGuid);
+            bool IsInLibrary = await _userRepo.IsInLibrary(_currentUser.UserGuid, request.storyGuid);
 
-            if (userLibrary.Contains(request.storyGuid)) { response.Message = "you already have this story in your library"; return response; }
+            if (IsInLibrary) { response.Message = "you already have this story in your library"; return response; }
 
             #endregion
 
-            var success = await _userRepo.AddToLibraryAsycn((Guid)_currentUser.UserGuid, request.storyGuid);
+            var success = await _userRepo.AddToLibraryAsycn(_currentUser.UserGuid, story);
 
             //idk but i checked it twice :D
             if (success)

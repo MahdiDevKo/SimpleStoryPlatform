@@ -107,10 +107,13 @@ namespace SimpleStoryPlatform.API.Controllers
             return result;
         }
 
-        [HttpGet("Search-Result")]
+        [HttpPost("Search-Result")]
         public async Task<ActionResult<PageResponse<StoryPreviewDto>>> SearchStory([FromBody] SearchRequest<StorySearchOptionsDto>? searchOtions)
         {
-            var request = new UserSearchStoryRequest() { info = searchOtions};
+            var request = new UserSearchStoryRequest();
+
+            if (searchOtions != null)
+                request.info = searchOtions;
 
             var response = await _mediator.Send(request);
 

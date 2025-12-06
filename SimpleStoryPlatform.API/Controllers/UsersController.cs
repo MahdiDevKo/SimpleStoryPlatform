@@ -9,6 +9,7 @@ using SimpleStoryPlatform.Application.DTOs.UserDTOs.ServerToUser;
 using SimpleStoryPlatform.Application.DTOs.UserDTOs.UserToServer;
 using SimpleStoryPlatform.Application.Features.Users.Requests.Commands;
 using SimpleStoryPlatform.Application.Features.Users.Requests.Queries;
+using SimpleStoryPlatform.Application.Requests;
 using SimpleStoryPlatform.Application.Responses;
 using SimpleStoryPlatform.Identity;
 using System.Security.Claims;
@@ -91,10 +92,13 @@ namespace SimpleStoryPlatform.Controllers
         }
 
 
-        [HttpGet("Get-Library")]
-        public async Task<BaseResponseWithData<Guid[]?>> GetLibrary()
+        [HttpPost("Get-Library")]
+        public async Task<PageResponse<StoryPreviewDto>> GetLibrary([FromBody] BaseRequest? req)
         {
             var request = new UserGetLibraryRequest();
+
+            if(req != null)
+                request.reqProp = req;
 
             var response = await _mediator.Send(request);
 

@@ -50,12 +50,12 @@ namespace SimpleStoryPlatform.Infrastructure.Services.Repositories
             return await _context.Set<T>().ToListAsync();
         }
 
-        public async Task<T?> GetByGuidAsync(Guid publicId)
+        public async Task<T?> GetByGuidAsync(Guid? publicId)
         {
             return await _context.Set<T>().FirstOrDefaultAsync(e => e.PublicId == publicId);
         }
 
-        public async Task<int> GetIdByGuid(Guid publicId)
+        public async Task<int> GetIdByGuid(Guid? publicId)
         {
             var entity = await _context.Set<T>().FirstOrDefaultAsync(e => e.PublicId == publicId);
 
@@ -118,6 +118,12 @@ namespace SimpleStoryPlatform.Infrastructure.Services.Repositories
         public IQueryable<T> GetQueryable()
         {
             return _context.Set<T>();
+        }
+
+        public async Task SaveAsync(T entity)
+        {
+            _context.Set<T>().Update(entity);
+            await _context.SaveChangesAsync();
         }
 
         /*

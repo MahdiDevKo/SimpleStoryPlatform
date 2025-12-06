@@ -32,7 +32,7 @@ namespace SimpleStoryPlatform.Infrastructure.Configurations.SeedingDatabase
                     IsBan = false,
                     UnBanDate = null,
                     WritedStories = null,
-                    Library = new List<Guid>(),
+                    Library = new List<Story>(),
                     Warnings = null
                 },
                 new User()
@@ -52,7 +52,7 @@ namespace SimpleStoryPlatform.Infrastructure.Configurations.SeedingDatabase
                     IsBan = false,
                     UnBanDate = null,
                     WritedStories = null,
-                    Library = new List<Guid>(),
+                    Library = new List<Story>(),
                     Warnings = null
                 }
             );

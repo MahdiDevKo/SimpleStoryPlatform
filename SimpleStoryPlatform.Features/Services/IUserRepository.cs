@@ -14,8 +14,8 @@ namespace SimpleStoryPlatform.Application.Services
         Task<User?> GetUserWithWarnings(Guid userGuid);
         Task<List<StoryReleaseRequest>?> GetStoryReleaseRequests(Guid userGuid, bool IsComplete = false);
         Task<User?> GetUserWithAllDetails(Guid userGuid);
-        Task<Guid[]> GetLibraryAsync(Guid? userGuid);
-        Task<bool> AddToLibraryAsycn(Guid userGuid, Guid storyGuid);
+        Task<bool> IsInLibrary(Guid? userGuid, Guid storyGuid);
+        Task<bool> AddToLibraryAsycn(Guid? userGuid, Story story);
 
     }
 }

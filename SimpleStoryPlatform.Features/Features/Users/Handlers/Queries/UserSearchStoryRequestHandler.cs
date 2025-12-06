@@ -40,9 +40,9 @@ namespace SimpleStoryPlatform.Application.Features.Users.Handlers.Queries
 
             if(_currentUser.UserGuid != null)
             {
-                var userLibrary = await _userRepo.GetLibraryAsync(_currentUser.UserGuid);
+                var user = await _userRepo.GetByGuidAsync(_currentUser.UserGuid);
 
-                query.Where(s => !userLibrary.Contains(s.PublicId));
+                query.Where(s => !s.InLibraryOf.Contains(user));
             }
 
             if (!string.IsNullOrEmpty(request.info.Options.StoryName))
@@ -59,7 +59,6 @@ namespace SimpleStoryPlatform.Application.Features.Users.Handlers.Queries
 
             if (role != "admin" && role != "owner")
                 query.Where(s => s.IsDeleted == false) ;
-            
 
             var pageReponse = await _storyRepo.GetPageAsync(request.info, query);
 

@@ -18,7 +18,6 @@
     <ProjectReference Include="..\SimpleStoryPlatform.Features\SimpleStoryPlatform.Application.csproj" />
     <ProjectReference Include="..\SimpleStoryPlatform.Identity\SimpleStoryPlatform.Identity.csproj" />
     <ProjectReference Include="..\SimpleStoryPlatform.Infrastructure\SimpleStoryPlatform.Infrastructure.csproj" />
-    <ProjectReference Include="..\SimpleStoryPlatform.Web\SimpleStoryPlatform.Web.csproj" />
   </ItemGroup>
 
 </Project>

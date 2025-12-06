@@ -3,12 +3,52 @@
   "WorkspaceRootPath": "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{D05F58C1-46FF-51EE-5389-F3178B939E8B}|SimpleStoryPlatform.API\\SimpleStoryPlatform.API.csproj|c:\\users\\hp\\source\\repos\\simplestoryplatform\\simplestoryplatform.api\\controllers\\writerscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D05F58C1-46FF-51EE-5389-F3178B939E8B}|SimpleStoryPlatform.API\\SimpleStoryPlatform.API.csproj|solutionrelative:simplestoryplatform.api\\controllers\\writerscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\SimpleStoryPlatform.Infrastructure\\Migrations\\20251206183322_UserLibraryRefactored.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:SimpleStoryPlatform.Infrastructure\\Migrations\\20251206183322_UserLibraryRefactored.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{79605688-E78F-486A-B895-24664E3CF96B}|SimpleStoryPlatform.Features\\SimpleStoryPlatform.Application.csproj|c:\\users\\hp\\source\\repos\\simplestoryplatform\\simplestoryplatform.features\\features\\writers\\handlers\\queries\\getwritedstoriesrequesthandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{79605688-E78F-486A-B895-24664E3CF96B}|SimpleStoryPlatform.Features\\SimpleStoryPlatform.Application.csproj|solutionrelative:simplestoryplatform.features\\features\\writers\\handlers\\queries\\getwritedstoriesrequesthandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{27CC4E8E-89E7-4043-811F-E30B906A80B0}|SimpleStoryPlatform.Infrastructure\\SimpleStoryPlatform.Infrastructure.csproj|c:\\users\\hp\\source\\repos\\simplestoryplatform\\simplestoryplatform.infrastructure\\dbsettings\\storyplatformdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{27CC4E8E-89E7-4043-811F-E30B906A80B0}|SimpleStoryPlatform.Infrastructure\\SimpleStoryPlatform.Infrastructure.csproj|solutionrelative:simplestoryplatform.infrastructure\\dbsettings\\storyplatformdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\SimpleStoryPlatform.Infrastructure\\Migrations\\20251206183029_UserLibraryRefactored.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:SimpleStoryPlatform.Infrastructure\\Migrations\\20251206183029_UserLibraryRefactored.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D05F58C1-46FF-51EE-5389-F3178B939E8B}|SimpleStoryPlatform.API\\SimpleStoryPlatform.API.csproj|c:\\users\\hp\\source\\repos\\simplestoryplatform\\simplestoryplatform.api\\controllers\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D05F58C1-46FF-51EE-5389-F3178B939E8B}|SimpleStoryPlatform.API\\SimpleStoryPlatform.API.csproj|solutionrelative:simplestoryplatform.api\\controllers\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D05F58C1-46FF-51EE-5389-F3178B939E8B}|SimpleStoryPlatform.API\\SimpleStoryPlatform.API.csproj|c:\\users\\hp\\source\\repos\\simplestoryplatform\\simplestoryplatform.api\\controllers\\publiccontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D05F58C1-46FF-51EE-5389-F3178B939E8B}|SimpleStoryPlatform.API\\SimpleStoryPlatform.API.csproj|solutionrelative:simplestoryplatform.api\\controllers\\publiccontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{27CC4E8E-89E7-4043-811F-E30B906A80B0}|SimpleStoryPlatform.Infrastructure\\SimpleStoryPlatform.Infrastructure.csproj|c:\\users\\hp\\source\\repos\\simplestoryplatform\\simplestoryplatform.infrastructure\\services\\repositories\\userrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{27CC4E8E-89E7-4043-811F-E30B906A80B0}|SimpleStoryPlatform.Infrastructure\\SimpleStoryPlatform.Infrastructure.csproj|solutionrelative:simplestoryplatform.infrastructure\\services\\repositories\\userrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{79605688-E78F-486A-B895-24664E3CF96B}|SimpleStoryPlatform.Features\\SimpleStoryPlatform.Application.csproj|c:\\users\\hp\\source\\repos\\simplestoryplatform\\simplestoryplatform.features\\features\\users\\requests\\queries\\usersearchstoryrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{79605688-E78F-486A-B895-24664E3CF96B}|SimpleStoryPlatform.Features\\SimpleStoryPlatform.Application.csproj|solutionrelative:simplestoryplatform.features\\features\\users\\requests\\queries\\usersearchstoryrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{27CC4E8E-89E7-4043-811F-E30B906A80B0}|SimpleStoryPlatform.Infrastructure\\SimpleStoryPlatform.Infrastructure.csproj|c:\\users\\hp\\source\\repos\\simplestoryplatform\\simplestoryplatform.infrastructure\\configurations\\seedingdatabase\\usersseeding.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{27CC4E8E-89E7-4043-811F-E30B906A80B0}|SimpleStoryPlatform.Infrastructure\\SimpleStoryPlatform.Infrastructure.csproj|solutionrelative:simplestoryplatform.infrastructure\\configurations\\seedingdatabase\\usersseeding.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{79605688-E78F-486A-B895-24664E3CF96B}|SimpleStoryPlatform.Features\\SimpleStoryPlatform.Application.csproj|c:\\users\\hp\\source\\repos\\simplestoryplatform\\simplestoryplatform.features\\features\\users\\handlers\\queries\\usersearchstoryrequesthandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{79605688-E78F-486A-B895-24664E3CF96B}|SimpleStoryPlatform.Features\\SimpleStoryPlatform.Application.csproj|solutionrelative:simplestoryplatform.features\\features\\users\\handlers\\queries\\usersearchstoryrequesthandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{27CC4E8E-89E7-4043-811F-E30B906A80B0}|SimpleStoryPlatform.Infrastructure\\SimpleStoryPlatform.Infrastructure.csproj|c:\\users\\hp\\source\\repos\\simplestoryplatform\\simplestoryplatform.infrastructure\\services\\repositories\\genericrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{27CC4E8E-89E7-4043-811F-E30B906A80B0}|SimpleStoryPlatform.Infrastructure\\SimpleStoryPlatform.Infrastructure.csproj|solutionrelative:simplestoryplatform.infrastructure\\services\\repositories\\genericrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{79605688-E78F-486A-B895-24664E3CF96B}|SimpleStoryPlatform.Features\\SimpleStoryPlatform.Application.csproj|c:\\users\\hp\\source\\repos\\simplestoryplatform\\simplestoryplatform.features\\features\\users\\handlers\\queries\\usergetlibraryrequesthandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{79605688-E78F-486A-B895-24664E3CF96B}|SimpleStoryPlatform.Features\\SimpleStoryPlatform.Application.csproj|solutionrelative:simplestoryplatform.features\\features\\users\\handlers\\queries\\usergetlibraryrequesthandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{79605688-E78F-486A-B895-24664E3CF96B}|SimpleStoryPlatform.Features\\SimpleStoryPlatform.Application.csproj|c:\\users\\hp\\source\\repos\\simplestoryplatform\\simplestoryplatform.features\\features\\users\\requests\\queries\\usergetlibraryrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{79605688-E78F-486A-B895-24664E3CF96B}|SimpleStoryPlatform.Features\\SimpleStoryPlatform.Application.csproj|solutionrelative:simplestoryplatform.features\\features\\users\\requests\\queries\\usergetlibraryrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,8 +58,34 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 0,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "20251206183322_UserLibraryRefactored.cs",
+              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\SimpleStoryPlatform.Infrastructure\\Migrations\\20251206183322_UserLibraryRefactored.cs",
+              "RelativeDocumentMoniker": "SimpleStoryPlatform.Infrastructure\\Migrations\\20251206183322_UserLibraryRefactored.cs",
+              "ToolTip": "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\SimpleStoryPlatform.Infrastructure\\Migrations\\20251206183322_UserLibraryRefactored.cs",
+              "RelativeToolTip": "SimpleStoryPlatform.Infrastructure\\Migrations\\20251206183322_UserLibraryRefactored.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-06T18:33:22.463Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "StoryPlatformDbContext.cs",
+              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\SimpleStoryPlatform.Infrastructure\\DbSettings\\StoryPlatformDbContext.cs",
+              "RelativeDocumentMoniker": "SimpleStoryPlatform.Infrastructure\\DbSettings\\StoryPlatformDbContext.cs",
+              "ToolTip": "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\SimpleStoryPlatform.Infrastructure\\DbSettings\\StoryPlatformDbContext.cs",
+              "RelativeToolTip": "SimpleStoryPlatform.Infrastructure\\DbSettings\\StoryPlatformDbContext.cs",
+              "ViewState": "AgIAACwAAAAAAAAAAAAUwC8AAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-06T18:31:45.013Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
@@ -30,28 +96,132 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "GetWritedStoriesRequestHandler.cs",
-              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\SimpleStoryPlatform.Features\\Features\\Writers\\Handlers\\Queries\\GetWritedStoriesRequestHandler.cs",
-              "RelativeDocumentMoniker": "SimpleStoryPlatform.Features\\Features\\Writers\\Handlers\\Queries\\GetWritedStoriesRequestHandler.cs",
-              "ToolTip": "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\SimpleStoryPlatform.Features\\Features\\Writers\\Handlers\\Queries\\GetWritedStoriesRequestHandler.cs",
-              "RelativeToolTip": "SimpleStoryPlatform.Features\\Features\\Writers\\Handlers\\Queries\\GetWritedStoriesRequestHandler.cs",
-              "ViewState": "AgIAABoAAAAAAAAAAAAAwCsAAAAMAAAAAAAAAA==",
+              "DocumentIndex": 2,
+              "Title": "20251206183029_UserLibraryRefactored.cs",
+              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\SimpleStoryPlatform.Infrastructure\\Migrations\\20251206183029_UserLibraryRefactored.cs",
+              "RelativeDocumentMoniker": "SimpleStoryPlatform.Infrastructure\\Migrations\\20251206183029_UserLibraryRefactored.cs",
+              "ToolTip": "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\SimpleStoryPlatform.Infrastructure\\Migrations\\20251206183029_UserLibraryRefactored.cs",
+              "RelativeToolTip": "SimpleStoryPlatform.Infrastructure\\Migrations\\20251206183029_UserLibraryRefactored.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-05T18:29:06.732Z",
+              "WhenOpened": "2025-12-06T18:30:29.822Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "WritersController.cs",
-              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\SimpleStoryPlatform.API\\Controllers\\WritersController.cs",
-              "RelativeDocumentMoniker": "SimpleStoryPlatform.API\\Controllers\\WritersController.cs",
-              "ToolTip": "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\SimpleStoryPlatform.API\\Controllers\\WritersController.cs",
-              "RelativeToolTip": "SimpleStoryPlatform.API\\Controllers\\WritersController.cs",
-              "ViewState": "AgIAAB4AAAAAAAAAAAAAADAAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 6,
+              "Title": "UserSearchStoryRequest.cs",
+              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\SimpleStoryPlatform.Features\\Features\\Users\\Requests\\Queries\\UserSearchStoryRequest.cs",
+              "RelativeDocumentMoniker": "SimpleStoryPlatform.Features\\Features\\Users\\Requests\\Queries\\UserSearchStoryRequest.cs",
+              "ToolTip": "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\SimpleStoryPlatform.Features\\Features\\Users\\Requests\\Queries\\UserSearchStoryRequest.cs",
+              "RelativeToolTip": "SimpleStoryPlatform.Features\\Features\\Users\\Requests\\Queries\\UserSearchStoryRequest.cs",
+              "ViewState": "AgIAAAIAAAAAAAAAAAAmwA8AAAB0AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-05T18:28:18.893Z",
+              "WhenOpened": "2025-12-06T18:22:19.138Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "PublicController.cs",
+              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\SimpleStoryPlatform.API\\Controllers\\PublicController.cs",
+              "RelativeDocumentMoniker": "SimpleStoryPlatform.API\\Controllers\\PublicController.cs",
+              "ToolTip": "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\SimpleStoryPlatform.API\\Controllers\\PublicController.cs",
+              "RelativeToolTip": "SimpleStoryPlatform.API\\Controllers\\PublicController.cs",
+              "ViewState": "AgIAADYAAAAAAAAAAAAUwD8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-06T18:18:28.079Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "UsersSeeding.cs",
+              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\SimpleStoryPlatform.Infrastructure\\Configurations\\SeedingDatabase\\UsersSeeding.cs",
+              "RelativeDocumentMoniker": "SimpleStoryPlatform.Infrastructure\\Configurations\\SeedingDatabase\\UsersSeeding.cs",
+              "ToolTip": "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\SimpleStoryPlatform.Infrastructure\\Configurations\\SeedingDatabase\\UsersSeeding.cs",
+              "RelativeToolTip": "SimpleStoryPlatform.Infrastructure\\Configurations\\SeedingDatabase\\UsersSeeding.cs",
+              "ViewState": "AgIAAB4AAAAAAAAAAAAEwDYAAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-06T18:17:28.415Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "UserRepository.cs",
+              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\SimpleStoryPlatform.Infrastructure\\Services\\Repositories\\UserRepository.cs",
+              "RelativeDocumentMoniker": "SimpleStoryPlatform.Infrastructure\\Services\\Repositories\\UserRepository.cs",
+              "ToolTip": "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\SimpleStoryPlatform.Infrastructure\\Services\\Repositories\\UserRepository.cs",
+              "RelativeToolTip": "SimpleStoryPlatform.Infrastructure\\Services\\Repositories\\UserRepository.cs",
+              "ViewState": "AgIAAAoAAAAAAAAAAAAEwA4AAAA7AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-06T18:17:19.622Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "GenericRepository.cs",
+              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\SimpleStoryPlatform.Infrastructure\\Services\\Repositories\\GenericRepository.cs",
+              "RelativeDocumentMoniker": "SimpleStoryPlatform.Infrastructure\\Services\\Repositories\\GenericRepository.cs",
+              "ToolTip": "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\SimpleStoryPlatform.Infrastructure\\Services\\Repositories\\GenericRepository.cs",
+              "RelativeToolTip": "SimpleStoryPlatform.Infrastructure\\Services\\Repositories\\GenericRepository.cs",
+              "ViewState": "AgIAAAIAAAAAAAAAAAAEwA8AAAAoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-06T18:17:17.488Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "UserSearchStoryRequestHandler.cs",
+              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\SimpleStoryPlatform.Features\\Features\\Users\\Handlers\\Queries\\UserSearchStoryRequestHandler.cs",
+              "RelativeDocumentMoniker": "SimpleStoryPlatform.Features\\Features\\Users\\Handlers\\Queries\\UserSearchStoryRequestHandler.cs",
+              "ToolTip": "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\SimpleStoryPlatform.Features\\Features\\Users\\Handlers\\Queries\\UserSearchStoryRequestHandler.cs",
+              "RelativeToolTip": "SimpleStoryPlatform.Features\\Features\\Users\\Handlers\\Queries\\UserSearchStoryRequestHandler.cs",
+              "ViewState": "AgIAABwAAAAAAAAAAAAuwCAAAABWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-06T18:15:19.673Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "UsersController.cs",
+              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\SimpleStoryPlatform.API\\Controllers\\UsersController.cs",
+              "RelativeDocumentMoniker": "SimpleStoryPlatform.API\\Controllers\\UsersController.cs",
+              "ToolTip": "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\SimpleStoryPlatform.API\\Controllers\\UsersController.cs",
+              "RelativeToolTip": "SimpleStoryPlatform.API\\Controllers\\UsersController.cs",
+              "ViewState": "AgIAAEoAAAAAAAAAAAAkwF4AAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-06T18:14:40.759Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "UserGetLibraryRequestHandler.cs",
+              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\SimpleStoryPlatform.Features\\Features\\Users\\Handlers\\Queries\\UserGetLibraryRequestHandler.cs",
+              "RelativeDocumentMoniker": "SimpleStoryPlatform.Features\\Features\\Users\\Handlers\\Queries\\UserGetLibraryRequestHandler.cs",
+              "ToolTip": "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\SimpleStoryPlatform.Features\\Features\\Users\\Handlers\\Queries\\UserGetLibraryRequestHandler.cs",
+              "RelativeToolTip": "SimpleStoryPlatform.Features\\Features\\Users\\Handlers\\Queries\\UserGetLibraryRequestHandler.cs",
+              "ViewState": "AgIAACIAAAAAAAAAAAAUwC4AAABBAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-06T18:07:42.017Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "UserGetLibraryRequest.cs",
+              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\SimpleStoryPlatform.Features\\Features\\Users\\Requests\\Queries\\UserGetLibraryRequest.cs",
+              "RelativeDocumentMoniker": "SimpleStoryPlatform.Features\\Features\\Users\\Requests\\Queries\\UserGetLibraryRequest.cs",
+              "ToolTip": "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\SimpleStoryPlatform.Features\\Features\\Users\\Requests\\Queries\\UserGetLibraryRequest.cs",
+              "RelativeToolTip": "SimpleStoryPlatform.Features\\Features\\Users\\Requests\\Queries\\UserGetLibraryRequest.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-06T18:07:13.127Z",
               "EditorCaption": ""
             }
           ]

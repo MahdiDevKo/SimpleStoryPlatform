@@ -5,10 +5,6 @@ C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.API\obj\Debug\n
 C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.API\obj\Debug\net8.0\SimpleStoryPlatform.API.csproj.CoreCompileInputs.cache
 C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.API\obj\Debug\net8.0\SimpleStoryPlatform.API.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.API\obj\Debug\net8.0\SimpleStoryPlatform.API.sourcelink.json
-C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.API\bin\Debug\net8.0\SimpleStoryPlatform.Web.deps.json
-C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.API\bin\Debug\net8.0\SimpleStoryPlatform.Web.runtimeconfig.json
-C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.API\bin\Debug\net8.0\SimpleStoryPlatform.Web.staticwebassets.runtime.json
-C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.API\bin\Debug\net8.0\SimpleStoryPlatform.Web.exe
 C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.API\bin\Debug\net8.0\appsettings.Development.json
 C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.API\bin\Debug\net8.0\appsettings.json
 C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.API\bin\Debug\net8.0\SimpleStoryPlatform.API.staticwebassets.runtime.json
@@ -20,7 +16,6 @@ C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.API\bin\Debug\n
 C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.API\bin\Debug\net8.0\AutoMapper.dll
 C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.API\bin\Debug\net8.0\Azure.Core.dll
 C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.API\bin\Debug\net8.0\Azure.Identity.dll
-C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.API\bin\Debug\net8.0\Blazored.LocalStorage.dll
 C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.API\bin\Debug\net8.0\FluentValidation.dll
 C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.API\bin\Debug\net8.0\FluentValidation.DependencyInjectionExtensions.dll
 C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.API\bin\Debug\net8.0\Humanizer.dll
@@ -176,11 +171,9 @@ C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.API\bin\Debug\n
 C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.API\bin\Debug\net8.0\SimpleStoryPlatform.Domain.dll
 C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.API\bin\Debug\net8.0\SimpleStoryPlatform.Identity.dll
 C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.API\bin\Debug\net8.0\SimpleStoryPlatform.Infrastructure.dll
-C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.API\bin\Debug\net8.0\SimpleStoryPlatform.Web.dll
 C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.API\bin\Debug\net8.0\SimpleStoryPlatform.Application.pdb
 C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.API\bin\Debug\net8.0\SimpleStoryPlatform.Identity.pdb
 C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.API\bin\Debug\net8.0\SimpleStoryPlatform.Infrastructure.pdb
-C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.API\bin\Debug\net8.0\SimpleStoryPlatform.Web.pdb
 C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.API\bin\Debug\net8.0\SimpleStoryPlatform.Domain.pdb
 C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.API\obj\Debug\net8.0\staticwebassets.build.json
 C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.API\obj\Debug\net8.0\staticwebassets.development.json
@@ -197,4 +190,3 @@ C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.API\obj\Debug\n
 C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.API\obj\Debug\net8.0\SimpleStoryPlatform.API.genruntimeconfig.cache
 C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.API\obj\Debug\net8.0\ref\SimpleStoryPlatform.API.dll
 C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.API\obj\Debug\net8.0\SimpleStoryPlatform.API.MvcApplicationPartsAssemblyInfo.cs
-C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.API\bin\Debug\net8.0\Newtonsoft.Json.dll
