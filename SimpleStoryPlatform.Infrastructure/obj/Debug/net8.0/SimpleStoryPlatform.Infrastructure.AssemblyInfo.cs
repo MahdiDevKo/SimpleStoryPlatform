@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SimpleStoryPlatform.Infrastructure")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0a411cba88e348711c216ce122beee53f4a89f9b")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+76034ba16839ccae46a1fa5cfad551fa02aab104")]
 [assembly: System.Reflection.AssemblyProductAttribute("SimpleStoryPlatform.Infrastructure")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SimpleStoryPlatform.Infrastructure")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

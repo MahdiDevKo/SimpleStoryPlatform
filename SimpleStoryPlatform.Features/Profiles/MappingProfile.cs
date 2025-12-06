@@ -53,6 +53,8 @@ namespace SimpleStoryPlatform.Application.Profiles
                     opt => opt.MapFrom(src => src.Data != null ? src.Data.Count : 0))
                 .ForMember(dest => dest.ReviewsCount,
                     opt => opt.MapFrom(src => src.Reviews != null ? src.Reviews.Count : 0))
+                .ForMember(dest => dest.InLibraryOf,
+                    opt => opt.MapFrom(src => src.InLibraryOf.Count != null ? src.Reviews.Count : 0))
                 .ForMember(dest => dest.PlayListGuid,
                     opt => opt.MapFrom(src => src.PlayList != null ? src.PlayList.PublicId : (Guid?)null))
                 .ReverseMap()

@@ -1483,6 +1483,10 @@
             "type": "integer",
             "format": "int32"
           },
+          "inLibraryOf": {
+            "type": "integer",
+            "format": "int32"
+          },
           "playListGuid": {
             "type": "string",
             "format": "uuid",

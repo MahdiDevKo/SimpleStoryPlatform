@@ -20,6 +20,7 @@ namespace SimpleStoryPlatform.Application.DTOs.StoryDTOs.ServerToUser
         public UserPreviewDto Writer { get; set; }
         public int SectionsCount { get; set; }
         public int ReviewsCount { get; set; }
+        public int InLibraryOf { get; set; }
         public Guid? PlayListGuid { get; set; }
     }
 }
