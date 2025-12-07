@@ -13,6 +13,7 @@ namespace SimpleStoryPlatform.Application.Services
         Task<Story> GetStoryDetails(Guid storyGuid);
         Task<List<Story>?> SearchStories(string? searchValue, bool isAdmin = false);
         Task<string?> AddStoryReview(StoryReview review);
+        Task<bool> IsThereAnyUnreadReleaseRequest(Guid storyGuid);
 
 
     }

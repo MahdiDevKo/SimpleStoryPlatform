@@ -86,25 +86,21 @@ namespace SimpleStoryPlatform.Infrastructure.Migrations
                     b.Property<Guid>("PublicId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("ReportText")
+                    b.Property<string>("RequestMessage")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("StoryId")
                         .HasColumnType("int");
 
-                    b.Property<int>("StoryReportId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TargetUserId")
+                    b.Property<int?>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("StoryId");
 
-                    b.HasIndex("StoryReportId");
-
-                    b.HasIndex("TargetUserId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("StoryReleaseRequests");
                 });
@@ -302,16 +298,11 @@ namespace SimpleStoryPlatform.Infrastructure.Migrations
                     b.Property<int>("StoryId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("ReviewerId");
 
                     b.HasIndex("StoryId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("StoryReviews");
                 });
@@ -514,32 +505,22 @@ namespace SimpleStoryPlatform.Infrastructure.Migrations
 
             modelBuilder.Entity("SimpleStoryPlatform.Domain.Entites.Report.StoryReleaseRequest", b =>
                 {
-                    b.HasOne("SimpleStoryPlatform.Domain.Entites.Story", null)
+                    b.HasOne("SimpleStoryPlatform.Domain.Entites.Story", "Story")
                         .WithMany("ReleaseRequests")
                         .HasForeignKey("StoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("SimpleStoryPlatform.Domain.Entites.Report.StoryReport", "Object")
-                        .WithMany()
-                        .HasForeignKey("StoryReportId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("SimpleStoryPlatform.Domain.Entites.User", "TargetUser")
+                    b.HasOne("SimpleStoryPlatform.Domain.Entites.User", null)
                         .WithMany("StoryReleaseRequests")
-                        .HasForeignKey("TargetUserId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
-                    b.Navigation("Object");
-
-                    b.Navigation("TargetUser");
+                    b.Navigation("Story");
                 });
 
             modelBuilder.Entity("SimpleStoryPlatform.Domain.Entites.Report.StoryReport", b =>
                 {
-                    b.HasOne("SimpleStoryPlatform.Domain.Entites.Story", "Object")
+                    b.HasOne("SimpleStoryPlatform.Domain.Entites.Story", "Story")
                         .WithMany("Reports")
                         .HasForeignKey("StoryId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -551,14 +532,14 @@ namespace SimpleStoryPlatform.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.Navigation("Object");
+                    b.Navigation("Story");
 
                     b.Navigation("TargetUser");
                 });
 
             modelBuilder.Entity("SimpleStoryPlatform.Domain.Entites.Report.StoryReviewReport", b =>
                 {
-                    b.HasOne("SimpleStoryPlatform.Domain.Entites.StoryReview", "Object")
+                    b.HasOne("SimpleStoryPlatform.Domain.Entites.StoryReview", "Review")
                         .WithMany("Reports")
                         .HasForeignKey("ReviewId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -570,7 +551,7 @@ namespace SimpleStoryPlatform.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.Navigation("Object");
+                    b.Navigation("Review");
 
                     b.Navigation("TargetUser");
                 });
@@ -596,7 +577,7 @@ namespace SimpleStoryPlatform.Infrastructure.Migrations
             modelBuilder.Entity("SimpleStoryPlatform.Domain.Entites.StoryReview", b =>
                 {
                     b.HasOne("SimpleStoryPlatform.Domain.Entites.User", "Reviewer")
-                        .WithMany()
+                        .WithMany("Comments")
                         .HasForeignKey("ReviewerId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
@@ -606,10 +587,6 @@ namespace SimpleStoryPlatform.Infrastructure.Migrations
                         .HasForeignKey("StoryId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
-
-                    b.HasOne("SimpleStoryPlatform.Domain.Entites.User", null)
-                        .WithMany("Comments")
-                        .HasForeignKey("UserId");
 
                     b.Navigation("Reviewer");
 

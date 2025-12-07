@@ -17,16 +17,5 @@ namespace SimpleStoryPlatform.Infrastructure.Services.Repositories
         {
             _context = context;
         }
-
-        public Task<StoryReleaseRequest?> GetReportWithDetails(Guid reportGuid)
-        {
-            var report = _context.StoryReleaseRequests
-                .Include(r=> r.Object)  //Story report
-                    .ThenInclude(r=> r.Object)      //Story
-                .Include(r=> r.TargetUser)
-                .FirstOrDefaultAsync(r => r.PublicId == reportGuid);
-
-            return report;
-        }
     }
 }

@@ -17,38 +17,38 @@ namespace SimpleStoryPlatform.Application.Features.Users.Handlers.Commands
         IReviewReportRepository _reviewReportRepo;
         IStoryReviewRepository _storyReviewRepo;
         IUserRepository _userRepo;
+        ICurrentUserToken _currentUser;
         public UserReportReviewCommandHandler(IStoryReviewRepository storyReviewRepository,
             IReviewReportRepository reviewReportRepository,
-            IUserRepository userRepo)
+            IUserRepository userRepo,
+            ICurrentUserToken currentUser)
         {
             _reviewReportRepo = reviewReportRepository;
             _storyReviewRepo = storyReviewRepository;
             _userRepo = userRepo;
+            _currentUser = currentUser;
         }
         public async Task<BaseResponse> Handle(UserReportReviewCommand request, CancellationToken cancellationToken)
         {
             var response = new BaseResponse();
 
-            var reporterId = await _userRepo.GetIdByGuid(request.reportDto.UserGuid);
+            var reporterId = await _userRepo.GetIdByGuid(_currentUser.UserGuid);
 
-            var reviewId = await _storyReviewRepo.GetIdByGuid(request.reportDto.ObjectGuid);
-            
-            if (reporterId != 0 && reviewId != 0)
+            var review = await _storyReviewRepo.GetByGuidAsync(request.reportDto.ObjectGuid);
+
+            if (review == null) { response.Message = "The desired comment was not found."; return response; }
+
+            var report = new StoryReviewReport()
             {
-                var report = new StoryReviewReport()
-                {
-                    ReviewId = reviewId,
-                    TargetUserId = reporterId,
-                    ReportText = request.reportDto.Text,
-                };
+                ReviewId = review.Id,
+                TargetUserId = await _userRepo.GetIdByGuid(review.CreatedBy),
+                ReportText = request.reportDto.Text
+            };
 
-                report = await _reviewReportRepo.AddAsync(report);
+            report = await _reviewReportRepo.AddAsync(report);
 
-                response.Success = true;
-                response.Message = "گذارش شما با موفقیت ثبت شدو لطفا تا پیگیری آن منتظر بمانید.";
-            }
-            else
-                response.Message = "مشکلی در اعتبار سنجی اطلاعات ورودی رخ داده.";
+            response.Success = true;
+            response.Message = "Your report was successfully submitted. The result can be viewed in the Notifications section.";
 
             return response;
         }

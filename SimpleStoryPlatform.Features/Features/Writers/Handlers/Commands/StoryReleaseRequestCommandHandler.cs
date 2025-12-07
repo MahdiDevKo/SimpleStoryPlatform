@@ -32,39 +32,35 @@ namespace SimpleStoryPlatform.Application.Features.Writers.Handlers.Commands
         {
             var response = new BaseResponse();
 
-            var story = await _storyRepo.GetStoryDetails(request.releaseRequestDto.StoryGuid);
+            var story = await _storyRepo.GetByGuidAsync(request.releaseRequestDto.StoryGuid);
 
-            var writer = await _userRepo.GetByGuidAsync( (Guid)_currentUser.UserGuid);
+            var writer = await _userRepo.GetByGuidAsync(_currentUser.UserGuid);
 
             #region null checks & errors
-            if (story == null) { response.Message = "داستان یافت نشد"; return response; }
+            if (story == null) { response.Message = "story not found."; return response; }
 
-            if (writer == null) { response.Message = "مشکلی در اعتبارسنجی شما رخ داده"; return response; }
+            if (writer == null) { response.Message = "There was a problem with authentication."; return response; }
 
-            if (!story.IsStriked) { response.Message = "داستان شما توسط ادمین از دسترس خارج نشده!"; return response; }
+            if (!story.IsStriked) { response.Message = "your story is NOT striked by admin!"; return response; }
 
-            if (story.CreatedBy != writer.PublicId) { response.Message = "شما صاحب این داستان نیستید :/"; return response; }
+            if (story.CreatedBy != writer.PublicId) { response.Message = "you are NOT the owner of this story"; return response; }
 
-            bool IsThereAnyReleaseRequest = story.ReleaseRequests.Any(r => r.IsComplete == false);
-            if (IsThereAnyReleaseRequest) { response.Message = "درخواست شما قبلا ثبت شده. لطفا تا جواب ادمین صبر کنید"; return response; }
+            //bool IsThereAnyReleaseRequest = story.ReleaseRequests.Any(r => r.IsComplete == false);
+            bool IsThereAnyReleaseRequest = await _storyRepo.IsThereAnyUnreadReleaseRequest(story.PublicId);
+
+            if (IsThereAnyReleaseRequest) { response.Message = "You have an unanswered request. Please wait for a response."; return response; }
             
             #endregion
 
-
-            var admin = await _userRepo.GetByGuidAsync(story.Reports.Last().CreatedBy);
-            if (admin == null) { response.Message = "مشکلی در دریافت اطلاعات پیش اومده"; return response; }
-
             var releaseRequest = new StoryReleaseRequest()
             {
-                StoryReportId = story.Reports.Last().Id,
-                TargetUserId = admin.Id,
                 StoryId = story.Id,
-                ReportText = request.releaseRequestDto.Text
+                RequestMessage = request.releaseRequestDto.Text
             };
 
             await _storyReleaseRepo.AddAsync(releaseRequest);
 
-            response.Message = "درخواست شما با موفقیت ثبت شد. لطفا تا جواب ادمین منتظر بمانید.";
+            response.Message = "Your request has been successfully submitted. Please wait for the admin's response.";
             response.Success = true;
 
             return response;

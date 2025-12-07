@@ -43,7 +43,8 @@ namespace SimpleStoryPlatform.Infrastructure.DbSettings
             modelBuilder.Entity<User>()
                 .HasMany(u => u.WritedStories)
                 .WithOne(s => s.Writer)
-                .HasForeignKey(s => s.WriterId);
+                .HasForeignKey(s => s.WriterId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             //writed by chatGPT
             modelBuilder.Entity<User>()
@@ -65,18 +66,15 @@ namespace SimpleStoryPlatform.Infrastructure.DbSettings
 
             modelBuilder.Entity<User>()
                 .HasMany(u => u.Warnings)
-                .WithOne(r => r.ReciverUser);
+                .WithOne(r => r.ReciverUser)
+                .HasForeignKey(r => r.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<User>()
                 .HasMany(u => u.Comments)
                 .WithOne(c => c.Reviewer)
-                .HasForeignKey(r => r.ReviewerId);
-
-            modelBuilder.Entity<User>()
-                .HasMany(u => u.StoryReleaseRequests)
-                .WithOne(c => c.TargetUser)
-                .HasForeignKey(r => r.TargetUserId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .HasForeignKey(r => r.ReviewerId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Story>()
                 .HasMany(s => s.Data)
@@ -98,25 +96,25 @@ namespace SimpleStoryPlatform.Infrastructure.DbSettings
 
             modelBuilder.Entity<Story>()
                 .HasMany(s => s.Reports)
-                .WithOne(r => r.Object)
+                .WithOne(r => r.Story)
                 .HasForeignKey(r => r.StoryId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Story>()
                 .HasMany(s => s.ReleaseRequests)
-                .WithOne()
+                .WithOne(rr => rr.Story)
                 .HasForeignKey(r => r.StoryId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<StoryReleaseRequest>()
-                .HasOne(s => s.Object)
-                .WithMany()
-                .HasForeignKey(s => s.StoryReportId)
+                .HasOne(s => s.Story)
+                .WithMany(s => s.ReleaseRequests)
+                .HasForeignKey(s => s.StoryId)
                 .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<StoryReview>()
                 .HasOne(s => s.Reviewer)
-                .WithMany()
+                .WithMany(u => u.Comments)
                 .HasForeignKey(s => s.ReviewerId)
                 .OnDelete(DeleteBehavior.NoAction);
 
@@ -128,7 +126,7 @@ namespace SimpleStoryPlatform.Infrastructure.DbSettings
 
             modelBuilder.Entity<StoryReview>()
                 .HasMany(s => s.Reports)
-                .WithOne(r => r.Object)
+                .WithOne(r => r.Review)
                 .HasForeignKey(r => r.ReviewId)
                 .OnDelete(DeleteBehavior.Cascade);
 

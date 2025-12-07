@@ -42,21 +42,7 @@ namespace SimpleStoryPlatform.Infrastructure.Services.Repositories
         }
 
 
-        public async Task<List<StoryReleaseRequest>?> GetStoryReleaseRequests(Guid userGuid, bool IsComplete = false)
-        {
-            var user = await _context.Users
-                .Include(u => u.StoryReleaseRequests)
-                    .ThenInclude(sr => sr.Object)
-                        .ThenInclude(r => r.Object)
-                .Include(u => u.StoryReleaseRequests)
-                    .ThenInclude(sr => sr.Object)
-                        .ThenInclude(sr => sr.TargetUser)
-                .FirstOrDefaultAsync(u => u.PublicId == userGuid);
-
-            var result = user.StoryReleaseRequests.Where(sr => sr.IsComplete == IsComplete).ToList();
-
-            return result;
-        }
+        
 
         public async Task<User?> GetUserWithAllDetails(Guid userGuid)
         {

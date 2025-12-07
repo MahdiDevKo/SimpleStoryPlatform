@@ -18,27 +18,6 @@ namespace SimpleStoryPlatform.Infrastructure.Services.Repositories
             _context = context;
         }
 
-        public async Task<List<StoryReport>> GetAllWithDetail()
-        {
-            var reports = await _context.StoryReports
-                .Include(r => r.Object)
-                .Include(r => r.TargetUser)
-                .Where(r => r.IsComplete == false)
-                .ToListAsync();
-
-            return reports;
-        }
-
-        public Task<StoryReport?> GetReportWithDetails(Guid reportGuid)
-        {
-            var report = _context.StoryReports
-                .Include(r => r.Object)  //Story 
-                .Include(r => r.TargetUser)
-                .FirstOrDefaultAsync(r => r.PublicId == reportGuid);
-
-            return report;
-        }
-
         public async Task RemoveCurrentReports(int storyId)
         {
             var story = await _context.Stories

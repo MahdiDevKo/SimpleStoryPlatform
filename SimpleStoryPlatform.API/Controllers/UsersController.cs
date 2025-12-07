@@ -61,8 +61,6 @@ namespace SimpleStoryPlatform.Controllers
         [HttpPost("Report-Review")]
         public async Task<BaseResponse> ReportReview([FromBody] UserReportDto reportDto)
         {
-            reportDto.UserGuid = GetPublicId();
-
             var request = new UserReportReviewCommand() {reportDto = reportDto};
 
             var response = await _mediator.Send(request);
@@ -72,8 +70,6 @@ namespace SimpleStoryPlatform.Controllers
         [HttpPost("Report-Story")]
         public async Task<BaseResponse> ReportStory([FromBody] UserReportDto reportDto)
         {
-            reportDto.UserGuid = GetPublicId();
-
             var request = new UserReportStoryCommand() { reportDto = reportDto};
 
             var response = await _mediator.Send(request);

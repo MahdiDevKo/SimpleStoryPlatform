@@ -14,5 +14,6 @@ namespace SimpleStoryPlatform.Application.DTOs.UserDTOs.ServerToUser
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public List<WarningDto>? Warnings { get; set; }
+        public int TotalWarnings { get; set; }
     }
 }

@@ -8,6 +8,7 @@ using SimpleStoryPlatform.Application.DTOs.UserDTOs.ServerToUser;
 using SimpleStoryPlatform.Application.DTOs.UserDTOs.UserToServer;
 using SimpleStoryPlatform.Application.Features.Writers.Requests.Commands;
 using SimpleStoryPlatform.Application.Responses;
+using SimpleStoryPlatform.Application.ViewModels.Reports;
 using SimpleStoryPlatform.Domain.Entites;
 using SimpleStoryPlatform.Domain.Entites.Report;
 using System;
@@ -30,7 +31,10 @@ namespace SimpleStoryPlatform.Application.Profiles
             CreateMap<User, UserCreateDto>().ReverseMap();
             CreateMap<User, UserDetailsDto>().ReverseMap();
             CreateMap<User, UserPreviewDto>().ReverseMap();
-            CreateMap<User, UserWithWarningsDto>().ReverseMap();
+            CreateMap<User, UserWithWarningsDto>()
+                .ForMember(dest => dest.TotalWarnings, 
+                opt => opt.MapFrom(src => src.Warnings != null ? src.Warnings.Count : 0))
+                .ReverseMap();
 
             //story profiles
             CreateMap<StoryReview, StoryReviewDto>()
@@ -68,22 +72,45 @@ namespace SimpleStoryPlatform.Application.Profiles
             //report section
             CreateMap<Warning, WarningDto>().ReverseMap();
 
-            CreateMap<StoryReport, StoryReportDto>()
-                .ForMember(dest => dest.StoryGuid, opt => opt.MapFrom(src => src.Object.PublicId))
-                .ReverseMap();
+            //CreateMap<StoryReport, StoryReportDto>()
+            //    .ForMember(dest => dest.StoryGuid, opt => opt.MapFrom(src => src.Object.PublicId))
+            //    .ReverseMap();
 
-            CreateMap<StoryReviewReport, ReviewReportDto>()
-                .ReverseMap();
+            //CreateMap<StoryReviewReport, ReviewReportDto>()
+            //    .ReverseMap();
 
-            CreateMap<StoryReleaseRequest, StoryReleaseRequestDetailsDto>()
-                .ForMember(dest => dest.Report, opt => opt.MapFrom(src => src.Object))
-                .ReverseMap();
+            //CreateMap<StoryReleaseRequest, StoryReleaseRequestDetailsDto>()
+            //    .ForMember(dest => dest.Report, opt => opt.MapFrom(src => src.Object))
+            //    .ReverseMap();
 
             CreateMap<Notification, NotificationDto>().ReverseMap();
 
 
             //CreateMap<PageResponse<,>, PageResponse<,>>
             CreateMap(typeof(PageResponse<>), typeof(PageResponse<>));
+
+
+            //View Models maps
+            CreateMap<BaseReportEntity, BaseReportVM>()
+                .ForMember(dest => dest.TargetUser,
+                    opt => opt.MapFrom(src => src.TargetUser))
+                .ForMember(dest => dest.ReportReason,
+                    opt => opt.MapFrom(src => src.ReportText));
+
+            CreateMap<StoryReport, StoryReportVM>()
+                .ForMember(dest => dest.StoryGuid,
+                    opt => opt.MapFrom(src => src.Story.PublicId));
+
+            CreateMap<StoryReviewReport, ReviewReportVM>()
+                .ForMember(dest => dest.ReviewGuid,
+                    opt => opt.MapFrom(src => src.Review.PublicId))
+                .ForMember(dest => dest.ReviewData,
+                    opt => opt.MapFrom(src => src.Review.Data));
+
+            CreateMap<StoryReleaseRequest, ReleaseRequestVM>()
+                .ForMember(dest => dest.StoryGuid,
+                    opt => opt.MapFrom(src => src.Story.PublicId));
+
 
 
 

@@ -11,6 +11,7 @@ C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.Web\bin\Debug\n
 C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.Web\bin\Debug\net8.0\Microsoft.IdentityModel.JsonWebTokens.dll
 C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.Web\bin\Debug\net8.0\Microsoft.IdentityModel.Logging.dll
 C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.Web\bin\Debug\net8.0\Microsoft.IdentityModel.Tokens.dll
+C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.Web\bin\Debug\net8.0\Newtonsoft.Json.dll
 C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.Web\bin\Debug\net8.0\System.IdentityModel.Tokens.Jwt.dll
 C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.Web\obj\Debug\net8.0\SimpleStoryPlatform.Web.csproj.AssemblyReference.cache
 C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.Web\obj\Debug\net8.0\SimpleStoryPlatform.Web.GeneratedMSBuildEditorConfig.editorconfig
@@ -36,4 +37,3 @@ C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.Web\obj\Debug\n
 C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.Web\obj\Debug\net8.0\SimpleStoryPlatform.Web.pdb
 C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.Web\obj\Debug\net8.0\SimpleStoryPlatform.Web.genruntimeconfig.cache
 C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.Web\obj\Debug\net8.0\ref\SimpleStoryPlatform.Web.dll
-C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.Web\bin\Debug\net8.0\Newtonsoft.Json.dll

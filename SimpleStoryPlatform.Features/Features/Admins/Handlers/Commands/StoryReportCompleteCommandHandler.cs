@@ -35,7 +35,7 @@ namespace SimpleStoryPlatform.Application.Features.Admins.Handlers.Commands
         {
             var response = new BaseResponse();
 
-            var report = await _storyReportRepo.GetReportWithDetails(request.info.ReportGuid);
+            var report = await _storyReportRepo.GetByGuidAsync(request.info.ReportGuid);
 
             //null check
             if (report == null) { response.Message = "cant find the report..."; return response; }

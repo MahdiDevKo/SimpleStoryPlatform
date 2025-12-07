@@ -9,8 +9,6 @@ namespace SimpleStoryPlatform.Application.Services
 {
     public interface IReviewReportRepository : IGenericRepository<StoryReviewReport>
     {
-        Task<List<StoryReviewReport>> GetAllWithDetail();
-        Task<StoryReviewReport?> GetReportWithDetails(Guid reportGuid);
 
         Task DeleteSameReportsAsync(int reviewId);
     }

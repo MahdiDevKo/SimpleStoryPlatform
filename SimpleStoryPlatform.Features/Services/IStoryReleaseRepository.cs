@@ -9,6 +9,5 @@ namespace SimpleStoryPlatform.Application.Services
 {
     public interface IStoryReleaseRepository : IGenericRepository<StoryReleaseRequest>
     {
-        Task<StoryReleaseRequest?> GetReportWithDetails(Guid reportGuid);
     }
 }

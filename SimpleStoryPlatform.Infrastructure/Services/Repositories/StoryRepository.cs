@@ -35,6 +35,7 @@ namespace SimpleStoryPlatform.Infrastructure.Services.Repositories
 
         public async Task<Story> GetStoryDetails(Guid storyGuid)
         {
+            //WTF IS THIS? its need to be refactored
             var story = await _context.Stories
                 .Include(s => s.Data)
                 .Include(s => s.Writer)
@@ -56,6 +57,15 @@ namespace SimpleStoryPlatform.Infrastructure.Services.Repositories
                 .Where(s => s.CreatedBy == userGuid).ToListAsync();
 
             return stories;
+        }
+
+        public async Task<bool> IsThereAnyUnreadReleaseRequest(Guid storyGuid)
+        {
+            var story = await _context.Stories
+                .Include(s => s.ReleaseRequests)
+                .FirstOrDefaultAsync(s => s.PublicId == storyGuid);
+
+            return story.ReleaseRequests.Any(rr => !rr.IsComplete);
         }
 
         public async Task<List<Story>?> SearchStories(string? searchValue, bool isAdmin = false)

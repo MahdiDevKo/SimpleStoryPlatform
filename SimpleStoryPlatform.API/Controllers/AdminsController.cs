@@ -10,6 +10,7 @@ using SimpleStoryPlatform.Application.Features.Admins.Requests.Queries;
 using SimpleStoryPlatform.Application.Features.Users.Requests.Commands;
 using SimpleStoryPlatform.Application.Requests;
 using SimpleStoryPlatform.Application.Responses;
+using SimpleStoryPlatform.Application.ViewModels.Reports;
 
 namespace SimpleStoryPlatform.API.Controllers
 {
@@ -24,19 +25,10 @@ namespace SimpleStoryPlatform.API.Controllers
             _mediator = mediator;
         }
 
-        [HttpGet("Available-Reports")]
-        public async Task<BaseResponseWithData<AllReportsDto>> AvailableReports()
-        {
-            var request = new AdminsGetAvailableReportsRequest();
-
-            var response = await _mediator.Send(request);
-
-            return response;
-        }
 
         #region Get a type of report
         [HttpPost("Available-Story-Reports")]
-        public async Task<PageResponse<StoryReportDto>> AvailableStoryReports([FromBody] BaseRequest? req)
+        public async Task<PageResponse<StoryReportVM>> AvailableStoryReports([FromBody] BaseRequest? req)
         {
             var request = new GetStoryReportsRequest();
 
@@ -49,7 +41,7 @@ namespace SimpleStoryPlatform.API.Controllers
         }
 
         [HttpPost("Available-Review-Reports")]
-        public async Task<PageResponse<ReviewReportDto>> AvailableReviewReports([FromBody] BaseRequest? req)
+        public async Task<PageResponse<ReviewReportVM>> AvailableReviewReports([FromBody] BaseRequest? req)
         {
             var request = new GetReviewReportsRequest();
 
@@ -62,7 +54,7 @@ namespace SimpleStoryPlatform.API.Controllers
         }
 
         [HttpPost("Available-ReleaseRequests")]
-        public async Task<PageResponse<StoryReleaseRequestDetailsDto>> AvailableReleaseRequests([FromBody] BaseRequest? req)
+        public async Task<PageResponse<ReleaseRequestVM>> AvailableReleaseRequests([FromBody] BaseRequest? req)
         {
             var request = new GetReleaseRequestsRequest();
 
@@ -108,5 +100,15 @@ namespace SimpleStoryPlatform.API.Controllers
         }
 
         #endregion
+    
+        [HttpGet("Get-User-Warnings")]
+        public async Task<PageResponse<WarningDto>> AvailableReports([FromBody] WarningPageRequestDto req)
+        {
+            var request = new AdminsGetUserWarningsPageRequest();
+
+            var response = await _mediator.Send(request);
+
+            return response;
+        }
     }
 }

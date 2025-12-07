@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace SimpleStoryPlatform.Domain.Entites.Report
 {
-    public class BaseReportEntity<T> : BaseDomainEntity
+    public class BaseReportEntity : BaseDomainEntity
     {
-        public T Object { get; set; }
         public string? ReportText { get; set; }
         public bool IsComplete { get; set; }
         public User TargetUser { get; set; }

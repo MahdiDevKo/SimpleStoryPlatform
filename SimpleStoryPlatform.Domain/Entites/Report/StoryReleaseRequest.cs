@@ -6,9 +6,12 @@ using System.Threading.Tasks;
 
 namespace SimpleStoryPlatform.Domain.Entites.Report
 {
-    public class StoryReleaseRequest : BaseReportEntity<StoryReport>
+    public class StoryReleaseRequest : BaseDomainEntity
     {
-        public int StoryReportId { get; set; }
+        public string RequestMessage { get; set; }
+        public bool IsComplete { get; set; }
+        //relation
+        public Story Story { get; set; }
         public int StoryId { get; set; }
     }
 }

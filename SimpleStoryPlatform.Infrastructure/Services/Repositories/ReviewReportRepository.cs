@@ -30,28 +30,5 @@ namespace SimpleStoryPlatform.Infrastructure.Services.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<StoryReviewReport>> GetAllWithDetail()
-        {
-            var reports = await _context.ReviewReports
-                .Include(r => r.Object)
-                    .ThenInclude(s => s.TargetStory)
-                .Include(r => r.Object)
-                    .ThenInclude(s => s.Reviewer)
-                .Include(r => r.TargetUser)
-                .Where(r => r.IsComplete == false)
-                .ToListAsync();
-
-            return reports;
-        }
-
-        public Task<StoryReviewReport?> GetReportWithDetails(Guid reportGuid)
-        {
-            var report = _context.ReviewReports
-                .Include(r => r.Object)  //StoryReview
-                .Include(r => r.TargetUser)
-                .FirstOrDefaultAsync(r => r.PublicId == reportGuid);
-
-            return report;
-        }
     }
 }

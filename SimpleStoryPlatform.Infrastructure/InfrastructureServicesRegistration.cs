@@ -33,6 +33,7 @@ namespace SimpleStoryPlatform.Infrastructure
             services.AddScoped<IStoryReleaseRepository, StoryReleaseRepository>();
 
             services.AddScoped<INotificationRepository, NotificationRepository>();
+            services.AddScoped<IWarningRepository, WarningRepository>();
 
             services.AddAuthorization();
 

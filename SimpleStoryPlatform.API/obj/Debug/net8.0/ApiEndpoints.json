@@ -15,27 +15,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "SimpleStoryPlatform.Application.Responses.PageResponse\u00601[[SimpleStoryPlatform.Application.DTOs.ReportDTOs.ServerToUser.StoryReleaseRequestDetailsDto, SimpleStoryPlatform.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "SimpleStoryPlatform.API.Controllers.AdminsController",
-    "Method": "AvailableReports",
-    "RelativePath": "Admins/Available-Reports",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": [
-      {
-        "Type": "SimpleStoryPlatform.Application.Responses.BaseResponseWithData\u00601[[SimpleStoryPlatform.Application.DTOs.ReportDTOs.ServerToUser.AllReportsDto, SimpleStoryPlatform.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "SimpleStoryPlatform.Application.Responses.PageResponse\u00601[[SimpleStoryPlatform.Application.ViewModels.Reports.ReleaseRequestVM, SimpleStoryPlatform.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -61,7 +41,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "SimpleStoryPlatform.Application.Responses.PageResponse\u00601[[SimpleStoryPlatform.Application.DTOs.ReportDTOs.ServerToUser.ReviewReportDto, SimpleStoryPlatform.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "SimpleStoryPlatform.Application.Responses.PageResponse\u00601[[SimpleStoryPlatform.Application.ViewModels.Reports.ReviewReportVM, SimpleStoryPlatform.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -87,7 +67,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "SimpleStoryPlatform.Application.Responses.PageResponse\u00601[[SimpleStoryPlatform.Application.DTOs.ReportDTOs.ServerToUser.StoryReportDto, SimpleStoryPlatform.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "SimpleStoryPlatform.Application.Responses.PageResponse\u00601[[SimpleStoryPlatform.Application.ViewModels.Reports.StoryReportVM, SimpleStoryPlatform.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -166,6 +146,32 @@
     "ReturnTypes": [
       {
         "Type": "SimpleStoryPlatform.Application.Responses.BaseResponse",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SimpleStoryPlatform.API.Controllers.AdminsController",
+    "Method": "AvailableReports",
+    "RelativePath": "Admins/Get-User-Warnings",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "req",
+        "Type": "SimpleStoryPlatform.Application.DTOs.ReportDTOs.UserToServer.WarningPageRequestDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SimpleStoryPlatform.Application.Responses.PageResponse\u00601[[SimpleStoryPlatform.Application.DTOs.ReportDTOs.ServerToUser.WarningDto, SimpleStoryPlatform.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",

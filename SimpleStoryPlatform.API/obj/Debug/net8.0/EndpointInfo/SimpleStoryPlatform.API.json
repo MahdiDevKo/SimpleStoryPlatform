@@ -5,35 +5,6 @@
     "version": "v1"
   },
   "paths": {
-    "/Admins/Available-Reports": {
-      "get": {
-        "tags": [
-          "Admins"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/AllReportsDtoBaseResponseWithData"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AllReportsDtoBaseResponseWithData"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AllReportsDtoBaseResponseWithData"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/Admins/Available-Story-Reports": {
       "post": {
         "tags": [
@@ -64,17 +35,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/StoryReportDtoPageResponse"
+                  "$ref": "#/components/schemas/StoryReportVMPageResponse"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/StoryReportDtoPageResponse"
+                  "$ref": "#/components/schemas/StoryReportVMPageResponse"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/StoryReportDtoPageResponse"
+                  "$ref": "#/components/schemas/StoryReportVMPageResponse"
                 }
               }
             }
@@ -112,17 +83,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/ReviewReportDtoPageResponse"
+                  "$ref": "#/components/schemas/ReviewReportVMPageResponse"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ReviewReportDtoPageResponse"
+                  "$ref": "#/components/schemas/ReviewReportVMPageResponse"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ReviewReportDtoPageResponse"
+                  "$ref": "#/components/schemas/ReviewReportVMPageResponse"
                 }
               }
             }
@@ -160,17 +131,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/StoryReleaseRequestDetailsDtoPageResponse"
+                  "$ref": "#/components/schemas/ReleaseRequestVMPageResponse"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/StoryReleaseRequestDetailsDtoPageResponse"
+                  "$ref": "#/components/schemas/ReleaseRequestVMPageResponse"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/StoryReleaseRequestDetailsDtoPageResponse"
+                  "$ref": "#/components/schemas/ReleaseRequestVMPageResponse"
                 }
               }
             }
@@ -315,6 +286,54 @@
               "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/BaseResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Admins/Get-User-Warnings": {
+      "get": {
+        "tags": [
+          "Admins"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WarningPageRequestDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WarningPageRequestDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/WarningPageRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/WarningDtoPageResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WarningDtoPageResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WarningDtoPageResponse"
                 }
               }
             }
@@ -1115,56 +1134,6 @@
   },
   "components": {
     "schemas": {
-      "AllReportsDto": {
-        "type": "object",
-        "properties": {
-          "reviewReports": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ReviewReportDto"
-            },
-            "nullable": true
-          },
-          "storyReports": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/StoryReportDto"
-            },
-            "nullable": true
-          },
-          "storyReleaseRequests": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/StoryReleaseRequestDetailsDto"
-            },
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "AllReportsDtoBaseResponseWithData": {
-        "type": "object",
-        "properties": {
-          "success": {
-            "type": "boolean"
-          },
-          "message": {
-            "type": "string",
-            "nullable": true
-          },
-          "errors": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "nullable": true
-          },
-          "data": {
-            "$ref": "#/components/schemas/AllReportsDto"
-          }
-        },
-        "additionalProperties": false
-      },
       "BaseRequest": {
         "type": "object",
         "properties": {
@@ -1253,24 +1222,7 @@
         },
         "additionalProperties": false
       },
-      "ReportCompleteDto": {
-        "type": "object",
-        "properties": {
-          "reportGuid": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "isAccepted": {
-            "type": "boolean"
-          },
-          "spicialMessage": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "ReviewReportDto": {
+      "ReleaseRequestVM": {
         "type": "object",
         "properties": {
           "publicId": {
@@ -1285,23 +1237,21 @@
             "type": "string",
             "format": "uuid"
           },
-          "object": {
-            "$ref": "#/components/schemas/StoryReviewDto"
-          },
-          "reportText": {
+          "requestMessage": {
             "type": "string",
             "nullable": true
           },
           "isComplete": {
             "type": "boolean"
           },
-          "targetUser": {
-            "$ref": "#/components/schemas/UserWithWarningsDto"
+          "storyGuid": {
+            "type": "string",
+            "format": "uuid"
           }
         },
         "additionalProperties": false
       },
-      "ReviewReportDtoPageResponse": {
+      "ReleaseRequestVMPageResponse": {
         "type": "object",
         "properties": {
           "success": {
@@ -1321,7 +1271,100 @@
           "items": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/ReviewReportDto"
+              "$ref": "#/components/schemas/ReleaseRequestVM"
+            },
+            "nullable": true
+          },
+          "currentPage": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalItems": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ReportCompleteDto": {
+        "type": "object",
+        "properties": {
+          "reportGuid": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "isAccepted": {
+            "type": "boolean"
+          },
+          "spicialMessage": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ReviewReportVM": {
+        "type": "object",
+        "properties": {
+          "publicId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdBy": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "reportReason": {
+            "type": "string",
+            "nullable": true
+          },
+          "targetUser": {
+            "$ref": "#/components/schemas/UserWithWarningsDto"
+          },
+          "reviewData": {
+            "type": "string",
+            "nullable": true
+          },
+          "reviewGuid": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ReviewReportVMPageResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ReviewReportVM"
             },
             "nullable": true
           },
@@ -1552,7 +1595,7 @@
         },
         "additionalProperties": false
       },
-      "StoryReleaseRequestDetailsDto": {
+      "StoryReportVM": {
         "type": "object",
         "properties": {
           "publicId": {
@@ -1567,95 +1610,21 @@
             "type": "string",
             "format": "uuid"
           },
-          "report": {
-            "$ref": "#/components/schemas/StoryReportDto"
-          },
-          "reportText": {
+          "reportReason": {
             "type": "string",
             "nullable": true
           },
-          "isComplete": {
-            "type": "boolean"
-          }
-        },
-        "additionalProperties": false
-      },
-      "StoryReleaseRequestDetailsDtoPageResponse": {
-        "type": "object",
-        "properties": {
-          "success": {
-            "type": "boolean"
-          },
-          "message": {
-            "type": "string",
-            "nullable": true
-          },
-          "errors": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "nullable": true
-          },
-          "items": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/StoryReleaseRequestDetailsDto"
-            },
-            "nullable": true
-          },
-          "currentPage": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "totalPages": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "pageSize": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "totalItems": {
-            "type": "integer",
-            "format": "int32"
-          }
-        },
-        "additionalProperties": false
-      },
-      "StoryReportDto": {
-        "type": "object",
-        "properties": {
-          "publicId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "createdBy": {
-            "type": "string",
-            "format": "uuid"
+          "targetUser": {
+            "$ref": "#/components/schemas/UserWithWarningsDto"
           },
           "storyGuid": {
             "type": "string",
             "format": "uuid"
-          },
-          "reportText": {
-            "type": "string",
-            "nullable": true
-          },
-          "isComplete": {
-            "type": "boolean"
-          },
-          "targetUser": {
-            "$ref": "#/components/schemas/UserWithWarningsDto"
           }
         },
         "additionalProperties": false
       },
-      "StoryReportDtoPageResponse": {
+      "StoryReportVMPageResponse": {
         "type": "object",
         "properties": {
           "success": {
@@ -1675,7 +1644,7 @@
           "items": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/StoryReportDto"
+              "$ref": "#/components/schemas/StoryReportVM"
             },
             "nullable": true
           },
@@ -2032,10 +2001,6 @@
       "UserReportDto": {
         "type": "object",
         "properties": {
-          "userGuid": {
-            "type": "string",
-            "format": "uuid"
-          },
           "objectGuid": {
             "type": "string",
             "format": "uuid"
@@ -2068,6 +2033,10 @@
               "$ref": "#/components/schemas/WarningDto"
             },
             "nullable": true
+          },
+          "totalWarnings": {
+            "type": "integer",
+            "format": "int32"
           }
         },
         "additionalProperties": false
@@ -2098,6 +2067,63 @@
           "details": {
             "type": "string",
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "WarningDtoPageResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WarningDto"
+            },
+            "nullable": true
+          },
+          "currentPage": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalItems": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "WarningPageRequestDto": {
+        "type": "object",
+        "properties": {
+          "page": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "userGuid": {
+            "type": "string",
+            "format": "uuid"
           }
         },
         "additionalProperties": false

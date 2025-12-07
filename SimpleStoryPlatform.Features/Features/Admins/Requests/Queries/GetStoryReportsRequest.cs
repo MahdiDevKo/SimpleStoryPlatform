@@ -2,6 +2,7 @@
 using SimpleStoryPlatform.Application.DTOs.ReportDTOs.ServerToUser;
 using SimpleStoryPlatform.Application.Requests;
 using SimpleStoryPlatform.Application.Responses;
+using SimpleStoryPlatform.Application.ViewModels.Reports;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace SimpleStoryPlatform.Application.Features.Admins.Requests.Queries
 {
-    public class GetStoryReportsRequest : IRequest<PageResponse<StoryReportDto>>
+    public class GetStoryReportsRequest : IRequest<PageResponse<StoryReportVM>>
     {
         public BaseRequest pageReq { get; set; } = new BaseRequest();
     }
