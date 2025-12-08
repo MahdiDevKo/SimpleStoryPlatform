@@ -28,19 +28,17 @@ namespace SimpleStoryPlatform.Application.Features.Users.Handlers.Queries
 
             var user = await _userRepo.GetByUsername(request.loginDto.Username);
 
-            if (user != null)
-            {
-                if (user.Password == request.loginDto.Password)
-                {
-                    response.Success = true;
-                    response.Message = "با موفقیت وارد شدید!";
-                    response.data = user;
-                }
-                else
-                    response.Message = "رمز عبور اشتباه میباشد.";
-            }
-            else
-                response.Message = "کاربر موردنظر یافت نشد.";
+            if (user == null) { response.Message = "user not found."; return response; }
+
+            if (user.Password != request.loginDto.Password) { response.Message = "password incorrect"; return response; }
+
+            if (user.IsBan) { response.Message = $"your account has been BANED!\nBan reason:{user.BanReason} \nUnban date:{user.UnBanDate}"; return response; }
+
+            if (user.IsDeleted) { response.Message = $"your account has been deleted. dont try to access it (or i will be eat your dad)"; return response; }
+
+            response.Success = true;
+            response.Message = "";
+            response.data = user;
 
             return response;
         }
