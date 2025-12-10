@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace SimpleStoryPlatform.Application.Features.Writers.Requests.Commands
 {
-    public class StoryUpdateCommand : IRequest<BaseResponse>
+    public class StoryUpdateCommand : IRequest<BaseResponseWithData<StoryUpdateDto>>
     {
         public Guid userGuid { get; set; }
         public bool Publish { get; set; }

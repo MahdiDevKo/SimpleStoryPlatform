@@ -10,11 +10,11 @@ namespace SimpleStoryPlatform.Application.DTOs.StoryDTOs.UserToServer
 {
     public class StoryUpdateDto : BaseDtoInfo, IStoryNameAndPreivewRule
     {
+        public string Id { get; set; }
         public string Name { get; set; }
         public string Preview { get; set; }
         public List<StorySectionDto> Data { get; set; }
         public bool IsPublished { get; set; }
-        public bool IsVisible { get; set; }
         public Guid? PlayListGuid { get; set; }
     }
 }

@@ -27,16 +27,23 @@ namespace SimpleStoryPlatform.Infrastructure.Services.Repositories
             return entity;
         }
 
-        public Task<bool> DeleteAsync(Guid publicId)
+        public async Task<bool> DeleteAsync(Guid publicId)
         {
-            throw new NotImplementedException();
+            var item = await GetByGuidAsync(publicId);
+
+            if (item != null)
+            {
+                _context.Remove(item);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            else
+                return false;
         }
 
         public async Task<bool> ExistsAsync(Guid publicId)
         {
-            //var res = await _context.Set<T>().Where(e => e.PublicId == publicId);
-            //return 
-            throw new NotImplementedException();
+            return await _context.Set<T>().AnyAsync(e => e.PublicId == publicId);
         }
 
         public async Task<T?> GetAsync(int id)

@@ -50,6 +50,19 @@
           }
         }
       },
+      "Hashids.net/1.7.0": {
+        "type": "package",
+        "compile": {
+          "lib/net7.0/Hashids.net.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net7.0/Hashids.net.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "MediatR/13.1.0": {
         "type": "package",
         "dependencies": {
@@ -490,8 +503,10 @@
           "AutoMapper": "15.1.0",
           "FluentValidation": "12.1.0",
           "FluentValidation.DependencyInjectionExtensions": "12.1.0",
+          "Hashids.net": "1.7.0",
           "MediatR": "13.1.0",
           "Microsoft.EntityFrameworkCore": "9.0.10",
+          "Microsoft.Extensions.Configuration.Abstractions": "9.0.10",
           "SimpleStoryPlatform.Domain": "1.0.0"
         },
         "compile": {
@@ -562,6 +577,25 @@
         "fluentvalidation.dependencyinjectionextensions.nuspec",
         "lib/net8.0/FluentValidation.DependencyInjectionExtensions.dll",
         "lib/net8.0/FluentValidation.DependencyInjectionExtensions.xml"
+      ]
+    },
+    "Hashids.net/1.7.0": {
+      "sha512": "TuQ8ns5c+eeIOHSgJdwCLb0nWzKqn2gCPSLFoz6nWdhw3tS5Wa43qrwRXT4UJT7XVgHqKssacVU1SGlAOWjeIg==",
+      "type": "package",
+      "path": "hashids.net/1.7.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "README.md",
+        "hashids.net.1.7.0.nupkg.sha512",
+        "hashids.net.nuspec",
+        "hashids.png",
+        "lib/net6.0/Hashids.net.dll",
+        "lib/net6.0/Hashids.net.xml",
+        "lib/net7.0/Hashids.net.dll",
+        "lib/net7.0/Hashids.net.xml",
+        "lib/netstandard2.0/Hashids.net.dll",
+        "lib/netstandard2.0/Hashids.net.xml"
       ]
     },
     "MediatR/13.1.0": {

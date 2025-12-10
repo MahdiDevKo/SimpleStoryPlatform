@@ -15,7 +15,7 @@ using System.Xml;
 
 namespace SimpleStoryPlatform.Application.Features.Writers.Handlers.Commands
 {
-    public class StoryUpdateCommandHandler : IRequestHandler<StoryUpdateCommand, BaseResponse>
+    public class StoryUpdateCommandHandler : IRequestHandler<StoryUpdateCommand, BaseResponseWithData<StoryUpdateDto>>
     {
         IStoryRepository _storyRepo;
         IMapper _mapper;
@@ -24,32 +24,32 @@ namespace SimpleStoryPlatform.Application.Features.Writers.Handlers.Commands
             _mapper = mapper;
             _storyRepo = storyRepository;
         }
-        public async Task<BaseResponse> Handle(StoryUpdateCommand request, CancellationToken cancellationToken)
+        public async Task<BaseResponseWithData<StoryUpdateDto>> Handle(StoryUpdateCommand request, CancellationToken cancellationToken)
         {
-            var response = new BaseResponse();
+            var response = new BaseResponseWithData<StoryUpdateDto>();
 
-            var story = await _storyRepo.GetStoryDetails(request.storyDto.PublicId);
+            var story = await _storyRepo.GetStoryWithSections(request.storyDto.PublicId);
 
             if (story == null)
-                response.Message = "داستان موردنظر یافت نشد.";
+                response.Message = "cant found story";
 
             else if (story.CreatedBy != request.userGuid)
-                response.Message = "شما اجازه ی تغییر این داستان را ندارید!";
+                response.Message = "you dont have the premission to update this story";
 
             else if (story.IsVisible)
-                response.Message = "شما نمیتوانید داستانی که در معرض عموم قرار دارد را ویرایش کنید!";
+                response.Message = "you cant update PUBLISHED story";
 
             else
             {
-                story.Name = request.storyDto.Name;
-                story.Preview = request.storyDto.Preview;
-                story.Data = _mapper.Map<List<StorySection>>(request.storyDto.Data);
-                story.IsPublished = request.Publish;
+                await _storyRepo.UpdateEntityAsync(_mapper.Map<Story>(request.storyDto));
+
+                var neoStory = _mapper.Map<Story>(request.storyDto);
 
                 story = await _storyRepo.UpdateEntityAsync(story);
 
                 response.Success = true;
-                response.Message = "داستان شما با موفقیت بروزرسانی شد!";
+                response.Message = "your story has been saved successfully :D!";
+                response.data = _mapper.Map<StoryUpdateDto>(neoStory);
             }
 
             return response;

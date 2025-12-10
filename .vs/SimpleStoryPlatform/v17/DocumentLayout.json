@@ -1,7 +1,48 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{79605688-E78F-486A-B895-24664E3CF96B}|SimpleStoryPlatform.Features\\SimpleStoryPlatform.Application.csproj|c:\\users\\hp\\source\\repos\\simplestoryplatform\\simplestoryplatform.features\\features\\writers\\handlers\\commands\\storyupdatecommandhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{79605688-E78F-486A-B895-24664E3CF96B}|SimpleStoryPlatform.Features\\SimpleStoryPlatform.Application.csproj|solutionrelative:simplestoryplatform.features\\features\\writers\\handlers\\commands\\storyupdatecommandhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{27CC4E8E-89E7-4043-811F-E30B906A80B0}|SimpleStoryPlatform.Infrastructure\\SimpleStoryPlatform.Infrastructure.csproj|c:\\users\\hp\\source\\repos\\simplestoryplatform\\simplestoryplatform.infrastructure\\services\\repositories\\genericrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{27CC4E8E-89E7-4043-811F-E30B906A80B0}|SimpleStoryPlatform.Infrastructure\\SimpleStoryPlatform.Infrastructure.csproj|solutionrelative:simplestoryplatform.infrastructure\\services\\repositories\\genericrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{79605688-E78F-486A-B895-24664E3CF96B}|SimpleStoryPlatform.Features\\SimpleStoryPlatform.Application.csproj|c:\\users\\hp\\source\\repos\\simplestoryplatform\\simplestoryplatform.features\\features\\writers\\requests\\commands\\storyupdatecommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{79605688-E78F-486A-B895-24664E3CF96B}|SimpleStoryPlatform.Features\\SimpleStoryPlatform.Application.csproj|solutionrelative:simplestoryplatform.features\\features\\writers\\requests\\commands\\storyupdatecommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{79605688-E78F-486A-B895-24664E3CF96B}|SimpleStoryPlatform.Features\\SimpleStoryPlatform.Application.csproj|c:\\users\\hp\\source\\repos\\simplestoryplatform\\simplestoryplatform.features\\profiles\\mappingprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{79605688-E78F-486A-B895-24664E3CF96B}|SimpleStoryPlatform.Features\\SimpleStoryPlatform.Application.csproj|solutionrelative:simplestoryplatform.features\\profiles\\mappingprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{79605688-E78F-486A-B895-24664E3CF96B}|SimpleStoryPlatform.Features\\SimpleStoryPlatform.Application.csproj|c:\\users\\hp\\source\\repos\\simplestoryplatform\\simplestoryplatform.features\\services\\istoryrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{79605688-E78F-486A-B895-24664E3CF96B}|SimpleStoryPlatform.Features\\SimpleStoryPlatform.Application.csproj|solutionrelative:simplestoryplatform.features\\services\\istoryrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{79605688-E78F-486A-B895-24664E3CF96B}|SimpleStoryPlatform.Features\\SimpleStoryPlatform.Application.csproj|c:\\users\\hp\\source\\repos\\simplestoryplatform\\simplestoryplatform.features\\services\\hashservice\\hashidservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{79605688-E78F-486A-B895-24664E3CF96B}|SimpleStoryPlatform.Features\\SimpleStoryPlatform.Application.csproj|solutionrelative:simplestoryplatform.features\\services\\hashservice\\hashidservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{79605688-E78F-486A-B895-24664E3CF96B}|SimpleStoryPlatform.Features\\SimpleStoryPlatform.Application.csproj|c:\\users\\hp\\source\\repos\\simplestoryplatform\\simplestoryplatform.features\\dtos\\storydtos\\servertouser\\storysectiondto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{79605688-E78F-486A-B895-24664E3CF96B}|SimpleStoryPlatform.Features\\SimpleStoryPlatform.Application.csproj|solutionrelative:simplestoryplatform.features\\dtos\\storydtos\\servertouser\\storysectiondto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{79605688-E78F-486A-B895-24664E3CF96B}|SimpleStoryPlatform.Features\\SimpleStoryPlatform.Application.csproj|c:\\users\\hp\\source\\repos\\simplestoryplatform\\simplestoryplatform.features\\dtos\\storydtos\\usertoserver\\storyupdatedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{79605688-E78F-486A-B895-24664E3CF96B}|SimpleStoryPlatform.Features\\SimpleStoryPlatform.Application.csproj|solutionrelative:simplestoryplatform.features\\dtos\\storydtos\\usertoserver\\storyupdatedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D05F58C1-46FF-51EE-5389-F3178B939E8B}|SimpleStoryPlatform.API\\SimpleStoryPlatform.API.csproj|c:\\users\\hp\\source\\repos\\simplestoryplatform\\simplestoryplatform.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{D05F58C1-46FF-51EE-5389-F3178B939E8B}|SimpleStoryPlatform.API\\SimpleStoryPlatform.API.csproj|solutionrelative:simplestoryplatform.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{79605688-E78F-486A-B895-24664E3CF96B}|SimpleStoryPlatform.Features\\SimpleStoryPlatform.Application.csproj|c:\\users\\hp\\source\\repos\\simplestoryplatform\\simplestoryplatform.features\\services\\hashservice\\ihashidservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{79605688-E78F-486A-B895-24664E3CF96B}|SimpleStoryPlatform.Features\\SimpleStoryPlatform.Application.csproj|solutionrelative:simplestoryplatform.features\\services\\hashservice\\ihashidservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,8 +50,99 @@
       "DocumentGroups": [
         {
           "DockedWidth": 277,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 3,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "GenericRepository.cs",
+              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\SimpleStoryPlatform.Infrastructure\\Services\\Repositories\\GenericRepository.cs",
+              "RelativeDocumentMoniker": "SimpleStoryPlatform.Infrastructure\\Services\\Repositories\\GenericRepository.cs",
+              "ToolTip": "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\SimpleStoryPlatform.Infrastructure\\Services\\Repositories\\GenericRepository.cs",
+              "RelativeToolTip": "SimpleStoryPlatform.Infrastructure\\Services\\Repositories\\GenericRepository.cs",
+              "ViewState": "AgIAAD0AAAAAAAAAAAAwwEkAAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-10T01:31:57.996Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "StoryUpdateCommand.cs",
+              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\SimpleStoryPlatform.Features\\Features\\Writers\\Requests\\Commands\\StoryUpdateCommand.cs",
+              "RelativeDocumentMoniker": "SimpleStoryPlatform.Features\\Features\\Writers\\Requests\\Commands\\StoryUpdateCommand.cs",
+              "ToolTip": "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\SimpleStoryPlatform.Features\\Features\\Writers\\Requests\\Commands\\StoryUpdateCommand.cs",
+              "RelativeToolTip": "SimpleStoryPlatform.Features\\Features\\Writers\\Requests\\Commands\\StoryUpdateCommand.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAABSAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-10T01:29:53.983Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "IStoryRepository.cs",
+              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\SimpleStoryPlatform.Features\\Services\\IStoryRepository.cs",
+              "RelativeDocumentMoniker": "SimpleStoryPlatform.Features\\Services\\IStoryRepository.cs",
+              "ToolTip": "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\SimpleStoryPlatform.Features\\Services\\IStoryRepository.cs",
+              "RelativeToolTip": "SimpleStoryPlatform.Features\\Services\\IStoryRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwA0AAAAoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-10T01:25:43.919Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "StoryUpdateCommandHandler.cs",
+              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\SimpleStoryPlatform.Features\\Features\\Writers\\Handlers\\Commands\\StoryUpdateCommandHandler.cs",
+              "RelativeDocumentMoniker": "SimpleStoryPlatform.Features\\Features\\Writers\\Handlers\\Commands\\StoryUpdateCommandHandler.cs",
+              "ToolTip": "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\SimpleStoryPlatform.Features\\Features\\Writers\\Handlers\\Commands\\StoryUpdateCommandHandler.cs",
+              "RelativeToolTip": "SimpleStoryPlatform.Features\\Features\\Writers\\Handlers\\Commands\\StoryUpdateCommandHandler.cs",
+              "ViewState": "AgIAABsAAAAAAAAAAAAYwDMAAABGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-10T01:24:26.371Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "MappingProfile.cs",
+              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\SimpleStoryPlatform.Features\\Profiles\\MappingProfile.cs",
+              "RelativeDocumentMoniker": "SimpleStoryPlatform.Features\\Profiles\\MappingProfile.cs",
+              "ToolTip": "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\SimpleStoryPlatform.Features\\Profiles\\MappingProfile.cs",
+              "RelativeToolTip": "SimpleStoryPlatform.Features\\Profiles\\MappingProfile.cs",
+              "ViewState": "AgIAAFwAAAAAAAAAAAAwwDQAAABWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-10T01:11:20.998Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "StorySectionDto.cs",
+              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\SimpleStoryPlatform.Features\\DTOs\\StoryDTOs\\ServerToUser\\StorySectionDto.cs",
+              "RelativeDocumentMoniker": "SimpleStoryPlatform.Features\\DTOs\\StoryDTOs\\ServerToUser\\StorySectionDto.cs",
+              "ToolTip": "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\SimpleStoryPlatform.Features\\DTOs\\StoryDTOs\\ServerToUser\\StorySectionDto.cs",
+              "RelativeToolTip": "SimpleStoryPlatform.Features\\DTOs\\StoryDTOs\\ServerToUser\\StorySectionDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAkAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-10T01:10:49.091Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "StoryUpdateDto.cs",
+              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\SimpleStoryPlatform.Features\\DTOs\\StoryDTOs\\UserToServer\\StoryUpdateDto.cs",
+              "RelativeDocumentMoniker": "SimpleStoryPlatform.Features\\DTOs\\StoryDTOs\\UserToServer\\StoryUpdateDto.cs",
+              "ToolTip": "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\SimpleStoryPlatform.Features\\DTOs\\StoryDTOs\\UserToServer\\StoryUpdateDto.cs",
+              "RelativeToolTip": "SimpleStoryPlatform.Features\\DTOs\\StoryDTOs\\UserToServer\\StoryUpdateDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-10T01:09:28.293Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
@@ -18,6 +150,43 @@
             {
               "$type": "Bookmark",
               "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\SimpleStoryPlatform.API\\appsettings.json",
+              "RelativeDocumentMoniker": "SimpleStoryPlatform.API\\appsettings.json",
+              "ToolTip": "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\SimpleStoryPlatform.API\\appsettings.json",
+              "RelativeToolTip": "SimpleStoryPlatform.API\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-12-09T16:01:40.239Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "HashIdService.cs",
+              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\SimpleStoryPlatform.Features\\Services\\HashService\\HashIdService.cs",
+              "RelativeDocumentMoniker": "SimpleStoryPlatform.Features\\Services\\HashService\\HashIdService.cs",
+              "ToolTip": "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\SimpleStoryPlatform.Features\\Services\\HashService\\HashIdService.cs",
+              "RelativeToolTip": "SimpleStoryPlatform.Features\\Services\\HashService\\HashIdService.cs",
+              "ViewState": "AgIAABkAAAAAAAAAAAAmwEkAAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-09T15:58:40.143Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "IHashIdService.cs",
+              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\SimpleStoryPlatform.Features\\Services\\HashService\\IHashIdService.cs",
+              "RelativeDocumentMoniker": "SimpleStoryPlatform.Features\\Services\\HashService\\IHashIdService.cs",
+              "ToolTip": "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\SimpleStoryPlatform.Features\\Services\\HashService\\IHashIdService.cs",
+              "RelativeToolTip": "SimpleStoryPlatform.Features\\Services\\HashService\\IHashIdService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAwAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-09T15:58:16.006Z"
             }
           ]
         }

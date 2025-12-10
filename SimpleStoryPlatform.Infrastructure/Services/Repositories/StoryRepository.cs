@@ -48,6 +48,15 @@ namespace SimpleStoryPlatform.Infrastructure.Services.Repositories
             return story;
         }
 
+        public async Task<Story> GetStoryWithSections(Guid storyGuid)
+        {
+            var story = await _context.Stories
+                .Include(s => s.Data)
+                .FirstOrDefaultAsync(s => s.PublicId == storyGuid);
+
+            return story;
+        }
+
         public async Task<List<Story>> GetWritedStories(Guid userGuid)
         {
             var stories = await _context.Stories

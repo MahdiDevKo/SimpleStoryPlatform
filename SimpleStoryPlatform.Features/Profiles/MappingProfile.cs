@@ -8,6 +8,7 @@ using SimpleStoryPlatform.Application.DTOs.UserDTOs.ServerToUser;
 using SimpleStoryPlatform.Application.DTOs.UserDTOs.UserToServer;
 using SimpleStoryPlatform.Application.Features.Writers.Requests.Commands;
 using SimpleStoryPlatform.Application.Responses;
+using SimpleStoryPlatform.Application.Services.HashService;
 using SimpleStoryPlatform.Application.ViewModels.Reports;
 using SimpleStoryPlatform.Domain.Entites;
 using SimpleStoryPlatform.Domain.Entites.Report;
@@ -44,7 +45,14 @@ namespace SimpleStoryPlatform.Application.Profiles
 
             CreateMap<StoryReview, StoryReviewCreateDto>();
 
-            CreateMap<StorySection, StorySectionDto>().ReverseMap();
+            CreateMap<StorySection, StorySectionDto>()
+                .ForMember(dest => dest.Id,
+                    opt => opt.MapFrom<HashIdResolver, int>(src => src.Id))
+                .ReverseMap()
+                .ForMember(dest => dest.Id,
+                    opt => opt.MapFrom<HashIdReverseResolver, string>(src => src.Id));
+
+
             CreateMap<Story, StoryDetailsDto>()
                 .ForMember(s => s.PlayListGuid,
                     opt => opt.MapFrom(src => src.PlayList != null ? src.PlayList.PublicId : (Guid?)null))
@@ -68,6 +76,12 @@ namespace SimpleStoryPlatform.Application.Profiles
 
             CreateMap<Story, StoryCreateDto>().ReverseMap();
 
+            CreateMap<Story, StoryUpdateDto>()
+                .ForMember(dest => dest.Id,
+                opt => opt.MapFrom<HashIdResolver, int>(src => src.Id))
+            .ReverseMap()
+            .ForMember(dest => dest.Id,
+                opt => opt.MapFrom<HashIdReverseResolver, string>(src => src.Id)); ;
 
             //report section
             CreateMap<Warning, WarningDto>().ReverseMap();

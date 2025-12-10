@@ -11,6 +11,7 @@ namespace SimpleStoryPlatform.Application.Services
     {
         Task<List<Story>> GetWritedStories(Guid userGuid);
         Task<Story> GetStoryDetails(Guid storyGuid);
+        Task<Story> GetStoryWithSections(Guid storyGuid);
         Task<List<Story>?> SearchStories(string? searchValue, bool isAdmin = false);
         Task<string?> AddStoryReview(StoryReview review);
         Task<bool> IsThereAnyUnreadReleaseRequest(Guid storyGuid);
