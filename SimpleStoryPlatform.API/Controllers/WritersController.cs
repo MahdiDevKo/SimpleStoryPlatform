@@ -31,7 +31,7 @@ namespace SimpleStoryPlatform.API.Controllers
         {
             createDto.WriterGuid = GetPublicId();
 
-            var command = new StoryCreateCommand() { createDto = createDto};
+            var command = new StoryCreateCommand() { createDto = createDto };
 
             var response = await _mediator.Send(command);
 
@@ -65,12 +65,7 @@ namespace SimpleStoryPlatform.API.Controllers
         [HttpPost("Update-Story")]
         public async Task<BaseResponse> UpdateStory([FromBody] StoryUpdateDto storyDto)
         {
-            var request = new StoryUpdateCommand() 
-            {
-                storyDto = storyDto,
-                userGuid = GetPublicId(),
-                Publish = storyDto.IsPublished
-            };
+            var request = new StoryUpdateCommand() { storyDto = storyDto };
 
             var response = await _mediator.Send(request);
 
@@ -79,7 +74,7 @@ namespace SimpleStoryPlatform.API.Controllers
         [HttpPost("Unpublish-Story")]
         public async Task<BaseResponse> UnpunblishStory([FromBody] Guid storyGuid)
         {
-            var request = new StoryUnpublishCommand() { StoryGuid = storyGuid, UserGuid = GetPublicId()};
+            var request = new StoryUnpublishCommand() { StoryGuid = storyGuid, UserGuid = GetPublicId() };
 
             var response = await _mediator.Send(request);
 

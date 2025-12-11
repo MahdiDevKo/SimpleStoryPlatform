@@ -12,8 +12,6 @@ namespace SimpleStoryPlatform.Application.Features.Writers.Requests.Commands
 {
     public class StoryUpdateCommand : IRequest<BaseResponseWithData<StoryUpdateDto>>
     {
-        public Guid userGuid { get; set; }
-        public bool Publish { get; set; }
         public StoryUpdateDto storyDto { get; set; }
     }
 }

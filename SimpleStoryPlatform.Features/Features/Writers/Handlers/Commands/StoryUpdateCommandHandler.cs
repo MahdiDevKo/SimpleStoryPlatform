@@ -18,11 +18,13 @@ namespace SimpleStoryPlatform.Application.Features.Writers.Handlers.Commands
     public class StoryUpdateCommandHandler : IRequestHandler<StoryUpdateCommand, BaseResponseWithData<StoryUpdateDto>>
     {
         IStoryRepository _storyRepo;
+        ICurrentUserToken _currentUser;
         IMapper _mapper;
-        public StoryUpdateCommandHandler(IMapper mapper, IStoryRepository storyRepository, IUserRepository userRepo)
+        public StoryUpdateCommandHandler(IMapper mapper, IStoryRepository storyRepository, ICurrentUserToken currentUserToken)
         {
             _mapper = mapper;
             _storyRepo = storyRepository;
+            _currentUser = currentUserToken;
         }
         public async Task<BaseResponseWithData<StoryUpdateDto>> Handle(StoryUpdateCommand request, CancellationToken cancellationToken)
         {
@@ -33,7 +35,7 @@ namespace SimpleStoryPlatform.Application.Features.Writers.Handlers.Commands
             if (story == null)
                 response.Message = "cant found story";
 
-            else if (story.CreatedBy != request.userGuid)
+            else if (story.CreatedBy != _currentUser.UserGuid)
                 response.Message = "you dont have the premission to update this story";
 
             else if (story.IsVisible)

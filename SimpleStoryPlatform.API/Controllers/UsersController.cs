@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.JsonWebTokens;
 using SimpleStoryPlatform.API.Controllers;
+using SimpleStoryPlatform.Application.DTOs.ReportDTOs.ServerToUser;
 using SimpleStoryPlatform.Application.DTOs.StoryDTOs.ServerToUser;
 using SimpleStoryPlatform.Application.DTOs.StoryDTOs.UserToServer;
 using SimpleStoryPlatform.Application.DTOs.UserDTOs.ServerToUser;
@@ -61,7 +62,7 @@ namespace SimpleStoryPlatform.Controllers
         [HttpPost("Report-Review")]
         public async Task<BaseResponse> ReportReview([FromBody] UserReportDto reportDto)
         {
-            var request = new UserReportReviewCommand() {reportDto = reportDto};
+            var request = new UserReportReviewCommand() { reportDto = reportDto };
 
             var response = await _mediator.Send(request);
 
@@ -70,7 +71,7 @@ namespace SimpleStoryPlatform.Controllers
         [HttpPost("Report-Story")]
         public async Task<BaseResponse> ReportStory([FromBody] UserReportDto reportDto)
         {
-            var request = new UserReportStoryCommand() { reportDto = reportDto};
+            var request = new UserReportStoryCommand() { reportDto = reportDto };
 
             var response = await _mediator.Send(request);
 
@@ -80,7 +81,7 @@ namespace SimpleStoryPlatform.Controllers
         [HttpPost("Add-Story_To_Library")]
         public async Task<BaseResponse> AddStory([FromBody] Guid storyGuid)
         {
-            var request = new UserAddStoryToLibraryCommand() { storyGuid = storyGuid};
+            var request = new UserAddStoryToLibraryCommand() { storyGuid = storyGuid };
 
             var response = await _mediator.Send(request);
 
@@ -93,8 +94,28 @@ namespace SimpleStoryPlatform.Controllers
         {
             var request = new UserGetLibraryRequest();
 
-            if(req != null)
+            if (req != null)
                 request.reqProp = req;
+
+            var response = await _mediator.Send(request);
+
+            return response;
+        }
+
+        [HttpPost("Get-Notifications")]
+        public async Task<PageResponse<NotificationDto>> GetNotifications([FromBody] BaseRequest req)
+        {
+            var request = new UserGetNorificationsRequest() { req = req };
+
+            var response = await _mediator.Send(request);
+
+            return response;
+        }
+
+        [HttpPost("Get-Warnings")]
+        public async Task<PageResponse<WarningDto>> GetWarnings([FromBody] BaseRequest req)
+        {
+            var request = new UserGetWarningsRequest() { req = req };
 
             var response = await _mediator.Send(request);
 
