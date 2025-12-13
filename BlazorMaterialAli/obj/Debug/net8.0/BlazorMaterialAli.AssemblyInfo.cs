@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("BlazorMaterialAli")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+dda00b97851b97d6e660f12473b5ecd26083bd55")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4dc1c660286d50dfa4bb6fa9fc35e7e992fac333")]
 [assembly: System.Reflection.AssemblyProductAttribute("BlazorMaterialAli")]
 [assembly: System.Reflection.AssemblyTitleAttribute("BlazorMaterialAli")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

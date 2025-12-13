@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using SimpleStoryPlatform.Application.DTOs.ReportDTOs.ServerToUser;
 using SimpleStoryPlatform.Application.DTOs.ReportDTOs.UserToServer;
 using SimpleStoryPlatform.Application.DTOs.StoryDTOs.UserToServer;
+using SimpleStoryPlatform.Application.DTOs.UserDTOs.UserToServer;
 using SimpleStoryPlatform.Application.Features.Admins.Handlers.Commands;
 using SimpleStoryPlatform.Application.Features.Admins.Requests.Commands;
 using SimpleStoryPlatform.Application.Features.Admins.Requests.Queries;
@@ -101,10 +102,20 @@ namespace SimpleStoryPlatform.API.Controllers
 
         #endregion
     
-        [HttpGet("Get-User-Warnings")]
+        [HttpPost("Get-User-Warnings")]
         public async Task<PageResponse<WarningDto>> AvailableReports([FromBody] WarningPageRequestDto req)
         {
-            var request = new AdminsGetUserWarningsPageRequest();
+            var request = new AdminsGetUserWarningsPageRequest() { pageReq = req };
+
+            var response = await _mediator.Send(request);
+
+            return response;
+        }
+
+        [HttpPost("Ban-User")]
+        public async Task<BaseResponse> BanUser([FromBody] UserBanCommandDto req)
+        {
+            var request = new AdminBanUserCommand() { BanReq = req};
 
             var response = await _mediator.Send(request);
 

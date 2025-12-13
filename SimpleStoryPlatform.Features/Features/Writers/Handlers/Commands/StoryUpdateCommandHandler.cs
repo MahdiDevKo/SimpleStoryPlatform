@@ -30,7 +30,7 @@ namespace SimpleStoryPlatform.Application.Features.Writers.Handlers.Commands
         {
             var response = new BaseResponseWithData<StoryUpdateDto>();
 
-            var story = await _storyRepo.GetStoryWithSections(request.storyDto.PublicId);
+            var story = await _storyRepo.GetStoryDetails(request.storyDto.PublicId, false);
 
             if (story == null)
                 response.Message = "cant found story";
@@ -43,16 +43,16 @@ namespace SimpleStoryPlatform.Application.Features.Writers.Handlers.Commands
 
             else
             {
-                await _storyRepo.UpdateEntityAsync(_mapper.Map<Story>(request.storyDto));
-
-                var neoStory = _mapper.Map<Story>(request.storyDto);
+                _mapper.Map(request.storyDto, story);
 
                 story = await _storyRepo.UpdateEntityAsync(story);
+
+                var neoStory = _mapper.Map<StoryUpdateDto>(story);
 
                 response.Success = true;
                 response.Message = "your story has been saved successfully :D!";
                 response.data = _mapper.Map<StoryUpdateDto>(neoStory);
-            }
+        }
 
             return response;
         }

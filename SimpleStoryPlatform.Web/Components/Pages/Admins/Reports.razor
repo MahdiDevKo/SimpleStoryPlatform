@@ -1,38 +1,1218 @@
 ﻿@page "/reports"
-
 @rendermode InteractiveServer
 
-<h3>Reports</h3>
+@using System.Globalization
+
+<div class="reports-page">
+    <h3>Reports Management</h3>
+    
+    <!-- Report Type Selection Buttons -->
+    <div class="report-type-selector">
+        <button class="report-type-btn @(activeReportType == ReportType.Story ? "active" : "")" 
+                @onclick="() => LoadReports(ReportType.Story)">
+            <span>📚 Story Reports</span>
+            @if (storyReportStats != null)
+            {
+                <span class="report-count">@storyReportStats.TotalItems</span>
+            }
+        </button>
+        
+        <button class="report-type-btn @(activeReportType == ReportType.Review ? "active" : "")" 
+                @onclick="() => LoadReports(ReportType.Review)">
+            <span>💬 Review Reports</span>
+            @if (reviewReportStats != null)
+            {
+                <span class="report-count">@reviewReportStats.TotalItems</span>
+            }
+        </button>
+        
+        <button class="report-type-btn @(activeReportType == ReportType.Release ? "active" : "")" 
+                @onclick="() => LoadReports(ReportType.Release)">
+            <span>🚀 Release Requests</span>
+            @if (releaseRequestStats != null)
+            {
+                <span class="report-count">@releaseRequestStats.TotalItems</span>
+            }
+        </button>
+    </div>
+
+    <!-- Reports Container -->
+    <div class="reports-container">
+        @if (activeReportType == ReportType.None)
+        {
+            <div class="empty-container">
+                <div class="empty-message">
+                    📋 Select report type to get the list
+                </div>
+            </div>
+        }
+        else if (IsCurrentListEmpty())
+        {
+            <div class="empty-container">
+                <div class="empty-message">
+                    📭 There is no report in this type
+                </div>
+            </div>
+        }
+        else
+        {
+            <!-- Reports List -->
+            <div class="reports-list">
+                @switch (activeReportType)
+                {
+                    case ReportType.Story:
+                        @foreach (var report in StoryReports!)
+                        {
+                            <div class="report-card @(expandedReportId == report.PublicId.ToString() ? "expanded" : "")">
+                                <div class="report-summary" @onclick="() => ToggleReportExpansion(report.PublicId.ToString())">
+                                    <div class="report-basic-info">
+                                        <div class="report-type-icon">📚</div>
+                                        <div class="report-title">
+                                            Story Report - @($"{report.TargetUser?.FirstName ?? "Anonymous"} {report.TargetUser?.LastName ?? ""}")
+                                        </div>
+                                    </div>
+                                    <div class="report-meta">
+                                        <span class="report-date">Created At: @((DateTime.UtcNow - report.CreatedAt).Days) Days ago</span>
+                                        <span class="expand-icon">@(expandedReportId == report.PublicId.ToString() ? "▼" : "▶")</span>
+                                    </div>
+                                </div>
+                                
+                                @if (expandedReportId == report.PublicId.ToString())
+                                {
+                                    <div class="report-details">
+                                        <div class="detail-section">
+                                            <h5>Report Details</h5>
+                                            @* <div class="detail-row">
+                                                <span class="detail-label">Report ID:</span>
+                                                <span class="detail-value">@report.PublicId</span>
+                                            </div> *@
+                                            <div class="detail-row">
+                                                <span class="detail-label">Reason:</span>
+                                                
+                                                @if (!string.IsNullOrEmpty(report.ReportReason))
+                                                {
+                                                    <span class="detail-value">
+                                                    @report.ReportReason; 
+                                                    </span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="detail-value">
+                                                    (no reseaon, check the details)
+                                                    </span>
+                                                }
+
+                                            </div>
+                                            <div class="detail-row">
+                                                <span class="detail-label">Created By:</span>
+                                                <a href="/user-profile/@report.CreatedBy" class="user-link">
+                                                    Reporter Profile
+                                                </a>
+                                            </div>
+                                            <div class="detail-row">
+                                                <span class="detail-label">Target Story:</span>
+                                                <a href="/ReadStory/@report.StoryGuid" class="story-link">
+                                                    View Story
+                                                </a>
+                                            </div>
+                                        </div>
+                                        
+                                        @if (report.TargetUser != null)
+                                        {
+                                            <div class="detail-section">
+                                                <h5>Target User</h5>
+                                                <div class="detail-row">
+                                                    <span class="detail-label">Name:</span>
+                                                    <span class="detail-value">@report.TargetUser.FirstName @report.TargetUser.LastName</span>
+                                                </div>
+        
+                                                @if (report.TargetUser.Warnings?.Count > 0)
+                                                {
+                                                    <div class="warnings-section">
+                                                        <h6>User Warnings (@report.TargetUser.Warnings.Count)</h6>
+                
+                                                        <!-- نمایش warnings فعلی -->
+                                                        <div class="warnings-list">
+                                                            @foreach (var warning in report.TargetUser.Warnings)
+                                                            {
+                                                                <div class="warning-item">
+                                                                    <span class="warning-date">@warning.CreatedAt.ToString("yyyy-MM-dd HH:mm")</span>
+                                                                    <span class="warning-reason">@warning.Reason</span>
+                                                                </div>
+                                                            }
+                                                        </div>
+                
+                                                        <!-- فقط یک دکمه ساده -->
+                                                        <button class="btn-load-warnings" 
+                                                                @onclick="() => LoadMoreWarnings(report.TargetUser)">
+                                                            🔄 Show More Warnings
+                                                        </button>
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <div class="no-warnings">
+                                                        <span>No warnings for this user</span>
+                                                        <button class="btn-load-warnings" 
+                                                                @onclick="() => LoadMoreWarnings(report.TargetUser)">
+                                                            🔍 Check for Warnings
+                                                        </button>
+                                                    </div>
+                                                }
+                                            </div>
+                                        }
+                                        
+                                        <div class="report-actions-section">
+                                            <div class="action-group">
+                                                <button class="btn-complete" 
+                                                        @onclick="() => CompleteStoryReport(report)">
+                                                    ✅ Complete Report
+                                                </button>
+                                            </div>
+                                            
+                                            <div class="action-group">
+                                                <div class="accept-report-section">
+                                                    <label class="accept-label">
+                                                        <input type="checkbox" 
+                                                               @bind="acceptReport"
+                                                               @bind:event="onchange" />
+                                                        Accept Report
+                                                    </label>
+                                                    
+                                                    @if (acceptReport)
+                                                    {
+                                                        <div class="additional-actions">
+                                                            <div class="ban-section">
+                                                                <label class="ban-label">
+                                                                    <input type="checkbox" @bind="banUser" />
+                                                                    Ban User
+                                                                </label>
+                                                                
+                                                                @if (banUser)
+                                                                {
+                                                                    <div class="ban-details">
+                                                                        <label>Unban Date:</label>
+                                                                        <input type="date" 
+                                                                               @bind="unbanDate"
+                                                                               @bind:event="onchange" />
+                                                                        @if (!isUnbanDateValid)
+                                                                        {
+                                                                            <span class="error-message">Date must be in the future</span>
+                                                                        }
+                                                                    </div>
+                                                                }
+                                                            </div>
+                                                            
+                                                            <div class="special-message-section">
+                                                                <label>Special Message:</label>
+                                                                <textarea @bind="specialMessage" 
+                                                                          placeholder="Enter your personal message to the user..."
+                                                                          rows="3"></textarea>
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        }
+                        break;
+
+                    case ReportType.Review:
+                        @foreach (var report in ReviewReports!)
+                        {
+                            <div class="report-card @(expandedReportId == report.PublicId.ToString() ? "expanded" : "")">
+                                <div class="report-summary" @onclick="() => ToggleReportExpansion(report.PublicId.ToString())">
+                                    <div class="report-basic-info">
+                                        <div class="report-type-icon">💬</div>
+                                        <div class="report-title">
+                                            Review Report - @report.PublicId.ToString("N")[..8]...
+                                        </div>
+                                    </div>
+                                    <div class="report-meta">
+                                        <span class="report-date">@report.CreatedAt.ToString("yyyy-MM-dd HH:mm")</span>
+                                        <span class="expand-icon">@(expandedReportId == report.PublicId.ToString() ? "▼" : "▶")</span>
+                                    </div>
+                                </div>
+                                
+                                @if (expandedReportId == report.PublicId.ToString())
+                                {
+                                    <div class="report-details">
+                                        <div class="detail-section">
+                                            <h5>Report Details</h5>
+                                            <div class="detail-row">
+                                                <span class="detail-label">Reason:</span>
+                                                <span class="detail-value">@report.ReportReason</span>
+                                            </div>
+                                            <div class="detail-row">
+                                                <span class="detail-label">Reporter Profile: </span>
+                                                <a href="/user-profile/@report.CreatedBy" class="user-link">
+                                                    @report.CreatedBy.ToString("N")[..8]...
+                                                </a>
+                                            </div>
+                                        </div>
+                                        
+                                        
+                                        <div class="detail-section">
+                                            <h5>Review Content</h5>
+                                            <div class="review-content">
+                                                @report.ReviewData
+                                            </div>
+                                        </div>
+                                        
+                                        
+                                        @if (report.TargetUser != null)
+                                        {
+                                            <div class="detail-section">
+                                                <h5>Target User</h5>
+                                                <div class="detail-row">
+                                                    <span class="detail-label">Name:</span>
+                                                    <span class="detail-value">@report.TargetUser.FirstName @report.TargetUser.LastName</span>
+                                                </div>
+        
+                                                @if (report.TargetUser.Warnings?.Count > 0)
+                                                {
+                                                    <div class="warnings-section">
+                                                        <h6>User Warnings (@report.TargetUser.Warnings.Count)</h6>
+                
+                                                        <!-- نمایش warnings فعلی -->
+                                                        <div class="warnings-list">
+                                                            @foreach (var warning in report.TargetUser.Warnings)
+                                                            {
+                                                                <div class="warning-item">
+                                                                    <span class="warning-date">@warning.CreatedAt.ToString("yyyy-MM-dd HH:mm")</span>
+                                                                    <span class="warning-reason">@warning.Reason</span>
+                                                                </div>
+                                                            }
+                                                        </div>
+                
+                                                        <!-- فقط یک دکمه ساده -->
+                                                        <button class="btn-load-warnings" 
+                                                                @onclick="() => LoadMoreWarnings(report.TargetUser)">
+                                                            🔄 Show More Warnings
+                                                        </button>
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <div class="no-warnings">
+                                                        <span>No warnings for this user</span>
+                                                        <button class="btn-load-warnings" 
+                                                                @onclick="() => LoadMoreWarnings(report.TargetUser)">
+                                                            🔍 Check for Warnings
+                                                        </button>
+                                                    </div>
+                                                }
+                                            </div>
+                                        }
+                                        
+                                        <div class="report-actions-section">
+                                            <div class="action-group">
+                                                <button class="btn-complete" 
+                                                        @onclick="() => CompleteReviewReport(report)">
+                                                    ✅ Complete Report
+                                                </button>
+                                            </div>
+                                            
+                                            <div class="action-group">
+                                                <div class="accept-report-section">
+                                                    <label class="accept-label">
+                                                        <input type="checkbox" 
+                                                                @bind="acceptReport"
+                                                                @bind:event="onchange" />
+                                                        Accept Report
+                                                    </label>
+                                                    
+                                                    @if (acceptReport)
+                                                    {
+                                                        <div class="additional-actions">
+                                                            <div class="ban-section">
+                                                                <label class="ban-label">
+                                                                    <input type="checkbox" @bind="banUser" />
+                                                                    Ban User
+                                                                </label>
+                                                                
+                                                                @if (banUser)
+                                                                {
+                                                                    <div class="ban-details">
+                                                                        <label>Unban Date:</label>
+                                                                        <input type="date" 
+                                                                               @bind="unbanDate"
+                                                                               @bind:event="onchange" />
+                                                                        @if (!isUnbanDateValid)
+                                                                        {
+                                                                            <span class="error-message">Date must be in the future</span>
+                                                                        }
+                                                                    </div>
+                                                                }
+                                                            </div>
+                                                            
+                                                            <div class="special-message-section">
+                                                                <label>Special Message:</label>
+                                                                <textarea @bind="specialMessage" 
+                                                                          placeholder="Enter your personal message to the user..."
+                                                                          rows="3"></textarea>
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        }
+                        break;
+
+                    case ReportType.Release:
+                        @foreach (var request in StoryReleaseRequests!)
+                        {
+                            <div class="report-card @(expandedReportId == request.PublicId.ToString() ? "expanded" : "")">
+                                <div class="report-summary" @onclick="() => ToggleReportExpansion(request.PublicId.ToString())">
+                                    <div class="report-basic-info">
+                                        <div class="report-type-icon">🚀</div>
+                                        <div class="report-title">
+                                            Release Request - @request.PublicId.ToString("N")[..8]...
+                                        </div>
+                                    </div>
+                                    <div class="report-meta">
+                                        <span class="report-date">@request.CreatedAt.ToString("yyyy-MM-dd HH:mm")</span>
+                                        <span class="expand-icon">@(expandedReportId == request.PublicId.ToString() ? "▼" : "▶")</span>
+                                    </div>
+                                </div>
+                                
+                                @if (expandedReportId == request.PublicId.ToString())
+                                {
+                                    <div class="report-details">
+                                        <div class="detail-section">
+                                            <h5>Request Details</h5>
+                                            <div class="detail-row">
+                                                <span class="detail-label">Request ID:</span>
+                                                <span class="detail-value">@request.PublicId</span>
+                                            </div>
+                                            <div class="detail-row">
+                                                <span class="detail-label">Status:</span>
+                                                <span class="detail-value @(request.IsComplete ? "status-complete" : "status-pending")">
+                                                    @(request.IsComplete ? "Complete" : "Pending")
+                                                </span>
+                                            </div>
+                                            <div class="detail-row">
+                                                <span class="detail-label">Created By:</span>
+                                                <a href="/users/profile/@request.CreatedBy" class="user-link">
+                                                    @request.CreatedBy.ToString("N")[..8]...
+                                                </a>
+                                            </div>
+                                            <div class="detail-row">
+                                                <span class="detail-label">Story:</span>
+                                                <span class="detail-value">@request.StoryGuid</span>
+                                            </div>
+                                        </div>
+                                        
+                                        @if (!string.IsNullOrEmpty(request.RequestMessage))
+                                        {
+                                            <div class="detail-section">
+                                                <h5>Request Message</h5>
+                                                <div class="request-message">
+                                                    @request.RequestMessage
+                                                </div>
+                                            </div>
+                                        }
+                                        
+                                        <div class="report-actions-section">
+                                            @if (!request.IsComplete)
+                                            {
+                                                <div class="action-group">
+                                                    <button class="btn-complete" 
+                                                            @onclick="() => CompleteReleaseRequest(request)">
+                                                        ✅ Complete Request
+                                                    </button>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="action-group">
+                                                    <span class="already-completed">✅ This request is already completed</span>
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        }
+                        break;
+                }
+            </div>
+
+            <!-- Pagination -->
+            @if (GetCurrentStats() != null)
+            {
+                <div class="pagination">
+                    <button class="pagination-btn @(currentPage <= 1 ? "disabled" : "")" 
+                            @onclick="() => ChangePage(currentPage - 1)"
+                            disabled="@(currentPage <= 1)">
+                        ◀ Previous
+                    </button>
+                    
+                    <div class="page-info">
+                        <span>Page @currentPage of @GetCurrentStats()?.TotalPages</span>
+                        <span class="total-items">(@GetCurrentStats()?.TotalItems total items)</span>
+                    </div>
+                    
+                    <button class="pagination-btn @(currentPage >= GetCurrentStats()?.TotalPages ? "disabled" : "")" 
+                            @onclick="() => ChangePage(currentPage + 1)"
+                            disabled="@(currentPage >= GetCurrentStats()?.TotalPages)">
+                        Next ▶
+                    </button>
+                </div>
+            }
+        }
+    </div>
+</div>
+
+<style>
+    .reports-page {
+        padding: 20px;
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+
+    .report-type-selector {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+    }
+
+    .report-type-btn {
+        padding: 12px 20px;
+        background-color: #f5f5f5;
+        border: 2px solid #ddd;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-width: 180px;
+        text-align: left;
+    }
+
+    .report-type-btn:hover {
+        background-color: #e8e8e8;
+        transform: translateY(-1px);
+    }
+
+    .report-type-btn.active {
+        background-color: #4a6bff;
+        color: white;
+        border-color: #4a6bff;
+    }
+
+    .report-count {
+        background-color: rgba(0, 0, 0, 0.1);
+        padding: 2px 8px;
+        border-radius: 12px;
+        font-size: 12px;
+        font-weight: bold;
+    }
+
+    .active .report-count {
+        background-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .reports-container {
+        border: 2px solid #e0e0e0;
+        border-radius: 10px;
+        min-height: 600px;
+        background-color: white;
+        overflow: hidden;
+    }
+
+    .empty-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 400px;
+    }
+
+    .empty-message {
+        font-size: 18px;
+        color: #888;
+        text-align: center;
+    }
+
+    .reports-list {
+        padding: 15px;
+    }
+
+    .report-card {
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        margin-bottom: 10px;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        background-color: white;
+    }
+
+    .report-card:hover {
+        border-color: #4a6bff;
+        box-shadow: 0 2px 8px rgba(74, 107, 255, 0.1);
+    }
+
+    .report-card.expanded {
+        border-color: #4a6bff;
+        box-shadow: 0 4px 12px rgba(74, 107, 255, 0.15);
+    }
+
+    .report-summary {
+        padding: 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #fafafa;
+    }
+
+    .report-basic-info {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .report-type-icon {
+        font-size: 20px;
+    }
+
+    .report-title {
+        font-weight: 500;
+        color: #333;
+    }
+
+    .report-meta {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .report-date {
+        color: #666;
+        font-size: 13px;
+    }
+
+    .expand-icon {
+        color: #4a6bff;
+        font-size: 12px;
+        font-weight: bold;
+    }
+
+    .report-details {
+        padding: 20px;
+        border-top: 1px solid #eee;
+        background-color: #fff;
+    }
+
+    .detail-section {
+        margin-bottom: 20px;
+    }
+
+    .detail-section h5 {
+        margin-bottom: 10px;
+        color: #333;
+        font-size: 14px;
+        font-weight: 600;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 5px;
+    }
+
+    .detail-row {
+        display: flex;
+        margin-bottom: 8px;
+        font-size: 13px;
+    }
+
+    .detail-label {
+        width: 120px;
+        color: #666;
+        font-weight: 500;
+    }
+
+    .detail-value {
+        color: #333;
+        flex: 1;
+    }
+
+    .user-link, .story-link {
+        color: #4a6bff;
+        text-decoration: none;
+        font-weight: 500;
+    }
+
+    .user-link:hover, .story-link:hover {
+        text-decoration: underline;
+    }
+
+    .warnings-section {
+        margin-top: 10px;
+        padding: 10px;
+        background-color: #fff9e6;
+        border-radius: 6px;
+        border-left: 3px solid #ffc107;
+    }
+
+    .warnings-section h6 {
+        margin: 0 0 8px 0;
+        color: #856404;
+        font-size: 12px;
+    }
+
+    .btn-load-warnings {
+        background-color: #ffc107;
+        color: #856404;
+        border: none;
+        padding: 5px 12px;
+        border-radius: 4px;
+        font-size: 12px;
+        cursor: pointer;
+        font-weight: 500;
+    }
+
+    .btn-load-warnings:hover {
+        background-color: #e0a800;
+    }
+
+    .review-content, .request-message {
+        padding: 10px;
+        background-color: #f8f9fa;
+        border-radius: 6px;
+        border-left: 3px solid #6c757d;
+        font-size: 13px;
+        line-height: 1.5;
+        white-space: pre-wrap;
+    }
+
+    .report-actions-section {
+        margin-top: 25px;
+        padding-top: 20px;
+        border-top: 2px solid #f0f0f0;
+    }
+
+    .action-group {
+        margin-bottom: 15px;
+    }
+
+    .btn-complete {
+        background-color: #28a745;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 6px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+    }
+
+    .btn-complete:hover {
+        background-color: #218838;
+    }
+
+    .accept-report-section {
+        padding: 15px;
+        background-color: #f8f9fa;
+        border-radius: 6px;
+    }
+
+    .accept-label {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 500;
+        color: #333;
+        cursor: pointer;
+    }
+
+    .additional-actions {
+        margin-top: 15px;
+        padding: 15px;
+        background-color: white;
+        border-radius: 6px;
+        border: 1px solid #dee2e6;
+    }
+
+    .ban-section {
+        margin-bottom: 15px;
+    }
+
+    .ban-label {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 500;
+        color: #dc3545;
+        cursor: pointer;
+        margin-bottom: 10px;
+    }
+
+    .ban-details {
+        margin-left: 24px;
+        padding: 10px;
+        background-color: #fff5f5;
+        border-radius: 4px;
+        border-left: 3px solid #dc3545;
+    }
+
+    .ban-details label {
+        display: block;
+        margin-bottom: 5px;
+        font-size: 13px;
+        color: #721c24;
+    }
+
+    .ban-details input[type="date"] {
+        padding: 6px;
+        border: 1px solid #dc3545;
+        border-radius: 4px;
+        width: 200px;
+    }
+
+    .error-message {
+        display: block;
+        color: #dc3545;
+        font-size: 12px;
+        margin-top: 5px;
+    }
+
+    .special-message-section {
+        margin-top: 15px;
+    }
+
+    .special-message-section label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+        color: #333;
+    }
+
+    .special-message-section textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ced4da;
+        border-radius: 4px;
+        font-family: inherit;
+        font-size: 13px;
+        resize: vertical;
+    }
+
+    .status-complete {
+        color: #28a745;
+        font-weight: 500;
+    }
+
+    .status-pending {
+        color: #ffc107;
+        font-weight: 500;
+    }
+
+    .already-completed {
+        color: #28a745;
+        font-weight: 500;
+        font-size: 14px;
+    }
+
+    .pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+        padding: 20px;
+        border-top: 1px solid #e0e0e0;
+        background-color: #fafafa;
+    }
+
+    .pagination-btn {
+        padding: 8px 16px;
+        background-color: #4a6bff;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: 500;
+        transition: background-color 0.2s ease;
+    }
+
+    .pagination-btn:hover:not(.disabled) {
+        background-color: #3a5bef;
+    }
+
+    .pagination-btn.disabled {
+        background-color: #a0a0a0;
+        cursor: not-allowed;
+        opacity: 0.6;
+    }
+
+    .page-info {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+        color: #666;
+        font-size: 14px;
+    }
+
+    .total-items {
+        font-size: 12px;
+        color: #888;
+    }
+
+    @*Added later for warnings*@
+    .warnings-section {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-radius: 6px;
+    border: 1px solid #dee2e6;
+    }
+
+    .warnings-list {
+        max-height: 150px;
+        overflow-y: auto;
+        margin-bottom: 10px;
+    }
+
+    .warning-item {
+        padding: 5px;
+        border-bottom: 1px solid #eee;
+        font-size: 12px;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .warning-item:last-child {
+        border-bottom: none;
+    }
+
+    .warning-date {
+        color: #666;
+        min-width: 120px;
+    }
+
+    .warning-reason {
+        color: #333;
+        flex: 1;
+    }
+
+    .btn-load-warnings {
+        background-color: #6c757d;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 4px;
+        font-size: 12px;
+        cursor: pointer;
+        width: 100%;
+    }
+
+    .btn-load-warnings:hover {
+        background-color: #5a6268;
+    }
+
+    .no-warnings {
+        margin-top: 10px;
+        padding: 10px;
+        background-color: #f8f9fa;
+        border-radius: 6px;
+        border: 1px dashed #dee2e6;
+        text-align: center;
+    }
+
+    .no-warnings span {
+        display: block;
+        margin-bottom: 5px;
+        color: #666;
+    }
+</style>
 
 @code {
-    int helperVariable;
-    /*
-     * need to be refactored
-     * need to be refactored
-     * need to be refactored
-     * need to be refactored
-     * need to be refactored
-     */
-    bool ShowStories = false;
-    bool ShowComments = false;
-    bool ShowRequests = false;
+    // Enum and state management
+    private enum ReportType { None, Story, Review, Release }
+    private ReportType activeReportType = ReportType.None;
+    private int currentPage = 1;
 
-    //reports bag :D
-    StoryReportDtoPageResponse? StoryReports { get; set; }
+    // UI state
+    private string expandedReportId = string.Empty;
+    private bool acceptReport = false;
+    private bool banUser = false;
+    private DateTime unbanDate = DateTime.Now.AddDays(7);
+    private bool isUnbanDateValid = true;
+    private string specialMessage = string.Empty;
 
-    ReviewReportDtoPageResponse? ReviewReports { get; set; }
+    // Pagination stats - You'll need to update these from your API responses
+    private PageStats storyReportStats = null;
+    private PageStats reviewReportStats = null;
+    private PageStats releaseRequestStats = null;
 
-    StoryReleaseRequestDetailsDtoPageResponse? StoryReleaseRequests { get; set; }
+    // Helper classes
+    private class PageStats
+    {
+        public int TotalItems { get; set; }
+        public int TotalPages { get; set; }
+        public int CurrentPage { get; set; }
+    }
 
+    // Existing properties from your code
+    List<StoryReportVM>? StoryReports { get; set; }
+    List<ReviewReportVM>? ReviewReports { get; set; }
+    List<ReleaseRequestVM>? StoryReleaseRequests { get; set; }
 
-    bool IsReportAccepted = false;
-    string? SpecialMessage;
+    // Helper methods
+    private bool IsCurrentListEmpty()
+    {
+        return activeReportType switch
+        {
+            ReportType.Story => StoryReports == null || StoryReports.Count == 0,
+            ReportType.Review => ReviewReports == null || ReviewReports.Count == 0,
+            ReportType.Release => StoryReleaseRequests == null || StoryReleaseRequests.Count == 0,
+            _ => true
+        };
+    }
 
-    // protected override async Task OnInitializedAsync()
-    // {
+    private PageStats GetCurrentStats()
+    {
+        return activeReportType switch
+        {
+            ReportType.Story => storyReportStats,
+            ReportType.Review => reviewReportStats,
+            ReportType.Release => releaseRequestStats,
+            _ => null
+        };
+    }
 
-    // }
+    private async Task LoadReports(ReportType type, int page = 1)
+    {
+        activeReportType = type;
+        currentPage = page;
+        expandedReportId = string.Empty;
 
+        switch (type)
+        {
+            case ReportType.Story:
+                await UpdateStoryReports(page);
+                // After API call, update stats
+                // storyReportStats = new PageStats { TotalItems = apiRes.TotalItems, TotalPages = apiRes.TotalPages };
+                break;
+            case ReportType.Review:
+                await UpdateReviewReports(page);
+                // reviewReportStats = new PageStats { TotalItems = apiRes.TotalItems, TotalPages = apiRes.TotalPages };
+                break;
+            case ReportType.Release:
+                await UpdateReleaseRequests(page);
+                // releaseRequestStats = new PageStats { TotalItems = apiRes.TotalItems, TotalPages = apiRes.TotalPages };
+                break;
+        }
+    }
+
+    private void ToggleReportExpansion(string reportId)
+    {
+        if (expandedReportId == reportId)
+        {
+            expandedReportId = string.Empty;
+            ResetActionForms();
+        }
+        else
+        {
+            expandedReportId = reportId;
+            ResetActionForms();
+        }
+    }
+
+    private void ResetActionForms()
+    {
+        acceptReport = false;
+        banUser = false;
+        unbanDate = DateTime.Now.AddDays(7);
+        isUnbanDateValid = true;
+        specialMessage = string.Empty;
+    }
+
+    private void OnAcceptReportChanged()
+    {
+        if (!acceptReport)
+        {
+            banUser = false;
+            specialMessage = string.Empty;
+        }
+    }
+
+    private void ValidateUnbanDate()
+    {
+        isUnbanDateValid = unbanDate > DateTime.Now;
+    }
+
+    private async Task ChangePage(int page)
+    {
+        if (page < 1) return;
+        if (GetCurrentStats() != null && page > GetCurrentStats().TotalPages) return;
+
+        await LoadReports(activeReportType, page);
+    }
+
+    // Report completion methods - You'll need to implement these
+    private async Task CompleteStoryReport(StoryReportVM report)
+    {
+        var completeDto = new ReportCompleteDto
+        {
+            ReportGuid = report.PublicId,
+            IsAccepted = acceptReport,
+            SpicialMessage = !string.IsNullOrEmpty(specialMessage) ? specialMessage : "",
+        };
+
+        if(banUser)
+        {
+            //creatig ban dto
+            var banCommandDto = new UserBanCommandDto()
+            {
+                BanReason = specialMessage,
+                UserGuid = report.CreatedBy,
+                UnbanDate = unbanDate
+            };
+
+            try
+            {
+                //banning the user
+                var apiRes = await clientAli.BanUserAsync(banCommandDto);
+
+                if(!apiRes.Success){msgService.ShowMessage(apiRes.Message,"error"); return; }
+
+                //if user banned successfuly, complete the report.
+                CompeleteStoryReport(completeDto);
+                ResetActionForms();
+            }
+            catch(Exception e)
+            {
+                msgService.ShowMessage(e.Message, "error");
+            }
+        }
+        else
+        {
+            CompeleteStoryReport(completeDto);
+            ResetActionForms();
+        }
+
+    }
+
+    private async Task CompleteReviewReport(ReviewReportVM report)
+    {
+        var completeDto = new ReportCompleteDto
+        {
+            ReportGuid = report.PublicId,
+            IsAccepted = acceptReport,
+            SpicialMessage = !string.IsNullOrEmpty(specialMessage) ? specialMessage : ""
+        };
+
+        if(banUser)
+        {
+            //creatig ban dto
+            var banCommandDto = new UserBanCommandDto()
+            {
+                BanReason = specialMessage,
+                UserGuid = report.CreatedBy,
+                UnbanDate = unbanDate
+            };
+            try
+            {
+                //banning the user
+                var apiRes = await clientAli.BanUserAsync(banCommandDto);
+
+                if(!apiRes.Success){msgService.ShowMessage(apiRes.Message,"error"); return; }
+
+                //if user banned successfuly, complete the report.
+                CompeleteCommentReport(completeDto);
+                ResetActionForms();
+            }
+            catch(Exception e)
+            {
+                msgService.ShowMessage(e.Message, "error");
+            }
+        }
+        else
+        {
+            CompeleteCommentReport(completeDto);
+            ResetActionForms();
+        }
+    }
+
+    private async Task CompleteReleaseRequest(ReleaseRequestVM request)
+    {
+        var completeDto = new ReportCompleteDto
+        {
+            ReportGuid = request.PublicId,
+            IsAccepted = acceptReport,
+            SpicialMessage = !string.IsNullOrEmpty(specialMessage) ? specialMessage : ""
+        };
+
+        CompeleteReleaseRequest(completeDto);
+        ResetActionForms();
+    }
+
+    // Additional methods you'll need to implement
+    // Additional methods you'll need to implement
+    // Additional methods you'll need to implement
+    // Additional methods you'll need to implement
+    // Additional methods you'll need to implement
+    // Additional methods you'll need to implement
+    // Additional methods you'll need to implement
+    private async Task LoadMoreWarnings(UserWithWarningsDto user)
+    {
+        try
+        {
+            if(user.Warnings != null && user.Warnings.Count < 3 && user.Warnings.Count > 0)
+            {
+                msgService.ShowMessage("you aleready can see all of user's warnings...");
+                return;
+            }
+
+            //calculation the page by PAGESIZE: 3
+            int nextPage = ((user.Warnings?.Count ?? 0) / 3) + 1;
+
+            msgService.ShowMessage($"Loading page {nextPage} of warnings...", "info");
+
+            var req = new WarningPageRequestDto(){
+                UserGuid = user.PublicId,
+                Page = nextPage
+            };
+
+            var apiRes = await clientAli.GetUserWarningsAsync(req);
+
+            if (!apiRes.Success) {msgService.ShowMessage($"Error: {apiRes.Message}", "error"); return; }
+            if (apiRes.Items?.Count == 0) {msgService.ShowMessage($"you already can see all of the warnings...", "error"); return; }
+            
+            var newWarnings = user.Warnings != null         //new list
+                ? new List<WarningDto>(user.Warnings) 
+                : new List<WarningDto>();
+            
+            newWarnings.AddRange(apiRes.Items);             //adding new items
+            
+            user.Warnings = newWarnings;                    //assign new warnings list
+            
+            StateHasChanged();                              //done
+            
+            msgService.ShowMessage($"Loaded {apiRes.Items.Count} warnings", "success");
+           
+                
+        }
+        catch (Exception e)
+        {
+            msgService.ShowMessage($"Error: {e.Message}", "error");
+        }
+
+        StateHasChanged();
+    }
+    
+
+    // Your existing methods remain here
     async Task UpdateStoryReports(int page = 1)
     {
         try
@@ -41,7 +1221,7 @@
 
             if (apiRes.Success)
             {
-                StoryReports = apiRes;
+                StoryReports = apiRes.Items.ToList();
 
                 msgService.ShowMessage($"reportes added. count: {apiRes.Items.Count} AND PAGE INDEX: {page}");
 
@@ -61,7 +1241,7 @@
 
             if (apiRes.Success)
             {
-                ReviewReports = apiRes;
+                ReviewReports = apiRes.Items.ToList();
 
                 StateHasChanged();
             }
@@ -79,7 +1259,7 @@
 
             if (apiRes.Success)
             {
-                StoryReleaseRequests = apiRes;
+                StoryReleaseRequests = apiRes.Items.ToList();
 
                 StateHasChanged();
             }
@@ -89,18 +1269,11 @@
         catch (Exception e) { msgService.ShowMessage(e.Message, "error"); }
     }
 
-    async void CompeleteStoryReport(Guid storyReportGuid)
+    async void CompeleteStoryReport(ReportCompleteDto completeDto)
     {
-        ReportCompleteDto sendingDto = new ReportCompleteDto()
-        {
-            ReportGuid = storyReportGuid,
-            IsAccepted = IsReportAccepted,
-            SpicialMessage = SpecialMessage
-        };
-
         try
         {
-            var apiRes = await clientAli.CompleteReportStoryAsync(sendingDto);
+            var apiRes = await clientAli.CompleteReportStoryAsync(completeDto);
 
             if (apiRes.Success)
             {
@@ -108,8 +1281,6 @@
 
                 await UpdateStoryReports();
 
-                ClearLocalVariables();
-
                 StateHasChanged();
             }
             else
@@ -118,19 +1289,11 @@
         catch (Exception e) { msgService.ShowMessage(e.Message, "error"); }
     }
 
-    async void CompeleteCommentReport(Guid reviewReporyGuid)
+    async void CompeleteCommentReport(ReportCompleteDto completeDto)
     {
-        ReportCompleteDto sendingDto = new ReportCompleteDto()
-        {
-            ReportGuid = reviewReporyGuid,
-
-            IsAccepted = IsReportAccepted,
-            SpicialMessage = SpecialMessage
-        };
-
         try
         {
-            var apiRes = await clientAli.CompleteReportReviewAsync(sendingDto);
+            var apiRes = await clientAli.CompleteReportReviewAsync(completeDto);
 
             if (apiRes.Success)
             {
@@ -138,8 +1301,6 @@
 
                 await UpdateStoryReports();
 
-                ClearLocalVariables();
-
                 StateHasChanged();
             }
             else
@@ -148,18 +1309,11 @@
         catch (Exception e) { msgService.ShowMessage(e.Message, "error"); }
     }
 
-    async void CompeleteReleaseRequest(Guid releaseReqGuid)
+    async void CompeleteReleaseRequest(ReportCompleteDto completeDto)
     {
-        ReportCompleteDto sendingDto = new ReportCompleteDto()
-        {
-            ReportGuid = releaseReqGuid,
-            IsAccepted = IsReportAccepted,
-            SpicialMessage = SpecialMessage
-        };
-
         try
         {
-            var apiRes = await clientAli.CompleteReportReleaseRequestAsync(sendingDto);
+            var apiRes = await clientAli.CompleteReportReleaseRequestAsync(completeDto);
 
             if (apiRes.Success)
             {
@@ -167,8 +1321,6 @@
 
                 await UpdateStoryReports();
 
-                ClearLocalVariables();
-
                 StateHasChanged();
             }
             else
@@ -176,389 +1328,4 @@
         }
         catch (Exception e) { msgService.ShowMessage(e.Message, "error"); }
     }
-
-    void ClearLocalVariables()
-    {
-        SpecialMessage = "";
-        IsReportAccepted = false;
-        StateHasChanged();
-    }
-
-    async Task StoryReportsListStates()
-    {
-        ShowStories = !ShowStories;
-
-        if (StoryReports == null && ShowStories)
-            await UpdateStoryReports();
-
-        StateHasChanged();
-    }
-
-    async Task ReivewReportsListStates()
-    {
-        ShowComments = !ShowComments;
-
-        if (ReviewReports == null && ShowComments)
-            await UpdateReviewReports();
-
-        StateHasChanged();
-    }
-
-    async Task ReleaseRequestsListStates()
-    {
-        ShowRequests = !ShowRequests;
-
-        if (StoryReleaseRequests == null && ShowRequests)
-            await UpdateReleaseRequests();
-
-        StateHasChanged();
-    }
-
 }
-
-<div class="reports-container">
-
-    <!-- داستان ها -->
-    <button class="accordion-button" @onclick="StoryReportsListStates">
-        <span>گزارشات داستان‌ها</span>
-        <span class="report-count">@StoryReports?.TotalItems</span>
-    </button>
-
-    <div class="accordion-content" style="display:@(ShowStories ? "block" : "none")">
-        @if (StoryReports == null)
-        {
-            <p style="color:yellow">بارگذاری نشده...</p>
-        }
-        else if (StoryReports.TotalItems == 0)
-        {
-            <p style="color:green">هیچ گذارشی برای داستان‌ها وجود ندارد.</p>
-        }
-
-        else
-        {
-            @foreach (var storyReport in StoryReports.Items)
-            {
-                <div class="report-box">
-
-                    <!-- متن گزارش -->
-                    <div class="report-text">
-                        <p>علت گزارش:</p>
-                        <p>@(string.IsNullOrEmpty(storyReport.ReportText) ? "(بدون متن)" : storyReport.ReportText)</p>
-                    </div>
-
-                    <!-- اطلاعات کاربر -->
-                    <div class="target-user-status">
-                        <p>@storyReport.TargetUser.FirstName @storyReport.TargetUser.LastName</p>
-
-                        <div class="target-user-warnings">
-                            <p>اخطارهای متهم:</p>
-
-                            @if (storyReport.TargetUser.Warnings == null || storyReport.TargetUser.Warnings.Count == 0)
-                            {
-                                <p>هیچ اخطاری دریافت نکرده.</p>
-                            }
-                            else
-                            {
-                                @foreach (var w in storyReport.TargetUser.Warnings)
-                                {
-                                    <div class="warningBox">
-                                        <p>علت: @w.Reason</p>
-                                        <p>موضوع: @w.Subject</p>
-                                        <p>جزئیات: @w.Details</p>
-                                        <p>ساخته شده در @((DateTime.Now - w.CreatedAt).Days) روز پیش</p>
-                                    </div>
-                                }
-                            }
-                        </div>
-                    </div>
-
-                    <button @onclick="@(() => Navigation.NavigateTo($"ReadStory/{storyReport.StoryGuid}"))">
-                        مطالعه داستان
-                    </button>
-
-                    <label>
-                        <input type="checkbox" @bind="IsReportAccepted" /> قبول گزارش
-                    </label>
-
-                    @if (IsReportAccepted)
-                    {
-                        <textarea @bind="SpecialMessage" placeholder="پیام شما به متخلف (اختیاری)" class="special-message"></textarea>
-                    }
-
-                    <button @onclick="() => CompeleteStoryReport(storyReport.PublicId)">تکمیل</button>
-                </div>
-            }
-
-            <span>
-                @for (int i = 0; i < StoryReports.TotalPages; i++)
-                {
-                    helperVariable = i +1;
-                    <button @onclick="() => UpdateStoryReports(helperVariable)">@(i + 1)</button>
-                }
-            </span>
-        }
-
-
-    </div>
-
-
-
-    <!-- کامنت‌ها -->
-    <button class="accordion-button" @onclick="ReivewReportsListStates">
-        <span>گزارشات کامنت‌ها</span>
-        <span class="report-count">@ReviewReports?.TotalItems</span>
-    </button>
-
-    <div class="accordion-content" style="display:@(ShowComments ? "block" : "none")">
-        @if (ReviewReports == null)
-        {
-            <p style="color:yellow">بارگذاری نشده...</p>
-        }
-        else if (ReviewReports.TotalItems == 0)
-        {
-            <p style="color:green">هیچ گذارشی برای کامنت ها وجود ندارد.</p>
-        }
-        else
-        {
-            @foreach (var commentReport in ReviewReports.Items)
-            {
-                <div class="report-box">
-
-                    <!-- متن گزارش -->
-                    <div class="report-text">
-                        <p>علت گزارش:</p>
-                        <p>@(string.IsNullOrEmpty(commentReport.ReportText) ? "(بدون متن)" : commentReport.ReportText)</p>
-                    </div>
-
-                    <!-- کاربر -->
-                    <div class="target-user-status">
-                        <p>@commentReport.TargetUser.FirstName @commentReport.TargetUser.LastName</p>
-
-                        <div class="target-user-warnings">
-                            <p>اخطارهای متهم:</p>
-
-                            @if (commentReport.TargetUser.Warnings == null || commentReport.TargetUser.Warnings.Count == 0)
-                            {
-                                <p>هیچ اخطاری دریافت نکرده.</p>
-                            }
-                            else
-                            {
-                                @foreach (var w in commentReport.TargetUser.Warnings)
-                                {
-                                    <div class="warningBox">
-                                        <p>علت: @w.Reason</p>
-                                        <p>موضوع: @w.Subject</p>
-                                        <p>جزئیات: @w.Details</p>
-                                        <p>ساخته شده در @((DateTime.Now - w.CreatedAt).Days) روز پیش</p>
-                                    </div>
-                                }
-                            }
-                        </div>
-                    </div>
-
-                    <!-- کامنت -->
-                    <div class="reported-comment">
-                        <p>محتوای کامنت:</p>
-                        <p>@commentReport.Object.Data</p>
-                    </div>
-
-                    <label>
-                        <input type="checkbox" @bind="IsReportAccepted" /> قبول گزارش
-                    </label>
-
-                    @if (IsReportAccepted)
-                    {
-                        <textarea @bind="SpecialMessage" placeholder="پیام شما به متخلف (اختیاری)" class="special-message"></textarea>
-                    }
-
-                    <button @onclick="() => CompeleteCommentReport(commentReport.PublicId)">تکمیل</button>
-                </div>
-            }
-
-            <span>
-                @for (int i = 0; i < ReviewReports.TotalPages; i++)
-                {
-                    helperVariable = i + 1;
-                    <button @onclick="() => UpdateReviewReports(helperVariable)">@(i + 1)</button>
-                }
-            </span>
-        }
-    </div>
-
-
-    <!-- درخواست‌ها -->
-    <button class="accordion-button" @onclick="ReleaseRequestsListStates">
-        <span>درخواست‌های بازبینی</span>
-        <span class="report-count">@StoryReleaseRequests?.TotalItems</span>
-    </button>
-
-    <div class="accordion-content" style="display:@(ShowRequests ? "block" : "none")">
-        @if (StoryReleaseRequests == null)
-        {
-            <p style="color:yellow">بارگذاری نشده...</p>
-        }
-        else if (StoryReleaseRequests.TotalItems == 0)
-        {
-            <p style="color:green">هیچ درخواستی برای آزادی داستان‌ها وجود ندارد.</p>
-        }
-        else
-        {
-            @foreach (var req in StoryReleaseRequests.Items)
-            {
-                <div class="report-box">
-
-                    @if (!string.IsNullOrEmpty(req.ReportText))
-                    {
-                        <div class="report-text">
-                            <p>متن درخواست:</p>
-                            <p>@req.ReportText</p>
-                        </div>
-                    }
-
-                    <div class="target-user-status">
-                        <p>@req.Report.TargetUser.FirstName @req.Report.TargetUser.LastName</p>
-
-                        <div class="target-user-warnings">
-                            <p>اخطارهای متهم:</p>
-
-                            @if (req.Report.TargetUser.Warnings == null || req.Report.TargetUser.Warnings.Count == 0)
-                            {
-                                <p>هیچ اخطاری دریافت نکرده.</p>
-                            }
-                            else
-                            {
-                                @foreach (var w in req.Report.TargetUser.Warnings)
-                                {
-                                    <div class="warningBox">
-                                        <p>علت: @w.Reason</p>
-                                        <p>موضوع: @w.Subject</p>
-                                        <p>جزئیات: @w.Details</p>
-                                        <p>ساخته شده در @((DateTime.Now - w.CreatedAt).Days) روز پیش</p>
-                                    </div>
-                                }
-                            }
-                        </div>
-                    </div>
-
-                    <button @onclick="@(() => Navigation.NavigateTo($"ReadStory/{req.Report.StoryGuid}"))">
-                        مطالعه داستان
-                    </button>
-
-                    <label>
-                        <input type="checkbox" @bind="IsReportAccepted" /> قبول گزارش
-                    </label>
-
-                    @if (IsReportAccepted)
-                    {
-                        <textarea @bind="SpecialMessage" placeholder="پیام شما به متخلف (اختیاری)" class="special-message"></textarea>
-                    }
-
-                    <button @onclick="() => CompeleteReleaseRequest(req.PublicId)">تکمیل</button>
-                </div>
-            }
-
-            <span>
-                @for (int i = 0; i < StoryReleaseRequests.TotalPages; i++)
-                {
-                    helperVariable = i + 1;
-                    <button @onclick="() => UpdateReleaseRequests(helperVariable)">@(i + 1)</button>
-                }
-            </span>
-        }
-    </div>
-
-</div>
-
-
-<style>
-    .reports-container {
-        width: 100%;
-        max-width: 900px;
-        margin: 0 auto;
-        direction: rtl;
-        font-family: sans-serif;
-    }
-
-    .accordion-button {
-        width: 100%;
-        background: #3f51b5;
-        color: white;
-        padding: 18px;
-        margin: 10px 0;
-        border: none;
-        border-radius: 8px;
-        font-size: 20px;
-        text-align: right;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        cursor: pointer;
-    }
-
-        .accordion-button:hover {
-            background: #303f9f;
-        }
-
-    .accordion-content {
-        background: #f7f7f7;
-        margin-bottom: 20px;
-        padding: 15px;
-        border-radius: 8px;
-        display: none;
-    }
-
-    .report-box {
-        background: white;
-        padding: 15px;
-        border-radius: 8px;
-        margin-bottom: 20px;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    }
-
-    .report-text, .target-user-status, .reported-comment {
-        margin-bottom: 15px;
-        padding: 10px;
-        background: #eeeeee;
-        border-radius: 6px;
-    }
-
-    .warningBox {
-        background: #fff3cd;
-        padding: 10px;
-        border-radius: 6px;
-        margin-bottom: 10px;
-    }
-
-    .special-message {
-        width: 100%;
-        padding: 10px;
-        min-height: 100px;
-        resize: vertical;
-        margin-top: 10px;
-        border-radius: 6px;
-        border: 1px solid #999;
-    }
-
-    button {
-        cursor: pointer;
-        background: #4caf50;
-        color: white;
-        border: none;
-        padding: 10px 18px;
-        border-radius: 6px;
-        margin-top: 10px;
-    }
-
-        button:hover {
-            background: #449944;
-        }
-
-    .report-count {
-        background: white;
-        color: #3f51b5;
-        font-weight: bold;
-        padding: 5px 10px;
-        border-radius: 6px;
-    }
-
-</style>

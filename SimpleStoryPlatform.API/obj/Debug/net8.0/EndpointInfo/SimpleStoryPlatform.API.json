@@ -294,7 +294,7 @@
       }
     },
     "/Admins/Get-User-Warnings": {
-      "get": {
+      "post": {
         "tags": [
           "Admins"
         ],
@@ -334,6 +334,54 @@
               "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/WarningDtoPageResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Admins/Ban-User": {
+      "post": {
+        "tags": [
+          "Admins"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserBanCommandDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserBanCommandDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserBanCommandDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseResponse"
                 }
               }
             }
@@ -738,7 +786,7 @@
         }
       }
     },
-    "/Users/Add-Story_To_Library": {
+    "/Users/Add-Story-To-Library": {
       "post": {
         "tags": [
           "Users"
@@ -830,6 +878,102 @@
               "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/StoryPreviewDtoPageResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Users/Get-Notifications": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BaseRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BaseRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/BaseRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotificationDtoPageResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotificationDtoPageResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotificationDtoPageResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Users/Get-Warnings": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BaseRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BaseRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/BaseRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/WarningDtoPageResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WarningDtoPageResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WarningDtoPageResponse"
                 }
               }
             }
@@ -977,6 +1121,57 @@
               "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/StoryDetailsDtoBaseResponseWithData"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Writers/Get-Story-For-Update": {
+      "post": {
+        "tags": [
+          "Writers"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string",
+                "format": "uuid"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "string",
+                "format": "uuid"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "string",
+                "format": "uuid"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/StoryUpdateDtoBaseResponseWithData"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StoryUpdateDtoBaseResponseWithData"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StoryUpdateDtoBaseResponseWithData"
                 }
               }
             }
@@ -1218,6 +1413,49 @@
           },
           "isReaded": {
             "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "NotificationDtoPageResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/NotificationDto"
+            },
+            "nullable": true
+          },
+          "currentPage": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalItems": {
+            "type": "integer",
+            "format": "int32"
           }
         },
         "additionalProperties": false
@@ -1681,10 +1919,6 @@
           "storyGuid": {
             "type": "string",
             "format": "uuid"
-          },
-          "userGuid": {
-            "type": "string",
-            "format": "uuid"
           }
         },
         "additionalProperties": false
@@ -1793,6 +2027,40 @@
         },
         "additionalProperties": false
       },
+      "StorySectionUpdateDto": {
+        "type": "object",
+        "properties": {
+          "publicId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdBy": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "narration": {
+            "type": "string",
+            "nullable": true
+          },
+          "bgImageUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "bgMusicUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "id": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "StoryUpdateDto": {
         "type": "object",
         "properties": {
@@ -1808,6 +2076,10 @@
             "type": "string",
             "format": "uuid"
           },
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
           "name": {
             "type": "string",
             "nullable": true
@@ -1819,20 +2091,40 @@
           "data": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/StorySectionDto"
+              "$ref": "#/components/schemas/StorySectionUpdateDto"
             },
             "nullable": true
           },
           "isPublished": {
             "type": "boolean"
           },
-          "isVisible": {
-            "type": "boolean"
-          },
           "playListGuid": {
             "type": "string",
             "format": "uuid",
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "StoryUpdateDtoBaseResponseWithData": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "data": {
+            "$ref": "#/components/schemas/StoryUpdateDto"
           }
         },
         "additionalProperties": false
@@ -1857,6 +2149,24 @@
           "data": {
             "type": "string",
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UserBanCommandDto": {
+        "type": "object",
+        "properties": {
+          "userGuid": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "banReason": {
+            "type": "string",
+            "nullable": true
+          },
+          "unbanDate": {
+            "type": "string",
+            "format": "date-time"
           }
         },
         "additionalProperties": false

@@ -29,9 +29,9 @@ namespace SimpleStoryPlatform.Application.Features.Admins.Handlers.Commands
 
             #region null checks
 
-            if( request.userGuid == _currentUser.UserGuid) { response.Message = "are you idiot or what? \nAre you trying to ban yourself???"; return response; }
+            if( request.BanReq.userGuid == _currentUser.UserGuid) { response.Message = "are you idiot or what? \nAre you trying to ban yourself???"; return response; }
 
-            var user = await _userRepo.GetByGuidAsync(request.userGuid);
+            var user = await _userRepo.GetByGuidAsync(request.BanReq.userGuid);
 
             if (user == null) { response.Message = "target user not found"; return response; } 
 
@@ -42,8 +42,8 @@ namespace SimpleStoryPlatform.Application.Features.Admins.Handlers.Commands
             #endregion
 
             user.IsBan = true;
-            user.UnBanDate = request.UnbanDate;
-            user.BanReason= request.BanReason;
+            user.UnBanDate = request.BanReq.UnbanDate;
+            user.BanReason= request.BanReq.BanReason;
 
             await _userRepo.UpdateStatesAsync(user);
 

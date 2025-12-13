@@ -1,53 +1,756 @@
-﻿<h3>ReadStory</h3>
-@page "/ReadStory/{storyGuid:guid}"
+﻿@page "/ReadStory/{storyGuid:guid}"
 @rendermode InteractiveServer
+
+<div class="read-story-container">
+    @if (story != null)
+    {
+        <!-- Story Header Section -->
+        <div class="story-header-section">
+            <div class="story-title-card" @onclick="() => TogglePreview()">
+                <div class="title-main">
+                    <h1 class="story-title">@story.Name</h1>
+                    <button class="report-btn" @onclick="ToggleStoryReport">
+                        ⚠ Report
+                    </button>
+                </div>
+                
+                @if (showPreview)
+                {
+                    <div class="preview-content">
+                        <p class="preview-text">@story.Preview</p>
+                    </div>
+                }
+            </div>
+
+            @if (showStoryReport)
+            {
+                <div class="report-modal">
+                    <div class="report-content">
+                        <h4>Report Story</h4>
+                        <textarea @bind="storyReportText" 
+                                  placeholder="Reason for reporting this story..."
+                                  class="report-textarea"></textarea>
+                        <div class="report-actions">
+                            <button class="btn-submit" @onclick="() => ReportStory(story.PublicId)">
+                                Submit Report
+                            </button>
+                            <button class="btn-cancel" @onclick="ToggleStoryReport">
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            <div class="story-meta">
+                <div class="author-info">
+                    <span class="meta-label">Author:</span>
+                    <span class="author-name">@story.Writer.FirstName @story.Writer.LastName</span>
+                    <span class="author-username">(@story.Writer.Username)</span>
+                </div>
+                @if (story.PlayListGuid.HasValue)
+                {
+                    <button class="playlist-btn" @onclick="() => GoToPlayList(story.PlayListGuid)">
+                        📚 View Playlist
+                    </button>
+                }
+            </div>
+        </div>
+
+        <!-- Reading Section -->
+        <div class="reading-section">
+            <!-- Background Image -->
+            <div class="background-image-container">
+                <img src="@GetImageUrl(currentSection?.BgImageUrl)" 
+                     alt="Story Background"
+                     class="story-background-image" />
+            </div>
+
+            <!-- Narration Text -->
+            <div class="narration-container">
+                <div class="narration-scrollable">
+                    <p class="narration-text">@currentSection?.Narration</p>
+                </div>
+                
+                <!-- Section Navigation -->
+                <div class="section-navigation">
+                    <button class="nav-btn @(!past ? "disabled" : "")" 
+                            @onclick="() => OpenPage(CurrentIndex - 1)"
+                            disabled="@(!past)">
+                        ◀ Previous
+                    </button>
+                    
+                    <div class="section-info">
+                        <span class="current-section">
+                            Section @(CurrentIndex + 1) of @story.Data.Count
+                        </span>
+                    </div>
+                    
+                    <button class="nav-btn @(!next ? "disabled" : "")" 
+                            @onclick="() => OpenPage(CurrentIndex + 1)"
+                            disabled="@(!next)">
+                        Next ▶
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Comments Section -->
+        <div class="comments-section">
+            <div class="add-comment-card">
+                <h3>Add Your Review</h3>
+                
+                <!-- Star Rating -->
+                <div class="rating-wrapper">
+                    <div class="star-rating">
+                        @for (float i = 0.5f; i <= 5; i += 0.5f)
+                        {
+                            float starValue = i;
+                            <span class="star @(commentDto.Score >= starValue ? "filled" : "")"
+                                  @onclick="() => commentDto.Score = starValue">
+                                ★
+                            </span>
+                        }
+                    </div>
+                    <span class="rating-value">@commentDto.Score / 5</span>
+                </div>
+
+                <!-- Comment Input -->
+                <textarea @bind="commentDto.Data" 
+                          placeholder="Share your thoughts about this story..."
+                          class="comment-input"></textarea>
+                
+                <button class="submit-btn" @onclick="SubmitComment">
+                    Post Review
+                </button>
+            </div>
+
+            <!-- Comments List -->
+            <div class="comments-list">
+                <h3>Reviews (@story.Reviews?.Count)</h3>
+                
+                @if (story.Reviews?.Any() == true)
+                {
+                    @foreach (var comment in story.Reviews.OrderByDescending(c => c.CreatedAt))
+                    {
+                        <div class="comment-card">
+                            <div class="comment-header">
+                                <div class="user-info">
+                                    <span class="user-name">
+                                        @comment.User.FirstName @comment.User.LastName
+                                    </span>
+                                    <span class="user-username">
+                                        @@@comment.User.Username
+                                    </span>
+                                </div>
+                                
+                                <div class="comment-meta">
+                                    <span class="comment-rating">
+                                        @GetStarRating(comment.Score)
+                                    </span>
+                                    <span class="comment-time">
+                                        @GetTimeAgo(comment.CreatedAt)
+                                    </span>
+                                    <button class="report-icon-btn" 
+                                            @onclick="() => ToggleCommentReport(comment.PublicId)">
+                                        ⚠
+                                    </button>
+                                </div>
+                            </div>
+
+                            @if (showCommentReport.Contains(comment.PublicId))
+                            {
+                                <div class="comment-report-section">
+                                    <textarea @bind="commentReportText" 
+                                              placeholder="Reason for reporting this comment..."
+                                              class="report-textarea"></textarea>
+                                    <div class="report-actions">
+                                        <button class="btn-submit" 
+                                                @onclick="() => ReportComment(comment.PublicId)">
+                                            Submit Report
+                                        </button>
+                                        <button class="btn-cancel" 
+                                                @onclick="() => ToggleCommentReport(comment.PublicId)">
+                                            Cancel
+                                        </button>
+                                    </div>
+                                </div>
+                            }
+
+                            <p class="comment-text">@comment.Data</p>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="no-comments">
+                        <p>No reviews yet. Be the first to share your thoughts!</p>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="loading-container">
+            <p>Loading story...</p>
+        </div>
+    }
+</div>
+
+<style>
+    /* Main Container */
+    .read-story-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    /* Story Header */
+    .story-header-section {
+        margin-bottom: 30px;
+    }
+
+    .story-title-card {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 12px;
+        padding: 25px;
+        color: white;
+        margin-bottom: 20px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .story-title-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    }
+
+    .title-main {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    .story-title {
+        margin: 0;
+        font-size: 28px;
+        font-weight: 700;
+        flex: 1;
+    }
+
+    .report-btn {
+        background: rgba(255,255,255,0.2);
+        border: 1px solid rgba(255,255,255,0.3);
+        color: white;
+        padding: 8px 16px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: background 0.3s ease;
+    }
+
+    .report-btn:hover {
+        background: rgba(255,255,255,0.3);
+    }
+
+    .preview-content {
+        margin-top: 15px;
+        padding-top: 15px;
+        border-top: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .preview-text {
+        margin: 0;
+        font-size: 16px;
+        line-height: 1.6;
+        opacity: 0.9;
+    }
+
+    .story-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 10px;
+    }
+
+    .author-info {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 15px;
+    }
+
+    .meta-label {
+        color: #666;
+        font-weight: 600;
+    }
+
+    .author-name {
+        color: #333;
+        font-weight: 500;
+    }
+
+    .author-username {
+        color: #666;
+        font-size: 14px;
+    }
+
+    .playlist-btn {
+        background: #4a6bff;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        transition: background 0.3s ease;
+    }
+
+    .playlist-btn:hover {
+        background: #3a5bef;
+    }
+
+    /* Reading Section */
+    .reading-section {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+        margin-bottom: 40px;
+        min-height: 500px;
+    }
+
+    @@media (max-width: 768px) {
+        .reading-section {
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+    }
+
+    .background-image-container {
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        height: 500px;
+    }
+
+    .story-background-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+
+    .story-background-image:hover {
+        transform: scale(1.02);
+    }
+
+    .narration-container {
+        display: flex;
+        flex-direction: column;
+        height: 500px;
+    }
+
+    .narration-scrollable {
+        flex: 1;
+        overflow-y: auto;
+        background: #f8f9fa;
+        border-radius: 12px;
+        padding: 25px;
+        margin-bottom: 20px;
+        box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    .narration-text {
+        font-size: 18px;
+        line-height: 1.8;
+        color: #333;
+        margin: 0;
+        white-space: pre-wrap;
+    }
+
+    .section-navigation {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 0;
+    }
+
+    .nav-btn {
+        background: #4a6bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 15px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        min-width: 120px;
+    }
+
+    .nav-btn:hover:not(.disabled) {
+        background: #3a5bef;
+        transform: translateY(-1px);
+    }
+
+    .nav-btn.disabled {
+        background: #e0e0e0;
+        color: #999;
+        cursor: not-allowed;
+    }
+
+    .section-info {
+        text-align: center;
+        color: #666;
+        font-size: 15px;
+    }
+
+    .current-section {
+        font-weight: 500;
+        color: #4a6bff;
+    }
+
+    /* Comments Section */
+    .comments-section {
+        margin-top: 40px;
+    }
+
+    .add-comment-card {
+        background: white;
+        border-radius: 12px;
+        padding: 25px;
+        margin-bottom: 30px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    }
+
+    .add-comment-card h3 {
+        margin: 0 0 20px 0;
+        color: #333;
+        font-size: 20px;
+    }
+
+    .rating-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+
+    .star-rating {
+        display: inline-flex;
+        direction: ltr;
+    }
+
+    .star {
+        font-size: 28px;
+        color: #e0e0e0;
+        cursor: pointer;
+        transition: color 0.2s ease;
+        margin-right: 2px;
+    }
+
+    .star.filled {
+        color: #ffc107;
+    }
+
+    .star:hover {
+        color: #ffc107;
+    }
+
+    .rating-value {
+        font-size: 16px;
+        color: #666;
+        font-weight: 500;
+    }
+
+    .comment-input {
+        width: 100%;
+        min-height: 100px;
+        padding: 15px;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        font-size: 16px;
+        font-family: inherit;
+        margin-bottom: 20px;
+        resize: vertical;
+        transition: border-color 0.3s ease;
+    }
+
+    .comment-input:focus {
+        outline: none;
+        border-color: #4a6bff;
+        box-shadow: 0 0 0 3px rgba(74, 107, 255, 0.1);
+    }
+
+    .submit-btn {
+        background: #28a745;
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 6px;
+        font-size: 16px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background 0.3s ease;
+    }
+
+    .submit-btn:hover {
+        background: #218838;
+    }
+
+    /* Comments List */
+    .comments-list h3 {
+        margin: 0 0 20px 0;
+        color: #333;
+        font-size: 20px;
+    }
+
+    .comment-card {
+        background: white;
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 15px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    .comment-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 15px;
+    }
+
+    .user-info {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .user-name {
+        font-weight: 600;
+        color: #333;
+        font-size: 16px;
+    }
+
+    .user-username {
+        color: #666;
+        font-size: 14px;
+    }
+
+    .comment-meta {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .comment-rating {
+        color: #ffc107;
+        font-size: 14px;
+    }
+
+    .comment-time {
+        color: #888;
+        font-size: 13px;
+    }
+
+    .report-icon-btn {
+        background: none;
+        border: none;
+        color: #dc3545;
+        cursor: pointer;
+        font-size: 16px;
+        padding: 0;
+        width: 24px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .comment-report-section {
+        margin: 15px 0;
+        padding: 15px;
+        background: #f8f9fa;
+        border-radius: 8px;
+        border-left: 3px solid #dc3545;
+    }
+
+    .comment-text {
+        font-size: 15px;
+        line-height: 1.6;
+        color: #444;
+        margin: 0;
+    }
+
+    .no-comments {
+        text-align: center;
+        padding: 40px;
+        color: #666;
+        background: #f8f9fa;
+        border-radius: 12px;
+    }
+
+    /* Report Modal */
+    .report-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+    }
+
+    .report-content {
+        background: white;
+        padding: 25px;
+        border-radius: 12px;
+        width: 90%;
+        max-width: 500px;
+    }
+
+    .report-content h4 {
+        margin: 0 0 20px 0;
+        color: #333;
+    }
+
+    .report-textarea {
+        width: 100%;
+        min-height: 120px;
+        padding: 12px;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        resize: vertical;
+        font-family: inherit;
+    }
+
+    .report-actions {
+        display: flex;
+        gap: 10px;
+        justify-content: flex-end;
+    }
+
+    .btn-submit {
+        background: #dc3545;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 6px;
+        cursor: pointer;
+    }
+
+    .btn-submit:hover {
+        background: #c82333;
+    }
+
+    .btn-cancel {
+        background: #6c757d;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 6px;
+        cursor: pointer;
+    }
+
+    .btn-cancel:hover {
+        background: #5a6268;
+    }
+
+    /* Loading */
+    .loading-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 400px;
+        font-size: 18px;
+        color: #666;
+    }
+
+    /* Scrollbar Styling */
+    .narration-scrollable::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    .narration-scrollable::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 4px;
+    }
+
+    .narration-scrollable::-webkit-scrollbar-thumb {
+        background: #c1c1c1;
+        border-radius: 4px;
+    }
+
+    .narration-scrollable::-webkit-scrollbar-thumb:hover {
+        background: #a8a8a8;
+    }
+</style>
 
 @code {
     StoryDetailsDto? story;
     StoryReviewCreateDto commentDto = new StoryReviewCreateDto();
+    
     [Parameter]
     public Guid? storyGuid { get; set; }
-
+    
     string? commentReportText;
     string? storyReportText;
+    bool showStoryReport = false;
+    bool showPreview = false;
+    HashSet<Guid> showCommentReport = new();
+    
+    int CurrentIndex;
+    bool next = true, past = false;
+    StorySectionDto? currentSection;
+    
     protected override async Task OnInitializedAsync()
     {
-        if (storyGuid == null) { msgService.ShowMessage("ورودی نامعتبر است.", "error"); StateHasChanged(); return; }
-
+        if (storyGuid == null) 
+        { 
+            msgService.ShowMessage("Invalid story identifier.", "error"); 
+            StateHasChanged(); 
+            return; 
+        }
+        
         await RefreshInformation();
-
         await base.OnInitializedAsync();
     }
-
+    
     async Task RefreshInformation(int pageIndex = 0)
     {
         try
         {
             var apiRes = await clientAli.ReadStoryAsync(storyGuid);
-
+            
             if (apiRes.Success)
             {
                 story = apiRes.Data;
-
                 OpenPage(pageIndex);
             }
             else
                 msgService.ShowMessage(apiRes.Message, "error");
-
+            
             StateHasChanged();
-
         }
         catch (Exception e)
         {
             msgService.ShowMessage(e.Message, "error");
         }
     }
-
-    bool next = true, past = false;
-    int CurrentIndex;
+    
     void OpenPage(int index)
     {
-        if (index > -1 && index < story.Data.Count)
+        if (story?.Data != null && index > -1 && index < story.Data.Count)
         {
             CurrentIndex = index;
             currentSection = story.Data.ToList()[index];
@@ -56,485 +759,161 @@
             StateHasChanged();
         }
     }
-
-    StorySectionDto? currentSection;
-
-    void GoToPlayList(Guid? playListGuid)
+    
+    void TogglePreview()
     {
-        Navigation.NavigateTo($"StoryPlayList/{playListGuid}");
+        showPreview = !showPreview;
+        StateHasChanged();
     }
-
-    async Task SubmitComment()
+    
+    void ToggleStoryReport()
     {
-        //condition check
-        if (commentDto.Data.Length > 0 && commentDto.Score > 0 && commentDto.Score <= 5)
-        {
-            commentDto.StoryGuid = (Guid)storyGuid;
-            try
-            {
-                var apiRes = await clientAli.AddReviewAsync(commentDto);
-
-                if (apiRes.Success)
-                {
-                    await RefreshInformation(CurrentIndex);
-                    msgService.ShowMessage(apiRes.Message, "success");
-                }
-                else
-                    msgService.ShowMessage(apiRes.Message, "error");
-            }
-            catch (Exception e) { msgService.ShowMessage(e.Message, "error"); }
-
-        }
-        else
-        {
-            msgService.ShowMessage("اطلاعات برای ایجاد کامنت صحیح نمیباشد", "error");
-        }
+        showStoryReport = !showStoryReport;
+        StateHasChanged();
     }
-
-    async void ReportComment(Guid commentGuid)
-    {
-        UserReportDto dto = new UserReportDto()
-        {
-            ObjectGuid = commentGuid,
-            Text = commentReportText
-        };
-
-        try
-        {
-
-            var apiRes = await clientAli.ReportReviewAsync(dto);
-            if (apiRes.Success)
-            {
-                commentReportText = "";
-                msgService.ShowMessage(apiRes.Message, "success");
-                StateHasChanged();
-            }
-        }
-        catch (Exception e) { msgService.ShowMessage(e.Message, "error"); }
-    }
-
-    async void ReportStory(Guid storyGuid)
-    {
-        UserReportDto dto = new UserReportDto()
-        {
-            ObjectGuid = storyGuid,
-            Text = storyReportText
-        };
-
-        try
-        {
-
-            var apiRes = await clientAli.ReportStoryAsync(dto);
-            if (apiRes.Success)
-            {
-                commentReportText = "";
-                msgService.ShowMessage(apiRes.Message, "success");
-            }
-            else
-                msgService.ShowMessage(apiRes.Message, "error");
-
-            StateHasChanged();
-        }
-        catch (Exception e) { msgService.ShowMessage(e.Message, "error"); }
-    }
-    //chatGPT Section
-    bool showStoryReport = false;
-
-    // برای هر کامنت یک لیست ذخیره می‌کنیم که کدام‌ها باز هستند
-    HashSet<Guid> showCommentReport = new();
-
-    void toggleCommentReport(Guid commentId)
+    
+    void ToggleCommentReport(Guid commentId)
     {
         if (showCommentReport.Contains(commentId))
             showCommentReport.Remove(commentId);
         else
             showCommentReport.Add(commentId);
+        
+        StateHasChanged();
     }
-}
-
-
-
-@if (story != null)
-{
-    <div class="story-page">
-
-        <!-- ===== هدر داستان ===== -->
-        <div class="story-header">
-            <div class="story-title">
-                <h2>@story.Name</h2>
-
-                <!-- دکمه گذارش کنار نام داستان -->
-                <button class="report-toggle-btn" @onclick="() => showStoryReport = !showStoryReport">
-                    ⚠
-                </button>
-
-                @if (showStoryReport)
-                {
-                    <div class="story-report-section">
-                        <textarea @bind="storyReportText" placeholder="علت گذارش (اختیاری)" class="comment-report-input"></textarea>
-                        <button class="comment-submit" @onclick="() => ReportStory(story.PublicId)">ارسال گذارش</button>
-                    </div>
-                }
-
-                <p class="story-preview">@story.Preview</p>
-            </div>
-
-            <div class="story-writer">
-                <p class="writer-label">نویسنده:</p>
-                <div class="writer-info">
-                    <span class="writer-name">@story.Writer.FirstName @story.Writer.LastName</span>
-                    <p class="writer-username">@story.Writer.Username</p>
-                </div>
-            </div>
-        </div>
-
-        <hr class="story-divider" />
-
-        <!-- سمت چپ: تصویر -->
-        <div class="story-image">
-            <img src="@((!string.IsNullOrEmpty(currentSection.BgImageUrl)) ? $"/images/storySections/{currentSection.BgImageUrl}" : "/images/storySectionsDef.jpg")" alt="Background image" />
-        </div>
-
-        <!-- سمت راست: متن و دکمه‌ها -->
-        <div class="story-text">
-            <p class="narration">@currentSection.Narration</p>
-
-            <div class="story-buttons">
-                <button class="nav-button" disabled="@(past == false)" @onclick="() => OpenPage(CurrentIndex - 1)">قسمت قبل</button>
-                <button class="nav-button" disabled="@(next == false)" @onclick="() => OpenPage(CurrentIndex + 1)">قسمت بعد</button>
-            </div>
-        </div>
-
-        <!-- ===== بخش کامنت ===== -->
-        <div class="comments-section">
-
-            <div class="comment-add">
-                <div class="rating-container">
-                    @for (float i = 0.5f; i <= 5; i += 0.5f)
-                    {
-                        float local = i;
-                        <span class="star @(commentDto.Score >= local ? "active" : "")"
-                              @onclick="() => commentDto.Score = local">★</span>
-                    }
-                </div>
-
-                <textarea @bind="commentDto.Data" placeholder="نظر خود را بنویسید..." class="comment-input"></textarea>
-                <button class="comment-submit" @onclick="SubmitComment">ثبت نظر</button>
-            </div>
-
-            @if (story.Reviews != null)
+    
+    string GetImageUrl(string? imageName)
+    {
+        return !string.IsNullOrEmpty(imageName) 
+            ? $"/images/storySections/{imageName}" 
+            : "/images/storySectionsDef.jpg";
+    }
+    
+    string GetStarRating(float score)
+    {
+        string stars = "";
+        for (int i = 1; i <= 5; i++)
+        {
+            stars += i <= score ? "★" : "☆";
+        }
+        return stars;
+    }
+    
+    string GetTimeAgo(DateTimeOffset date)
+    {
+        var timeSpan = DateTimeOffset.Now - date;
+        
+        if (timeSpan.TotalDays >= 365)
+            return $"{(int)(timeSpan.TotalDays / 365)} years ago";
+        if (timeSpan.TotalDays >= 30)
+            return $"{(int)(timeSpan.TotalDays / 30)} months ago";
+        if (timeSpan.TotalDays >= 1)
+            return $"{(int)timeSpan.TotalDays} days ago";
+        if (timeSpan.TotalHours >= 1)
+            return $"{(int)timeSpan.TotalHours} hours ago";
+        if (timeSpan.TotalMinutes >= 1)
+            return $"{(int)timeSpan.TotalMinutes} minutes ago";
+        
+        return "Just now";
+    }
+    
+    void GoToPlayList(Guid? playListGuid)
+    {
+        Navigation.NavigateTo($"StoryPlayList/{playListGuid}");
+    }
+    
+    async Task SubmitComment()
+    {
+        if (string.IsNullOrWhiteSpace(commentDto.Data) || commentDto.Score <= 0 || commentDto.Score > 5)
+        {
+            msgService.ShowMessage("Please provide a valid comment and rating.", "error");
+            return;
+        }
+        
+        commentDto.StoryGuid = (Guid)storyGuid;
+        
+        try
+        {
+            var apiRes = await clientAli.AddReviewAsync(commentDto);
+            
+            if (apiRes.Success)
             {
-                @foreach (var comment in story.Reviews.ToList())
-                {
-                    <div class="comment">
-                        <div class="comment-header">
-                            <span class="comment-name">@comment.User.FirstName @comment.User.LastName</span>
-
-                            <!-- دکمه گذارش کنار نام کامنت -->
-                            <button class="report-toggle-btn" @onclick="() => toggleCommentReport(comment.PublicId)">
-                                ⚠
-                            </button>
-
-                            <p class="comment-username">@comment.User.Username</p>
-                        </div>
-
-                        @if (showCommentReport.Contains(comment.PublicId))
-                        {
-                            <div class="story-report-section">
-                                <textarea @bind="commentReportText" placeholder="علت گذارش (اختیاری)" class="comment-report-input"></textarea>
-                                <button class="comment-submit" @onclick="() => ReportComment(comment.PublicId)">ارسال گذارش</button>
-                            </div>
-                        }
-
-                        <p class="comment-text">@comment.Data</p>
-                        <p class="comment-time">نوشته شده در: @((DateTime.Now - comment.CreatedAt).Days) روز پیش</p>
-                    </div>
-                }
+                await RefreshInformation(CurrentIndex);
+                commentDto = new StoryReviewCreateDto(); // Reset form
+                msgService.ShowMessage("Review submitted successfully!", "success");
             }
-        </div>
-    </div>
+            else
+            {
+                msgService.ShowMessage(apiRes.Message, "error");
+            }
+        }
+        catch (Exception e)
+        { 
+            msgService.ShowMessage(e.Message, "error"); 
+        }
+    }
+    
+    async void ReportComment(Guid commentGuid)
+    {
+        if (string.IsNullOrWhiteSpace(commentReportText))
+        {
+            msgService.ShowMessage("Please provide a reason for reporting.", "error");
+            return;
+        }
+        
+        var dto = new UserReportDto()
+        {
+            ObjectGuid = commentGuid,
+            Text = commentReportText
+        };
+        
+        try
+        {
+            var apiRes = await clientAli.ReportReviewAsync(dto);
+            if (apiRes.Success)
+            {
+                commentReportText = "";
+                showCommentReport.Remove(commentGuid);
+                msgService.ShowMessage("Report submitted successfully!", "success");
+                StateHasChanged();
+            }
+            else
+            {
+                msgService.ShowMessage(apiRes.Message, "error");
+            }
+        }
+        catch (Exception e)
+        { 
+            msgService.ShowMessage(e.Message, "error"); 
+        }
+    }
+    
+    async void ReportStory(Guid storyGuid)
+    {
+        var dto = new UserReportDto()
+        {
+            ObjectGuid = storyGuid,
+            Text = storyReportText
+        };
+        
+        try
+        {
+            var apiRes = await clientAli.ReportStoryAsync(dto);
+            if (apiRes.Success)
+            {
+                storyReportText = "";
+                showStoryReport = false;
+                msgService.ShowMessage("Story report submitted successfully!", "success");
+                StateHasChanged();
+            }
+            else
+            {
+                msgService.ShowMessage(apiRes.Message, "error");
+            }
+        }
+        catch (Exception e)
+        { 
+            msgService.ShowMessage(e.Message, "error"); 
+        }
+    }
 }
-
-
-<style>
-
-    .story-page {
-        direction: rtl;
-        text-align: right;
-        background: #fafafa;
-        border-radius: 12px;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        padding: 20px;
-        max-width: 1000px;
-        margin: 30px auto;
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-    }
-
-    /* ===== Header ===== */
-    .story-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-        background: #fff;
-        border-radius: 10px;
-        padding: 15px 20px;
-        box-shadow: 0 1px 5px rgba(0,0,0,0.1);
-    }
-
-    .story-title h2 {
-        margin: 0;
-        color: #333;
-        font-size: 1.5em;
-    }
-
-    .story-preview {
-        margin: 5px 0 0;
-        color: #666;
-        font-size: 0.95em;
-    }
-
-    .story-writer {
-        text-align: right;
-    }
-
-    .writer-label {
-        font-size: 0.9em;
-        color: #888;
-        margin: 0 0 4px 0;
-    }
-
-    .writer-name {
-        font-weight: bold;
-        color: #333;
-    }
-
-    .writer-username {
-        color: #777;
-        font-size: 0.9em;
-        margin-top: 4px;
-    }
-
-    .story-divider {
-        border: none;
-        border-top: 1px solid #ddd;
-    }
-
-    /* ===== Body ===== */
-    .story-body {
-        display: flex;
-        background: #fff;
-        border-radius: 10px;
-        box-shadow: 0 1px 5px rgba(0,0,0,0.1);
-        overflow: hidden;
-    }
-
-    .story-image {
-        width: 40%;
-    }
-
-        .story-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-    .story-text {
-        width: 60%;
-        padding: 20px;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-    }
-
-    .narration {
-        line-height: 1.8;
-        color: #333;
-        font-size: 1.05em;
-    }
-
-    .story-buttons {
-        display: flex;
-        justify-content: flex-end;
-        gap: 10px;
-    }
-
-    .nav-button {
-        background-color: #1976d2;
-        color: white;
-        border: none;
-        padding: 8px 16px;
-        border-radius: 6px;
-        cursor: pointer;
-        transition: 0.2s;
-    }
-
-        .nav-button:hover {
-            background-color: #1565c0;
-        }
-
-        .nav-button:disabled {
-            background-color: #ccc;
-            cursor: not-allowed;
-        }
-
-    /* ===== Comments ===== */
-    .comments-section {
-        background: #fff;
-        border-radius: 10px;
-        padding: 15px 20px;
-        box-shadow: 0 1px 5px rgba(0,0,0,0.1);
-    }
-
-    .comment-add {
-        display: flex;
-        gap: 10px;
-        margin-bottom: 20px;
-    }
-
-    .comment-input {
-        flex: 1;
-        border: 1px solid #ccc;
-        border-radius: 6px;
-        padding: 8px;
-        font-size: 0.95em;
-    }
-
-    .add-comment-button {
-        background-color: #4CAF50;
-        color: white;
-        border: none;
-        border-radius: 6px;
-        padding: 8px 14px;
-        cursor: pointer;
-        transition: 0.2s;
-    }
-
-        .add-comment-button:hover {
-            background-color: #45a049;
-        }
-
-    /* نظرها */
-    .comment {
-        border-top: 1px solid #eee;
-        padding-top: 10px;
-        margin-top: 10px;
-    }
-
-    .comment-header {
-        display: flex;
-        flex-direction: column;
-    }
-
-    .comment-name {
-        font-weight: bold;
-        color: #333;
-    }
-
-    .comment-username {
-        color: #777;
-        font-size: 0.9em;
-    }
-
-    .comment-text {
-        margin-top: 6px;
-        color: #444;
-    }
-
-    .comment-time {
-        color: #999;
-        font-size: 0.8em;
-        margin-top: 4px;
-    }
-
-    .rating-container {
-        direction: rtl;
-        unicode-bidi: bidi-override;
-        font-size: 28px;
-        cursor: pointer;
-        user-select: none;
-        margin-bottom: 10px;
-    }
-
-        .rating-container .star {
-            color: #aaa;
-            margin-left: 2px;
-            transition: color 0.2s;
-        }
-
-            .rating-container .star.active {
-                color: gold;
-            }
-
-    .comment-input {
-        width: 100%;
-        min-height: 90px;
-        padding: 10px;
-        margin-top: 10px;
-        border-radius: 6px;
-        border: 1px solid #ccc;
-        resize: vertical;
-    }
-
-    .comment-submit {
-        margin-top: 10px;
-        padding: 10px 20px;
-        background-color: #4CAF50;
-        color: white;
-        border: none;
-        border-radius: 6px;
-        cursor: pointer;
-    }
-
-        .comment-submit:hover {
-            background-color: #43a047;
-        }
-
-    .report-toggle-btn {
-        border: none;
-        background: none;
-        color: #e74c3c;
-        font-size: 18px;
-        margin-left: 8px;
-        cursor: pointer;
-        transition: 0.15s;
-    }
-
-        .report-toggle-btn:hover {
-            color: #c0392b;
-        }
-
-    .story-report-section {
-        margin-top: 10px;
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-    }
-
-    .comment-report-input {
-        width: 100%;
-        min-height: 50px;
-        padding: 8px;
-        border-radius: 8px;
-        border: 1px solid #ddd;
-        resize: vertical;
-    }
-
-    .comment-submit {
-        align-self: flex-end;
-        padding: 6px 14px;
-        background: #4a90e2;
-        border: none;
-        border-radius: 8px;
-        color: white;
-        font-weight: bold;
-        cursor: pointer;
-        transition: 0.2s;
-    }
-
-        .comment-submit:hover {
-            background: #357ac7;
-        }
-
-</style>

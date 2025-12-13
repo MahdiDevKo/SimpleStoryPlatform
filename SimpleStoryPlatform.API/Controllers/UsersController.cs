@@ -40,7 +40,7 @@ namespace SimpleStoryPlatform.Controllers
         [HttpGet("Profile")]
         public async Task<BaseResponseWithData<UserDetailsDto>> GetUserDetails()
         {
-            var request = new UserDetailsRequest() { userGuid = GetPublicId() };
+            var request = new UserDetailsRequest();
 
             var response = await _mediator.Send(request);
 
@@ -50,8 +50,6 @@ namespace SimpleStoryPlatform.Controllers
         [HttpPost("Add-Review")]
         public async Task<BaseResponse> AddReview([FromBody] StoryReviewCreateDto reviewCreateDto)
         {
-            reviewCreateDto.UserGuid = GetPublicId();
-
             var request = new UserCreateStoryReviewCommand() { createReviewDto = reviewCreateDto };
 
             var response = await _mediator.Send(request);
@@ -78,7 +76,7 @@ namespace SimpleStoryPlatform.Controllers
             return response;
         }
 
-        [HttpPost("Add-Story_To_Library")]
+        [HttpPost("Add-Story-To-Library")]
         public async Task<BaseResponse> AddStory([FromBody] Guid storyGuid)
         {
             var request = new UserAddStoryToLibraryCommand() { storyGuid = storyGuid };

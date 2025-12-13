@@ -11,6 +11,5 @@ namespace SimpleStoryPlatform.Application.Features.Users.Requests.Queries
 {
     public class UserDetailsRequest : IRequest<BaseResponseWithData<UserDetailsDto>>
     {
-        public Guid userGuid { get; set; }
     }
 }

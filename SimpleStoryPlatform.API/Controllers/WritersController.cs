@@ -43,7 +43,6 @@ namespace SimpleStoryPlatform.API.Controllers
         {
             var request = new GetWritedStoriesRequest();
 
-
             if (req != null)
                 request.requestProp = req;
 
@@ -62,6 +61,16 @@ namespace SimpleStoryPlatform.API.Controllers
             return response;
         }
 
+        [HttpPost("Get-Story-For-Update")]
+        public async Task<BaseResponseWithData<StoryUpdateDto?>> GetUpdateStoryDto([FromBody] Guid storyGuid)
+        {
+            var request = new GetStoryDetailsForUpdateRequest() { storyGuid = storyGuid};
+
+            var response = await _mediator.Send(request);
+
+            return response;
+        }
+
         [HttpPost("Update-Story")]
         public async Task<BaseResponse> UpdateStory([FromBody] StoryUpdateDto storyDto)
         {
@@ -71,6 +80,7 @@ namespace SimpleStoryPlatform.API.Controllers
 
             return response;
         }
+
         [HttpPost("Unpublish-Story")]
         public async Task<BaseResponse> UnpunblishStory([FromBody] Guid storyGuid)
         {

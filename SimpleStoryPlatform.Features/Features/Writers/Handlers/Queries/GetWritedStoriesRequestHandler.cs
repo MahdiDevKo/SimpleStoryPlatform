@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace SimpleStoryPlatform.Application.Features.Writers.Handlers.Queries
@@ -39,7 +40,9 @@ namespace SimpleStoryPlatform.Application.Features.Writers.Handlers.Queries
 
             var query = _storyRepo.GetQueryable();
 
-            query = query.Where(s => s.Writer.CreatedBy == _currentUser.UserGuid);
+            int userId = await _userRepo.GetIdByGuid(_currentUser.UserGuid);
+
+            query = query.Where(s => s.WriterId == userId);
 
             var pageReponse = await _storyRepo.GetPageAsync(request.requestProp, query);
 

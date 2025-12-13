@@ -5,7 +5,6 @@ using SimpleStoryPlatform.Web;
 using SimpleStoryPlatform.Web.Components;
 using SimpleStoryPlatform.Web.MiddleWares;
 using SimpleStoryPlatform.Web.Services;
-using SimpleStoryPlatform.Web.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 

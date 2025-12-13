@@ -9,7 +9,6 @@ namespace SimpleStoryPlatform.Application.DTOs.StoryDTOs.ServerToUser
 {
     public class StorySectionDto : BaseDtoInfo, IStorySectionRule
     {
-        public string? Id { get; set; }
         public string? Narration { get; set; }
         public string? BGImageUrl { get; set; }
         public string? BGMusicUrl { get; set; }

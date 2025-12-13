@@ -8,13 +8,13 @@
     [Parameter]
     public Guid storyGuid { get; set; }
 
-    StoryDetailsDto? story;
+    StoryUpdateDto? story;
     StorySectionDto currentSection = new StorySectionDto();
     protected override async Task OnInitializedAsync()
     {
         try
         {
-            var apiRes = await clientAli.MyStoryDetailsAsync(storyGuid);
+            var apiRes = await clientAli.GetStoryForUpdateAsync(storyGuid);
 
             if(apiRes.Success)
             {
@@ -49,7 +49,7 @@
     {
         story.Data.Add(new StorySectionDto()
         {
-            Narration = $"قسمت {story.Data.Count + 1} از داستان"
+            Narration = $"section {story.Data.Count + 1}.\nstart writing in it"
         });
 
         OpenPage(CurrentIndex + 1);
@@ -59,13 +59,13 @@
     {
         if (CurrentIndex == 0)
         {
-            msgService.ShowMessage("نمیتوانید قسمت اول داستان را حذف کنید!");
+            msgService.ShowMessage("you cant delete the FIRST SECTION of the story");
             return;
         }
 
         story.Data.ToList().RemoveAt(CurrentIndex);
 
-        msgService.ShowMessage($"قسمت {CurrentIndex + 1} از داستان حذف شد.");
+        msgService.ShowMessage($"Section {CurrentIndex + 1} of the story has been deleted.");
 
         OpenPage(CurrentIndex - 1);
     }
@@ -82,7 +82,7 @@
             else
             {
                 msgService.ShowMessage(apiRes.Message, "success");
-                story = apiRes.Data;
+                // story = apiRes.;
             }
         }
         else
@@ -110,10 +110,10 @@
         <div class="publish-toggle">
             <label>
                 <input type="checkbox" @bind="story.IsPublished" />
-                انتشار داستان
+                Publish the story
             </label>
             <p class="publish-warning">
-                توجه: با فعال کردن حالت انتشار، امکان ویرایش داستان وجود نخواهد داشت.
+                attention: by publishing the story, you can't edit it until you Unpublish it again
             </p>
         </div>
 
@@ -126,7 +126,7 @@
     <!-- دکمه کرکره‌ای برای ویرایش اطلاعات پایه -->
     <div class="basic-info-toggle">
         <button class="btn-toggle-basic" @onclick="ToggleBasicInfo">
-            ویرایش اطلاعات پایه
+            Update basic status
         </button>
     </div>
 
@@ -135,13 +135,13 @@
         <!-- مشخصات پایه -->
         <div class="story-basic-info">
             <div class="info-block">
-                <label>نام داستان</label>
-                <input type="text" @bind="story.Name" placeholder="نام داستان" />
+                <label>Story name:</label>
+                <input type="text" @bind="story.Name" placeholder="StoryName" />
             </div>
 
             <div class="info-block">
-                <label>خلاصه داستان</label>
-                <textarea @bind="story.Preview" placeholder="خلاصه داستان"></textarea>
+                <label>Preview:</label>
+                <textarea @bind="story.Preview" placeholder="Story Preview"></textarea>
             </div>
         </div>
     }
@@ -157,8 +157,8 @@
                 <img src="@("/images/storySectionsDef.jpg")" alt="Story image" />
             </div>
 
-            <button class="btn-select" @onclick="() => msgService.ShowMessage()">انتخاب تصویر</button>
-            <button class="btn-select" @onclick="() => msgService.ShowMessage()">انتخاب آهنگ</button>
+            <button class="btn-select" @onclick="() => msgService.ShowMessage()">Select Image</button>
+            <button class="btn-select" @onclick="() => msgService.ShowMessage()">Select Music</button>
         </div>
 
 
@@ -462,4 +462,4 @@ else
             background: #357ac7;
         }
 
-</style> 
+</style>  

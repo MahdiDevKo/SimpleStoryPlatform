@@ -14,18 +14,20 @@ namespace SimpleStoryPlatform.Application.Features.Users.Handlers.Queries
 {
     public class UserDetailsRequestHandler : IRequestHandler<UserDetailsRequest, BaseResponseWithData<UserDetailsDto>>
     {
-        IUserRepository _userRepo;
-        IMapper _mapper;
-        public UserDetailsRequestHandler(IMapper mapper, IUserRepository userRepository)
+        private readonly IUserRepository _userRepo;
+        private readonly ICurrentUserToken _currentUser;
+        private readonly IMapper _mapper;
+        public UserDetailsRequestHandler(IMapper mapper, IUserRepository userRepository, ICurrentUserToken currentUserToken)
         {
             _mapper = mapper;
             _userRepo = userRepository;
+            _currentUser = currentUserToken;
         }
         public async Task<BaseResponseWithData<UserDetailsDto>> Handle(UserDetailsRequest request, CancellationToken cancellationToken)
         {
             var response = new BaseResponseWithData<UserDetailsDto>();
 
-            var user = await _userRepo.GetUserWithAllDetails(request.userGuid);
+            var user = await _userRepo.GetUserWithAllDetails((Guid)_currentUser.UserGuid);
 
             if (user == null)
                 response.Message = "کاربر موردنظر یافت نشد.";

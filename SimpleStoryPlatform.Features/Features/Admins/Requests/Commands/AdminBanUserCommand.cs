@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using SimpleStoryPlatform.Application.DTOs.UserDTOs.UserToServer;
 using SimpleStoryPlatform.Application.Responses;
 using System;
 using System.Collections.Generic;
@@ -10,8 +11,7 @@ namespace SimpleStoryPlatform.Application.Features.Admins.Requests.Commands
 {
     public class AdminBanUserCommand : IRequest<BaseResponse>
     {
-        public Guid userGuid { get; set; }
-        public string? BanReason { get; set; }
-        public DateTime UnbanDate { get; set; }
+        public UserBanCommandDto BanReq { get; set; }
+        
     }
 }

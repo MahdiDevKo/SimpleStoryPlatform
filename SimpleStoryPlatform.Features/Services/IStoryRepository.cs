@@ -10,7 +10,7 @@ namespace SimpleStoryPlatform.Application.Services
     public interface IStoryRepository : IGenericRepository<Story>
     {
         Task<List<Story>> GetWritedStories(Guid userGuid);
-        Task<Story> GetStoryDetails(Guid storyGuid);
+        Task<Story> GetStoryDetails(Guid storyGuid, bool trackIt = true);
         Task<Story> GetStoryWithSections(Guid storyGuid);
         Task<List<Story>?> SearchStories(string? searchValue, bool isAdmin = false);
         Task<string?> AddStoryReview(StoryReview review);

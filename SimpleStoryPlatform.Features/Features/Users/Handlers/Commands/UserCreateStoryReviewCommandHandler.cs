@@ -15,14 +15,17 @@ namespace SimpleStoryPlatform.Application.Features.Users.Handlers.Commands
 {
     public class UserCreateStoryReviewCommandHandler : IRequestHandler<UserCreateStoryReviewCommand, BaseResponse>
     {
-        IUserRepository _userRepo;
-        IStoryRepository _storyRepo;
-        IMapper _mapper;
-        public UserCreateStoryReviewCommandHandler(IMapper mapper, IUserRepository userRepository, IStoryRepository storyRepo)
+        private readonly IUserRepository _userRepo;
+        private readonly IStoryRepository _storyRepo;
+        private readonly ICurrentUserToken _currentUser;
+        public UserCreateStoryReviewCommandHandler(
+            IUserRepository userRepository,
+            IStoryRepository storyRepo,
+            ICurrentUserToken currentUser)
         {
-            _mapper = mapper;
             _userRepo = userRepository;
             _storyRepo = storyRepo;
+            _currentUser = currentUser;
         }
         public async Task<BaseResponse> Handle(UserCreateStoryReviewCommand request, CancellationToken cancellationToken)
         {
@@ -30,35 +33,30 @@ namespace SimpleStoryPlatform.Application.Features.Users.Handlers.Commands
 
             var story = await _storyRepo.GetByGuidAsync(request.createReviewDto.StoryGuid);
 
-            var user = await _userRepo.GetByGuidAsync(request.createReviewDto.UserGuid);
+            if (story == null) { response.Message = "your target story cant be find..."; return response; }
 
-            if (story != null)
+            var user = await _userRepo.GetByGuidAsync(_currentUser.UserGuid);
+
+            if (user == null) { response.Message = "there is a problem with your identity (user not found)"; return response; }
+
+            var review = new StoryReview()
             {
-                if (user != null)
-                {
-                    var review = new StoryReview()
-                    {
-                        Score = request.createReviewDto.Score,
-                        Data = request.createReviewDto.Data,
-                        StoryId = story.Id,
-                        ReviewerId = user.Id,
-                    };
+                Score = request.createReviewDto.Score,
+                Data = request.createReviewDto.Data,
+                StoryId = story.Id,
+                ReviewerId = user.Id,
+            };
 
-                    var error = await _storyRepo.AddStoryReview(review);
+            var error = await _storyRepo.AddStoryReview(review);
 
-                    if (string.IsNullOrEmpty(error))
-                    {
-                        response.Success = true;
-                        response.Message = "نظر شما با موفقیت ثبت شد.";
-                    }
-                    else
-                        response.Message = error;
-                }
-                else
-                    response.Message = "مشکلی در اعتبار سنجی حساب کاربری شما پیش اومده!";
+            if (string.IsNullOrEmpty(error))
+            {
+                response.Success = true;
+                response.Message = "your review submitted successfully";
             }
             else
-                response.Message = "داستان موردنظر یافت نشد.";
+                response.Message = error;
+
 
             return response;
         }

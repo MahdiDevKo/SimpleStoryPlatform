@@ -13,7 +13,7 @@ namespace SimpleStoryPlatform.Application.DTOs.StoryDTOs.UserToServer
         public string Id { get; set; }
         public string Name { get; set; }
         public string Preview { get; set; }
-        public List<StorySectionDto> Data { get; set; }
+        public List<StorySectionUpdateDto> Data { get; set; }
         public bool IsPublished { get; set; }
         public Guid? PlayListGuid { get; set; }
     }

@@ -33,28 +33,30 @@ namespace SimpleStoryPlatform.Infrastructure.Services.Repositories
 
         }
 
-        public async Task<Story> GetStoryDetails(Guid storyGuid)
+        public async Task<Story> GetStoryDetails(Guid storyGuid, bool trackIt = true)
         {
             //WTF IS THIS? its need to be refactored
-            var story = await _context.Stories
+            var query = _context.Stories
                 .Include(s => s.Data)
                 .Include(s => s.Writer)
                 .Include(s => s.Reviews)
                 .Include(s => s.PlayList)
                 .Include(s => s.Reports)
                 .Include(s => s.ReleaseRequests)
-                .FirstOrDefaultAsync(s => s.PublicId == storyGuid);
+                .Where(s => s.PublicId == storyGuid);
 
-            return story;
+            if (!trackIt)
+                query = query.AsNoTracking();
+
+            return await query.FirstOrDefaultAsync();
         }
 
         public async Task<Story> GetStoryWithSections(Guid storyGuid)
         {
-            var story = await _context.Stories
-                .Include(s => s.Data)
-                .FirstOrDefaultAsync(s => s.PublicId == storyGuid);
+            var query = _context.Stories.Include(s => s.Data)
+                .Where(s => s.PublicId == storyGuid);
 
-            return story;
+            return await query.FirstOrDefaultAsync();
         }
 
         public async Task<List<Story>> GetWritedStories(Guid userGuid)

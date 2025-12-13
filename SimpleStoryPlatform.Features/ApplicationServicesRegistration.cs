@@ -21,7 +21,7 @@ namespace SimpleStoryPlatform.Application
             });
 
             // MediatR
-            services.AddMediatR(cfg => 
+            services.AddMediatR(cfg =>
                 cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
             //validators registration

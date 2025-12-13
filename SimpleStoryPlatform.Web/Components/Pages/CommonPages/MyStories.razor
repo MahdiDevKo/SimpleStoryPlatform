@@ -12,16 +12,20 @@
 
     StoryCreateDto storyCreateDto = new StoryCreateDto();
 
+    BaseRequest pageRequest;
+
     protected override async Task OnInitializedAsync()
     {
+        pageRequest = new BaseRequest() { PageNumber = 1, PageSize = 10 };
 
         try
         {
-            var apiRes = await clientAli.MyStoriesAsync();
+            var apiRes = await clientAli.MyStoriesAsync(pageRequest);
 
             if (apiRes.Success)
             {
-                stories = apiRes.Data.ToList();
+                stories = apiRes.Items.ToList();
+                msgService.ShowMessage($"Loaded Storied: {apiRes.Items.Count} server message: {apiRes.Message} ", "success");
                 StateHasChanged();
             }
             else
@@ -83,22 +87,17 @@
 
     async void CreateNewStory()
     {
-        
+        try
+        {
+            var apiRes = await clientAli.CreateNewStoryAsync(storyCreateDto);
 
-            try
-            {
-                var apiRes = await clientAli.CreateNewStoryAsync(storyCreateDto);
+            if (apiRes.Success)
+                Navigation.NavigateTo($"edit-story/{apiRes.Data}");
 
-                if (apiRes.Success)
-                    Navigation.NavigateTo($"edit-story/{apiRes.Data}");
-
-                else
-                    msgService.ShowMessage(apiRes.Message, "error");
-            }
-            catch(Exception e){ msgService.ShowMessage(e.Message, "error"); }
-
-       
-
+            else
+                msgService.ShowMessage(apiRes.Message, "error");
+        }
+        catch(Exception e){ msgService.ShowMessage(e.Message, "error"); }
     }
 
     Guid? openedStrikeForm = null;

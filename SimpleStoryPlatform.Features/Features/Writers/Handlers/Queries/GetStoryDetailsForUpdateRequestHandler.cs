@@ -30,7 +30,7 @@ namespace SimpleStoryPlatform.Application.Features.Writers.Handlers.Queries
 
             if(_currentUser.UserGuid == null) { response.Message = "you are not loged in..."; return response; }
 
-            var story = await _storyRepo.GetStoryDetails(request.storyGuid);
+            var story = await _storyRepo.GetStoryDetails(request.storyGuid, false);
 
             if(_currentUser.UserGuid != story.CreatedBy) { response.Message = "you are not the owner of the story"; return response; }
 

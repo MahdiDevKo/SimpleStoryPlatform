@@ -13,6 +13,5 @@ namespace SimpleStoryPlatform.Application.DTOs.StoryDTOs.UserToServer
         public float Score { get; set; }
         public string? Data { get; set; }
         public Guid StoryGuid { get; set; }
-        public Guid UserGuid { get; set; }
     }
 }

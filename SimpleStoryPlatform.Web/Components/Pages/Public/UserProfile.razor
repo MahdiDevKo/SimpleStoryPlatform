@@ -1,0 +1,22 @@
+﻿<h3>ProfileAli</h3>
+@page "/user-profile/{storyGuid:guid}"
+@rendermode InteractiveServer
+
+@code {
+    StoryDetailsDto? story;
+    StoryReviewCreateDto commentDto = new StoryReviewCreateDto();
+    [Parameter]
+    public Guid? storyGuid { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        
+    }
+}
+
+
+
+<h5>یادم رفته که کدهای این بخش رو بنویسم.</h5>
+<h5>ایشالا دفعه بعد که رفتم سراغ بک اند</h5>
+
+
