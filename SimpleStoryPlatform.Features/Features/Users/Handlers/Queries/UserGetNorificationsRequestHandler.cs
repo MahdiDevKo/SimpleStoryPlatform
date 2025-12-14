@@ -44,6 +44,7 @@ namespace SimpleStoryPlatform.Application.Features.Users.Handlers.Queries
             var repoRes = await _notifRepo.GetPageAsync(request.req, query);
 
             response = _mapper.Map<PageResponse<NotificationDto>>(repoRes);
+            response.Success = true;
 
             return response;
         }

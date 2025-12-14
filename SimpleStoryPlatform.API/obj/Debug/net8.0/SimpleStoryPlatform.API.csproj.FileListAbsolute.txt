@@ -1,11 +1,3 @@
-C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.API\obj\Debug\net8.0\SimpleStoryPlatform.API.csproj.AssemblyReference.cache
-C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.API\obj\Debug\net8.0\SimpleStoryPlatform.API.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.API\obj\Debug\net8.0\SimpleStoryPlatform.API.AssemblyInfoInputs.cache
-C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.API\obj\Debug\net8.0\SimpleStoryPlatform.API.AssemblyInfo.cs
-C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.API\obj\Debug\net8.0\SimpleStoryPlatform.API.csproj.CoreCompileInputs.cache
-C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.API\obj\Debug\net8.0\SimpleStoryPlatform.API.MvcApplicationPartsAssemblyInfo.cache
-C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.API\obj\Debug\net8.0\SimpleStoryPlatform.API.sourcelink.json
-C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.API\obj\Debug\net8.0\SimpleStoryPlatform.API.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.API\bin\Debug\net8.0\appsettings.Development.json
 C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.API\bin\Debug\net8.0\appsettings.json
 C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.API\bin\Debug\net8.0\SimpleStoryPlatform.API.exe
@@ -176,6 +168,14 @@ C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.API\bin\Debug\n
 C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.API\bin\Debug\net8.0\SimpleStoryPlatform.Identity.pdb
 C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.API\bin\Debug\net8.0\SimpleStoryPlatform.Infrastructure.pdb
 C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.API\bin\Debug\net8.0\SimpleStoryPlatform.Domain.pdb
+C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.API\obj\Debug\net8.0\SimpleStoryPlatform.API.csproj.AssemblyReference.cache
+C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.API\obj\Debug\net8.0\SimpleStoryPlatform.API.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.API\obj\Debug\net8.0\SimpleStoryPlatform.API.AssemblyInfoInputs.cache
+C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.API\obj\Debug\net8.0\SimpleStoryPlatform.API.AssemblyInfo.cs
+C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.API\obj\Debug\net8.0\SimpleStoryPlatform.API.csproj.CoreCompileInputs.cache
+C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.API\obj\Debug\net8.0\SimpleStoryPlatform.API.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.API\obj\Debug\net8.0\SimpleStoryPlatform.API.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.API\obj\Debug\net8.0\SimpleStoryPlatform.API.sourcelink.json
 C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.API\obj\Debug\net8.0\staticwebassets.build.json
 C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.API\obj\Debug\net8.0\staticwebassets.development.json
 C:\Users\hp\source\repos\SimpleStoryPlatform\SimpleStoryPlatform.API\obj\Debug\net8.0\staticwebassets\msbuild.SimpleStoryPlatform.API.Microsoft.AspNetCore.StaticWebAssets.props

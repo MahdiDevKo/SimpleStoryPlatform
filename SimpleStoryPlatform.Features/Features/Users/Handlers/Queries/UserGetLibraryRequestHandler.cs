@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using SimpleStoryPlatform.Application.DTOs.StoryDTOs.ServerToUser;
 using SimpleStoryPlatform.Application.Features.Users.Requests.Queries;
 using SimpleStoryPlatform.Application.Requests;
@@ -16,17 +17,14 @@ namespace SimpleStoryPlatform.Application.Features.Users.Handlers.Queries
     public class UserGetLibraryRequestHandler : IRequestHandler<UserGetLibraryRequest, PageResponse<StoryPreviewDto>>
     {
         private readonly ICurrentUserToken _currentUser;
-        private readonly IStoryRepository _storyRepo;
         private readonly IMapper _mapper;
         private readonly IUserRepository _userRepo;
         public UserGetLibraryRequestHandler(
             ICurrentUserToken currentUserToken,
-            IStoryRepository storyRepository,
             IMapper mapper,
             IUserRepository userRepository)
         {
             _currentUser = currentUserToken;
-            _storyRepo = storyRepository;
             _userRepo = userRepository;
             _mapper = mapper;
         }
@@ -40,15 +38,9 @@ namespace SimpleStoryPlatform.Application.Features.Users.Handlers.Queries
             if (request.reqProp == null)
                 request.reqProp = new BaseRequest();
 
-            var query = _storyRepo.GetQueryable();
+            var pageRes = await _userRepo.GetLibraryPage(_currentUser.UserGuid, request.reqProp);
 
-            var user = await _userRepo.GetByGuidAsync(_currentUser.UserGuid);
-
-            query = query.Where(s => s.InLibraryOf.Contains(user));
-
-            var repoRes = await _storyRepo.GetPageAsync(request.reqProp, query);
-
-            response = _mapper.Map<PageResponse<StoryPreviewDto>>(repoRes);
+            response = _mapper.Map<PageResponse<StoryPreviewDto>>(pageRes);
 
             response.Success = true;
             return response;

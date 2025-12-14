@@ -1,9 +1,12 @@
 ﻿<h3>StoryPlayList</h3>
 @page "/StoryPlayList/{playListGuid:guid}"
+@page "/StoryPlayList/"
+@rendermode InteractiveServer
 @code {
     [Parameter]
     public Guid? playListGuid{ get; set; }
 
+    
     protected override async Task OnInitializedAsync()
     {
         

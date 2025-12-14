@@ -12,6 +12,9 @@
                     <button class="report-btn" @onclick="ToggleStoryReport">
                         ⚠ Report
                     </button>
+                    <button class="report-btn" @onclick="AddToLibrary">
+                        Add to your Library
+                    </button>
                 </div>
                 
                 @if (showPreview)
@@ -699,20 +702,20 @@
 @code {
     StoryDetailsDto? story;
     StoryReviewCreateDto commentDto = new StoryReviewCreateDto();
-    
+
     [Parameter]
     public Guid? storyGuid { get; set; }
-    
+
     string? commentReportText;
     string? storyReportText;
     bool showStoryReport = false;
     bool showPreview = false;
     HashSet<Guid> showCommentReport = new();
-    
+
     int CurrentIndex;
     bool next = true, past = false;
     StorySectionDto? currentSection;
-    
+
     protected override async Task OnInitializedAsync()
     {
         if (storyGuid == null) 
@@ -721,17 +724,17 @@
             StateHasChanged(); 
             return; 
         }
-        
+
         await RefreshInformation();
         await base.OnInitializedAsync();
     }
-    
+
     async Task RefreshInformation(int pageIndex = 0)
     {
         try
         {
             var apiRes = await clientAli.ReadStoryAsync(storyGuid);
-            
+
             if (apiRes.Success)
             {
                 story = apiRes.Data;
@@ -739,7 +742,7 @@
             }
             else
                 msgService.ShowMessage(apiRes.Message, "error");
-            
+
             StateHasChanged();
         }
         catch (Exception e)
@@ -747,7 +750,7 @@
             msgService.ShowMessage(e.Message, "error");
         }
     }
-    
+
     void OpenPage(int index)
     {
         if (story?.Data != null && index > -1 && index < story.Data.Count)
@@ -759,19 +762,32 @@
             StateHasChanged();
         }
     }
-    
+
     void TogglePreview()
     {
         showPreview = !showPreview;
         StateHasChanged();
     }
-    
+
     void ToggleStoryReport()
     {
         showStoryReport = !showStoryReport;
         StateHasChanged();
     }
-    
+    async Task AddToLibrary()
+    {
+        try
+        {
+            var response = await clientAli.AddStoryToLibraryAsync(storyGuid);
+
+            if(response.Success)
+                msgService.ShowMessage(response.Message, "success");
+            else
+                msgService.ShowMessage(response.Message, "error");
+        }
+        catch(Exception e){ msgService.ShowMessage(e.Message, "error"); }
+    }
+
     void ToggleCommentReport(Guid commentId)
     {
         if (showCommentReport.Contains(commentId))

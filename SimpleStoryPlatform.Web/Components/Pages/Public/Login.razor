@@ -1,15 +1,560 @@
 ﻿@page "/login"
 @rendermode InteractiveServer
-
 @inject IJSRuntime JS
+
+<div class="auth-page">
+    <!-- Main Container -->
+    <div class="auth-container">
+        <!-- Left Side - Welcome -->
+        <div class="auth-welcome">
+            <div class="welcome-content">
+                <div class="logo">
+                    <span class="logo-icon">📚</span>
+                    <h1>StoryVerse</h1>
+                </div>
+                <h2>Welcome Back!</h2>
+                <p class="welcome-text">
+                    @(isLogin
+                                        ? "Sign in to access your personal library and continue your reading journey."
+                                        : "Join our community of readers and writers to discover amazing stories.")
+                </p>
+                <div class="features">
+                    <div class="feature">
+                        <span class="feature-icon">🌟</span>
+                        <span>Personalized library</span>
+                    </div>
+                    <div class="feature">
+                        <span class="feature-icon">📖</span>
+                        <span>Save reading progress</span>
+                    </div>
+                    <div class="feature">
+                        <span class="feature-icon">✍️</span>
+                        <span>Create your own stories</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Side - Form -->
+        <div class="auth-form">
+            <!-- Header -->
+            <div class="form-header">
+                <h2>@(isLogin ? "Sign In" : "Create Account")</h2>
+                <p class="form-subtitle">
+                    @(isLogin
+                                        ? "Enter your credentials to continue"
+                                        : "Fill in your details to get started")
+                </p>
+            </div>
+
+            <!-- Messages -->
+            @if (!string.IsNullOrEmpty(errorText))
+            {
+                <div class="error-message">
+                    <span class="error-icon">⚠️</span>
+                    <span>@errorText</span>
+                </div>
+            }
+
+            @if (!string.IsNullOrEmpty(SuckText))
+            {
+                <div class="success-message">
+                    <span class="success-icon">✅</span>
+                    <span>@SuckText</span>
+                </div>
+            }
+
+            <!-- Login Form -->
+            @if (isLogin)
+            {
+                <div class="form-group">
+                    <div class="input-group">
+                        <span class="input-icon">👤</span>
+                        <input type="text"
+                               class="form-input"
+                               @bind="loginDto.Username"
+                               @bind:event="oninput"
+                               placeholder="Username" />
+                    </div>
+
+                    <div class="input-group">
+                        <span class="input-icon">🔒</span>
+                        <input type="password"
+                               class="form-input"
+                               @bind="loginDto.Password"
+                               @bind:event="oninput"
+                               placeholder="Password" />
+                    </div>
+                </div>
+            }
+            else
+            {
+                <!-- Register Form -->
+                <div class="form-group">
+                    <div class="name-row">
+                        <div class="input-group half">
+                            <span class="input-icon">👤</span>
+                            <input type="text"
+                                   class="form-input"
+                                   @bind="createDto.FirstName"
+                                   @bind:event="oninput"
+                                   placeholder="First Name" />
+                        </div>
+
+                        <div class="input-group half">
+                            <span class="input-icon">👥</span>
+                            <input type="text"
+                                   class="form-input"
+                                   @bind="createDto.LastName"
+                                   @bind:event="oninput"
+                                   placeholder="Last Name" />
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <span class="input-icon">📧</span>
+                        <input type="email"
+                               class="form-input"
+                               @bind="createDto.Email"
+                               @bind:event="oninput"
+                               placeholder="Email Address" />
+                    </div>
+
+                    <div class="input-group">
+                        <span class="input-icon">👤</span>
+                        <input type="text"
+                               class="form-input"
+                               @bind="createDto.Username"
+                               @bind:event="oninput"
+                               placeholder="Username" />
+                    </div>
+
+                    <div class="password-row">
+                        <div class="input-group half">
+                            <span class="input-icon">🔒</span>
+                            <input type="password"
+                                   class="form-input"
+                                   @bind="createDto.Password"
+                                   @bind:event="oninput"
+                                   placeholder="Password" />
+                        </div>
+
+                        <div class="input-group half">
+                            <span class="input-icon">🔐</span>
+                            <input type="password"
+                                   class="form-input"
+                                   @bind="createDto.PasswordTwo"
+                                   @bind:event="oninput"
+                                   placeholder="Confirm Password" />
+                        </div>
+                    </div>
+                </div>
+            }
+
+            <!-- Submit Button -->
+            <button class="submit-btn" @onclick="GetRequestAsync">
+                <span class="btn-icon">@(isLogin ? "🔑" : "✨")</span>
+                <span>@submitText</span>
+            </button>
+
+            <!-- Switch Mode -->
+            <div class="switch-mode">
+                <p class="switch-text">
+                    @changeButtonText
+                    <a @onclick="ChangeMethod" class="switch-link">
+                        @(isLogin ? "Sign Up" : "Sign In")
+                    </a>
+                </p>
+            </div>
+
+            <!-- Footer Links -->
+            <div class="auth-footer">
+                <a href="/" class="footer-link">← Back to Home</a>
+                @if (isLogin)
+                {
+                    <a href="#" class="footer-link">Forgot Password?</a>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Page Layout */
+    .auth-page {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 20px;
+    }
+
+    .auth-container {
+        display: flex;
+        width: 100%;
+        max-width: 1000px;
+        background: white;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 15px 50px rgba(0, 0, 0, 0.2);
+        min-height: 600px;
+    }
+
+    /* Left Side - Welcome */
+    .auth-welcome {
+        flex: 1;
+        background: linear-gradient(135deg, #4a6bff 0%, #3a5bef 100%);
+        color: white;
+        padding: 50px 40px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .welcome-content {
+        max-width: 400px;
+        margin: 0 auto;
+    }
+
+    .logo {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 40px;
+    }
+
+    .logo-icon {
+        font-size: 3.5rem;
+    }
+
+    .logo h1 {
+        font-size: 2.2rem;
+        font-weight: 800;
+        margin: 0;
+        letter-spacing: -0.5px;
+    }
+
+    .auth-welcome h2 {
+        font-size: 2rem;
+        margin-bottom: 20px;
+        font-weight: 700;
+    }
+
+    .welcome-text {
+        font-size: 1.1rem;
+        line-height: 1.6;
+        opacity: 0.9;
+        margin-bottom: 40px;
+    }
+
+    .features {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .feature {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .feature-icon {
+        font-size: 1.5rem;
+        background: rgba(255, 255, 255, 0.1);
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .feature span:last-child {
+        font-size: 1rem;
+        font-weight: 500;
+    }
+
+    /* Right Side - Form */
+    .auth-form {
+        flex: 1;
+        padding: 50px 40px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .form-header {
+        margin-bottom: 30px;
+    }
+
+        .form-header h2 {
+            font-size: 2.2rem;
+            color: #2d3748;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+    .form-subtitle {
+        color: #718096;
+        font-size: 1rem;
+        margin: 0;
+    }
+
+    /* Messages */
+    .error-message {
+        background: #fff5f5;
+        border: 1px solid #fed7d7;
+        border-radius: 10px;
+        padding: 15px;
+        margin-bottom: 25px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        animation: slideIn 0.3s ease;
+    }
+
+    .error-icon {
+        color: #e53e3e;
+        font-size: 1.2rem;
+    }
+
+    .success-message {
+        background: #f0fff4;
+        border: 1px solid #c6f6d5;
+        border-radius: 10px;
+        padding: 15px;
+        margin-bottom: 25px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        animation: slideIn 0.3s ease;
+    }
+
+    .success-icon {
+        color: #38a169;
+        font-size: 1.2rem;
+    }
+
+    @@keyframes slideIn {
+        from
+
+    {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    }
+
+    /* Form Inputs */
+    .form-group {
+        margin-bottom: 30px;
+    }
+
+    .input-group {
+        position: relative;
+        margin-bottom: 20px;
+    }
+
+        .input-group.half {
+            width: calc(50% - 10px);
+        }
+
+    .name-row, .password-row {
+        display: flex;
+        gap: 20px;
+    }
+
+    .input-icon {
+        position: absolute;
+        left: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #a0aec0;
+        font-size: 1.2rem;
+        z-index: 1;
+    }
+
+    .form-input {
+        width: 100%;
+        padding: 18px 20px 18px 55px;
+        border: 2px solid #e2e8f0;
+        border-radius: 12px;
+        font-size: 1rem;
+        font-family: inherit;
+        transition: all 0.3s ease;
+        background: #f8f9fa;
+        color: #2d3748;
+    }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #4a6bff;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(74, 107, 255, 0.1);
+        }
+
+        .form-input::placeholder {
+            color: #a0aec0;
+        }
+
+    /* Submit Button */
+    .submit-btn {
+        width: 100%;
+        background: linear-gradient(135deg, #4a6bff 0%, #3a5bef 100%);
+        color: white;
+        border: none;
+        padding: 18px;
+        border-radius: 12px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        transition: all 0.3s ease;
+        margin-bottom: 25px;
+    }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(74, 107, 255, 0.3);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+    .btn-icon {
+        font-size: 1.3rem;
+    }
+
+    /* Switch Mode */
+    .switch-mode {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .switch-text {
+        color: #718096;
+        font-size: 1rem;
+        margin: 0;
+    }
+
+    .switch-link {
+        color: #4a6bff;
+        text-decoration: none;
+        font-weight: 600;
+        cursor: pointer;
+        margin-left: 8px;
+        transition: color 0.3s ease;
+    }
+
+        .switch-link:hover {
+            color: #3a5bef;
+            text-decoration: underline;
+        }
+
+    /* Footer Links */
+    .auth-footer {
+        display: flex;
+        justify-content: space-between;
+        padding-top: 20px;
+        border-top: 1px solid #e2e8f0;
+    }
+
+    .footer-link {
+        color: #718096;
+        text-decoration: none;
+        font-size: 0.9rem;
+        transition: color 0.3s ease;
+    }
+
+        .footer-link:hover {
+            color: #4a6bff;
+        }
+
+    /* Responsive Design */
+    @@media (max-width: 768px) {
+        .auth-container
+
+    {
+        flex-direction: column;
+        max-width: 450px;
+    }
+
+    .auth-welcome {
+        padding: 30px 25px;
+    }
+
+    .auth-form {
+        padding: 30px 25px;
+    }
+
+    .name-row, .password-row {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .input-group.half {
+        width: 100%;
+    }
+
+    .logo {
+        justify-content: center;
+        text-align: center;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+        .logo h1 {
+            font-size: 1.8rem;
+        }
+
+    .auth-welcome h2 {
+        font-size: 1.6rem;
+        text-align: center;
+    }
+
+    .welcome-text {
+        text-align: center;
+    }
+
+    .feature {
+        justify-content: center;
+    }
+
+    .form-header h2 {
+        font-size: 1.8rem;
+        text-align: center;
+    }
+
+    .form-subtitle {
+        text-align: center;
+    }
+
+    .auth-footer {
+        flex-direction: column;
+        gap: 15px;
+        align-items: center;
+    }
+
+    }
+</style>
+
 @code {
-
     bool isLogin = true;
-    string submitText = "ورود";
-    string changeButtonText = "حساب کاربری نداری؟ همین حالا یکی بساز!";
+    string submitText = "Sign In";
+    string changeButtonText = "Don't have an account?";
     string errorText = "";
-    string SuckText = "test";
-
+    string SuckText = "";
 
     UserCreateDto createDto = new UserCreateDto();
     UserLoginDto loginDto = new UserLoginDto();
@@ -19,119 +564,83 @@
         isLogin = !isLogin;
         if (isLogin)
         {
-            submitText = "ورود";
-            changeButtonText = "حساب کاربری نداری؟ همین حالا یکی بساز!";
+            submitText = "Sign In";
+            changeButtonText = "Don't have an account?";
         }
         else
         {
-            submitText = "ثبتنام";
-            changeButtonText = "حساب کاربری داری؟ وارد شو!";
+            submitText = "Sign Up";
+            changeButtonText = "Already have an account?";
         }
+
+        // Clear messages when switching modes
+        errorText = "";
+        SuckText = "";
     }
 
     async Task GetRequestAsync()
     {
         if (isLogin)
         {
-            try
-            {
-                var result = await clientAli.LoginAsync(loginDto);
-
-                if (result.Success)
-                    await SaveToken(result.Data);
-
-                else
-                    msgService.ShowMessage(result.Message, "error");
-            }
-            catch (Exception e)
-            {
-                msgService.ShowMessage(e.Message, "error");
-                ;
-            }
+            await HandleLogin();
         }
         else
         {
-            try
-            {
-                var result = await clientAli.SignupAsync(createDto);
+            await HandleSignup();
+        }
+    }
 
-                if (result.Success)
-                    await SaveToken(result.Data);
+    async Task HandleLogin()
+    {
+        try
+        {
+            var result = await clientAli.LoginAsync(loginDto);
 
-                else
-                    msgService.ShowMessage(result.Message, "error");
-            }
-            catch (Exception e)
+            if (result.Success)
             {
-                msgService.ShowMessage(e.Message, "error");
+                await SaveToken(result.Data);
             }
+            else
+            {
+                errorText = result.Message;
+                msgService.ShowMessage(result.Message, "error");
+            }
+        }
+        catch (Exception e)
+        {
+            errorText = e.Message;
+            msgService.ShowMessage(e.Message, "error");
+        }
+    }
+
+    async Task HandleSignup()
+    {
+        try
+        {
+            var result = await clientAli.SignupAsync(createDto);
+
+            if (result.Success)
+            {
+                await SaveToken(result.Data);
+            }
+            else
+            {
+                errorText = result.Message;
+                msgService.ShowMessage(result.Message, "error");
+            }
+        }
+        catch (Exception e)
+        {
+            errorText = e.Message;
+            msgService.ShowMessage(e.Message, "error");
         }
     }
 
     async Task SaveToken(string token)
     {
-        await JS.InvokeVoidAsync("eval", $"document.cookie = 'Token={token}; path=/; expires={DateTime.UtcNow.AddHours(12).ToString("R")}'");
+        await JS.InvokeVoidAsync("eval",
+            $"document.cookie = 'Token={token}; path=/; max-age=43200; secure; samesite=strict'");
 
-        Navigation.NavigateTo("/", true);
+        Navigation.NavigateTo("/", forceLoad: true);
     }
 }
-
-<h3 style="color:red">@errorText</h3>
-<h3 style="color:green">@SuckText</h3>
-
-<div class="auth-container">
-
-    @if (isLogin)
-    {
-        <!-- Login Box -->
-        <div class="login-box">
-            <div>
-                <input @bind="loginDto.Username" placeholder="نام کاربری" />
-            </div>
-
-            <div>
-                <input type="password" @bind="loginDto.Password" placeholder="رمز عبور" />
-            </div>
-        </div>
-    }
-    else
-    {
-        <!-- Register Box -->
-        <div class="register-box">
-            <div>
-                <input @bind="createDto.FirstName" placeholder="نام" />
-            </div>
-
-            <div>
-                <input @bind="createDto.LastName" placeholder="نام خانوادگی" />
-            </div>
-
-            <div>
-                <input @bind="createDto.Email" placeholder="ایمیل" />
-            </div>
-
-            <div>
-                <input @bind="createDto.Username" placeholder="نام کاربری" />
-            </div>
-
-            <div>
-                <input type="password" @bind="createDto.Password" placeholder="رمز عبور" />
-            </div>
-
-            <div>
-                <input type="password" @bind="createDto.PasswordTwo" placeholder="تکرار رمز عبور" />
-            </div>
-        </div>
-    }
-
-    <div class="button-group">
-        <button @onclick="GetRequestAsync">@submitText</button>
-    </div>
-
-    <!-- لینک به جای دکمه -->
-    <div class="switch-method">
-        <span @onclick="ChangeMethod" style="cursor:pointer; color:blue; text-decoration:underline;">
-            @changeButtonText
-        </span>
-    </div>
-</div>

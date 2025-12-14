@@ -27,7 +27,7 @@ namespace SimpleStoryPlatform.Application.Features.Users.Handlers.Queries
 
             var story = _mapper.Map<StoryDetailsDto>(await _storyRepo.GetStoryDetails(request.storyGuid));
 
-            if (story == null) { response.Message = "داستان موردنظر شما یافت نشد"; return response; }
+            if (story == null) { response.Message = "story not found"; return response; }
 
             if (story.IsVisible || request.IsAdmin)
             {
@@ -35,7 +35,7 @@ namespace SimpleStoryPlatform.Application.Features.Users.Handlers.Queries
                 response.Success = true;
             }
             else
-                response.Message = "این داستان درحال حاضر برای عموم در دسترس نیست.";
+                response.Message = "this story is not accessable";
 
 
             return response;

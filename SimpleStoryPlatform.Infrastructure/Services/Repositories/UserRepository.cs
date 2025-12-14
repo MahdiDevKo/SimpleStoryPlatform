@@ -1,4 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Azure.Core;
+using Microsoft.EntityFrameworkCore;
+using SimpleStoryPlatform.Application.Requests;
+using SimpleStoryPlatform.Application.Responses;
 using SimpleStoryPlatform.Application.Services;
 using SimpleStoryPlatform.Domain.Entites;
 using SimpleStoryPlatform.Domain.Entites.Report;
@@ -41,8 +44,34 @@ namespace SimpleStoryPlatform.Infrastructure.Services.Repositories
             return await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
         }
 
+        public async Task<PageResponse<Story>> GetLibraryPage(Guid? userGuid, BaseRequest req)
+        {
+            var response = new PageResponse<Story>()
+            {
+                PageSize = req.PageSize,
+                CurrentPage = req.PageNumber
+            };
 
-        
+            var query = _context.Users
+                .Include(u => u.Library)
+                    .ThenInclude(s => s.Writer);
+
+            var user = await query.FirstOrDefaultAsync(u => u.PublicId == userGuid);
+                
+            if(user != null)
+            {
+                response.TotalItems = user.Library.Count;
+                response.TotalPages = (int)Math.Ceiling(response.TotalItems / (double)response.PageSize);
+            }
+            var items = user.Library
+                .Skip((req.PageNumber - 1) * req.PageSize)
+                .Take(req.PageSize)
+                .ToList();
+
+            response.Items = items;
+
+            return response;
+        }
 
         public async Task<User?> GetUserWithAllDetails(Guid userGuid)
         {

@@ -1,4 +1,6 @@
-﻿using SimpleStoryPlatform.Domain.Entites;
+﻿using SimpleStoryPlatform.Application.Requests;
+using SimpleStoryPlatform.Application.Responses;
+using SimpleStoryPlatform.Domain.Entites;
 using SimpleStoryPlatform.Domain.Entites.Report;
 using System;
 using System.Collections.Generic;
@@ -15,6 +17,6 @@ namespace SimpleStoryPlatform.Application.Services
         Task<User?> GetUserWithAllDetails(Guid userGuid);
         Task<bool> IsInLibrary(Guid? userGuid, Guid storyGuid);
         Task<bool> AddToLibraryAsycn(Guid? userGuid, Story story);
-
+        Task<PageResponse<Story>> GetLibraryPage(Guid? userGuid, BaseRequest req);
     }
 }

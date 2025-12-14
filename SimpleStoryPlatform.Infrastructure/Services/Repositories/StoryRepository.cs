@@ -40,6 +40,7 @@ namespace SimpleStoryPlatform.Infrastructure.Services.Repositories
                 .Include(s => s.Data)
                 .Include(s => s.Writer)
                 .Include(s => s.Reviews)
+                    .ThenInclude(r => r.Reviewer)
                 .Include(s => s.PlayList)
                 .Include(s => s.Reports)
                 .Include(s => s.ReleaseRequests)

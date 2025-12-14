@@ -42,6 +42,7 @@ namespace SimpleStoryPlatform.Application.Features.Users.Handlers.Queries
             var repoRes = await _warningRepo.GetPageAsync(request.req, query);
 
             response = _mapper.Map<PageResponse<WarningDto>>(repoRes);
+            response.Success = true;
 
             return response;
         }

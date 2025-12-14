@@ -55,10 +55,10 @@ namespace SimpleStoryPlatform.Application.Features.Users.Handlers.Queries
                     .Where(s => s.Writer.Username
                     .Contains(request.info.Options.WriterUsername));
 
-            string role = _currentUser.UserRole;
+            string? role = _currentUser.UserRole;
 
             if (role != "admin" && role != "owner")
-                query.Where(s => s.IsDeleted == false && s.IsVisible == true) ;
+                query = query.Where(s => !s.IsDeleted && !s.IsStriked && s.IsPublished) ;
 
             var pageReponse = await _storyRepo.GetPageAsync(request.info, query);
 

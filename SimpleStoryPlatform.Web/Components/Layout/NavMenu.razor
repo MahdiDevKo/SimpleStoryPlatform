@@ -31,20 +31,20 @@
                     lastName = apires.Data.LastName;
                     isLoggedIn = true;
                 }
-                else
-                    msgService.ShowMessage(apires.Message, "error");
             }
             catch(Exception e)
             {
                 msgService.ShowMessage(e.Message, "error");
             }
 
-
+            
 
             isTokenChecked = true;
             StateHasChanged();
         }
     }
+    
+    
 
     void GoToLogin()
     {
