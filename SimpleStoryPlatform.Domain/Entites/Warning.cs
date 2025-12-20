@@ -11,6 +11,7 @@ namespace SimpleStoryPlatform.Domain.Entites
         public string Subject { get; set; }
         public string Reason { get; set; }
         public string? Details { get; set; }
+        public bool IsReaded { get; set; }
 
         //relations
         public User ReciverUser { get; set; }

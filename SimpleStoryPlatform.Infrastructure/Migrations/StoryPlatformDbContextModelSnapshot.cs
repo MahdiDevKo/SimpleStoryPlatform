@@ -456,6 +456,9 @@ namespace SimpleStoryPlatform.Infrastructure.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsReaded")
+                        .HasColumnType("bit");
+
                     b.Property<Guid>("PublicId")
                         .HasColumnType("uniqueidentifier");
 

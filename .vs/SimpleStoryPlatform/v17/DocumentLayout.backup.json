@@ -3,20 +3,24 @@
   "WorkspaceRootPath": "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{46FDF70A-8364-4CA1-B4FF-9800E969DE54}|SimpleStoryPlatform.Web\\SimpleStoryPlatform.Web.csproj|c:\\users\\hp\\source\\repos\\simplestoryplatform\\simplestoryplatform.web\\components\\pages\\commonpages\\profile.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{46FDF70A-8364-4CA1-B4FF-9800E969DE54}|SimpleStoryPlatform.Web\\SimpleStoryPlatform.Web.csproj|solutionrelative:simplestoryplatform.web\\components\\pages\\commonpages\\profile.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\SimpleStoryPlatform.Infrastructure\\Migrations\\20251220192725_AddingIsReadedToWarnings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:SimpleStoryPlatform.Infrastructure\\Migrations\\20251220192725_AddingIsReadedToWarnings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{46FDF70A-8364-4CA1-B4FF-9800E969DE54}|SimpleStoryPlatform.Web\\SimpleStoryPlatform.Web.csproj|c:\\users\\hp\\source\\repos\\simplestoryplatform\\simplestoryplatform.web\\components\\layout\\navmenu.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{46FDF70A-8364-4CA1-B4FF-9800E969DE54}|SimpleStoryPlatform.Web\\SimpleStoryPlatform.Web.csproj|solutionrelative:simplestoryplatform.web\\components\\layout\\navmenu.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{79605688-E78F-486A-B895-24664E3CF96B}|SimpleStoryPlatform.Features\\SimpleStoryPlatform.Application.csproj|c:\\users\\hp\\source\\repos\\simplestoryplatform\\simplestoryplatform.features\\features\\users\\handlers\\queries\\userreadwarningrequesthandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{79605688-E78F-486A-B895-24664E3CF96B}|SimpleStoryPlatform.Features\\SimpleStoryPlatform.Application.csproj|solutionrelative:simplestoryplatform.features\\features\\users\\handlers\\queries\\userreadwarningrequesthandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{46FDF70A-8364-4CA1-B4FF-9800E969DE54}|SimpleStoryPlatform.Web\\SimpleStoryPlatform.Web.csproj|c:\\users\\hp\\source\\repos\\simplestoryplatform\\simplestoryplatform.web\\components\\pages\\commonpages\\mylibrary.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{46FDF70A-8364-4CA1-B4FF-9800E969DE54}|SimpleStoryPlatform.Web\\SimpleStoryPlatform.Web.csproj|solutionrelative:simplestoryplatform.web\\components\\pages\\commonpages\\mylibrary.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{79605688-E78F-486A-B895-24664E3CF96B}|SimpleStoryPlatform.Features\\SimpleStoryPlatform.Application.csproj|c:\\users\\hp\\source\\repos\\simplestoryplatform\\simplestoryplatform.features\\features\\users\\handlers\\queries\\userreadnotificationrequesthandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{79605688-E78F-486A-B895-24664E3CF96B}|SimpleStoryPlatform.Features\\SimpleStoryPlatform.Application.csproj|solutionrelative:simplestoryplatform.features\\features\\users\\handlers\\queries\\userreadnotificationrequesthandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{46FDF70A-8364-4CA1-B4FF-9800E969DE54}|SimpleStoryPlatform.Web\\SimpleStoryPlatform.Web.csproj|c:\\users\\hp\\source\\repos\\simplestoryplatform\\simplestoryplatform.web\\services\\apiclient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{46FDF70A-8364-4CA1-B4FF-9800E969DE54}|SimpleStoryPlatform.Web\\SimpleStoryPlatform.Web.csproj|solutionrelative:simplestoryplatform.web\\services\\apiclient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{D05F58C1-46FF-51EE-5389-F3178B939E8B}|SimpleStoryPlatform.API\\SimpleStoryPlatform.API.csproj|c:\\users\\hp\\source\\repos\\simplestoryplatform\\simplestoryplatform.api\\controllers\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D05F58C1-46FF-51EE-5389-F3178B939E8B}|SimpleStoryPlatform.API\\SimpleStoryPlatform.API.csproj|solutionrelative:simplestoryplatform.api\\controllers\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{79605688-E78F-486A-B895-24664E3CF96B}|SimpleStoryPlatform.Features\\SimpleStoryPlatform.Application.csproj|c:\\users\\hp\\source\\repos\\simplestoryplatform\\simplestoryplatform.features\\features\\users\\requests\\queries\\userreadwarningrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{79605688-E78F-486A-B895-24664E3CF96B}|SimpleStoryPlatform.Features\\SimpleStoryPlatform.Application.csproj|solutionrelative:simplestoryplatform.features\\features\\users\\requests\\queries\\userreadwarningrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,45 +30,71 @@
       "DocumentGroups": [
         {
           "DockedWidth": 277,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "NavMenu.razor",
-              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\SimpleStoryPlatform.Web\\Components\\Layout\\NavMenu.razor",
-              "RelativeDocumentMoniker": "SimpleStoryPlatform.Web\\Components\\Layout\\NavMenu.razor",
-              "ToolTip": "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\SimpleStoryPlatform.Web\\Components\\Layout\\NavMenu.razor",
-              "RelativeToolTip": "SimpleStoryPlatform.Web\\Components\\Layout\\NavMenu.razor",
-              "ViewState": "AgIAABQAAAAAAAAAAAAuwB8AAAAmAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-12-14T02:20:53.66Z",
+              "DocumentIndex": 0,
+              "Title": "20251220192725_AddingIsReadedToWarnings.cs",
+              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\SimpleStoryPlatform.Infrastructure\\Migrations\\20251220192725_AddingIsReadedToWarnings.cs",
+              "RelativeDocumentMoniker": "SimpleStoryPlatform.Infrastructure\\Migrations\\20251220192725_AddingIsReadedToWarnings.cs",
+              "ToolTip": "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\SimpleStoryPlatform.Infrastructure\\Migrations\\20251220192725_AddingIsReadedToWarnings.cs",
+              "RelativeToolTip": "SimpleStoryPlatform.Infrastructure\\Migrations\\20251220192725_AddingIsReadedToWarnings.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-20T19:27:25.249Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "UserReadNotificationRequestHandler.cs",
+              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\SimpleStoryPlatform.Features\\Features\\Users\\Handlers\\Queries\\UserReadNotificationRequestHandler.cs",
+              "RelativeDocumentMoniker": "SimpleStoryPlatform.Features\\Features\\Users\\Handlers\\Queries\\UserReadNotificationRequestHandler.cs",
+              "ToolTip": "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\SimpleStoryPlatform.Features\\Features\\Users\\Handlers\\Queries\\UserReadNotificationRequestHandler.cs",
+              "RelativeToolTip": "SimpleStoryPlatform.Features\\Features\\Users\\Handlers\\Queries\\UserReadNotificationRequestHandler.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-20T19:13:24.397Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "ApiClient.cs",
-              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\SimpleStoryPlatform.Web\\Services\\ApiClient.cs",
-              "RelativeDocumentMoniker": "SimpleStoryPlatform.Web\\Services\\ApiClient.cs",
-              "ToolTip": "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\SimpleStoryPlatform.Web\\Services\\ApiClient.cs",
-              "RelativeToolTip": "SimpleStoryPlatform.Web\\Services\\ApiClient.cs",
-              "ViewState": "AgIAAOENAAAAAAAAAAAYwPANAAAuAAAAAAAAAA==",
+              "Title": "UsersController.cs",
+              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\SimpleStoryPlatform.API\\Controllers\\UsersController.cs",
+              "RelativeDocumentMoniker": "SimpleStoryPlatform.API\\Controllers\\UsersController.cs",
+              "ToolTip": "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\SimpleStoryPlatform.API\\Controllers\\UsersController.cs",
+              "RelativeToolTip": "SimpleStoryPlatform.API\\Controllers\\UsersController.cs",
+              "ViewState": "AgIAAHEAAAAAAAAAAAAUwH0AAAA5AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-14T02:16:54.526Z",
+              "WhenOpened": "2025-12-20T19:12:27.798Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Profile.razor",
-              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\SimpleStoryPlatform.Web\\Components\\Pages\\CommonPages\\Profile.razor",
-              "RelativeDocumentMoniker": "SimpleStoryPlatform.Web\\Components\\Pages\\CommonPages\\Profile.razor",
-              "ToolTip": "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\SimpleStoryPlatform.Web\\Components\\Pages\\CommonPages\\Profile.razor",
-              "RelativeToolTip": "SimpleStoryPlatform.Web\\Components\\Pages\\CommonPages\\Profile.razor",
-              "ViewState": "AgIAAHMAAAAAAAAAAAAAAF8AAAA4AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-12-14T02:12:51.969Z",
+              "DocumentIndex": 1,
+              "Title": "UserReadWarningRequestHandler.cs",
+              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\SimpleStoryPlatform.Features\\Features\\Users\\Handlers\\Queries\\UserReadWarningRequestHandler.cs",
+              "RelativeDocumentMoniker": "SimpleStoryPlatform.Features\\Features\\Users\\Handlers\\Queries\\UserReadWarningRequestHandler.cs",
+              "ToolTip": "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\SimpleStoryPlatform.Features\\Features\\Users\\Handlers\\Queries\\UserReadWarningRequestHandler.cs",
+              "RelativeToolTip": "SimpleStoryPlatform.Features\\Features\\Users\\Handlers\\Queries\\UserReadWarningRequestHandler.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-20T19:11:50.529Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "UserReadWarningRequest.cs",
+              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\SimpleStoryPlatform.Features\\Features\\Users\\Requests\\Queries\\UserReadWarningRequest.cs",
+              "RelativeDocumentMoniker": "SimpleStoryPlatform.Features\\Features\\Users\\Requests\\Queries\\UserReadWarningRequest.cs",
+              "ToolTip": "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\SimpleStoryPlatform.Features\\Features\\Users\\Requests\\Queries\\UserReadWarningRequest.cs",
+              "RelativeToolTip": "SimpleStoryPlatform.Features\\Features\\Users\\Requests\\Queries\\UserReadWarningRequest.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAoAAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-20T19:11:34.74Z",
               "EditorCaption": ""
             },
             {
@@ -74,19 +104,6 @@
             {
               "$type": "Bookmark",
               "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "MyLibrary.razor",
-              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\SimpleStoryPlatform.Web\\Components\\Pages\\CommonPages\\MyLibrary.razor",
-              "RelativeDocumentMoniker": "SimpleStoryPlatform.Web\\Components\\Pages\\CommonPages\\MyLibrary.razor",
-              "ToolTip": "C:\\Users\\hp\\source\\repos\\SimpleStoryPlatform\\SimpleStoryPlatform.Web\\Components\\Pages\\CommonPages\\MyLibrary.razor",
-              "RelativeToolTip": "SimpleStoryPlatform.Web\\Components\\Pages\\CommonPages\\MyLibrary.razor",
-              "ViewState": "AgIAADkAAAAAAAAAAAAAAC4AAAAaAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-12-14T02:09:54.664Z",
-              "EditorCaption": ""
             }
           ]
         }

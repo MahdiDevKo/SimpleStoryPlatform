@@ -120,5 +120,16 @@ namespace SimpleStoryPlatform.API.Controllers
             return response;
         }
 
+        //new apis
+        [HttpGet("User-Profile")]
+        public async Task<BaseResponseWithData<UserProfileDto>> GetUserProfile(Guid userGuid)
+        {
+            var request = new UserGetUserProfileRequest(){ userGuid = userGuid};
+
+            var response = await _mediator.Send(request);
+
+            return response;
+        }
+
     }
 }

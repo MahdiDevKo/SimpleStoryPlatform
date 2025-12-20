@@ -29,6 +29,9 @@ namespace SimpleStoryPlatform.Application.Profiles
             CreateMap<User, UserCreateDto>().ReverseMap();
             CreateMap<User, UserDetailsDto>().ReverseMap();
             CreateMap<User, UserPreviewDto>().ReverseMap();
+            CreateMap<User, UserProfileDto>()
+                .ForMember(dest => dest.WritedStories, opt => opt.Ignore());
+
             CreateMap<User, UserWithWarningsDto>()
                 .ForMember(dest => dest.TotalWarnings,
                 opt => opt.MapFrom(src => src.Warnings != null ? src.Warnings.Count : 0))

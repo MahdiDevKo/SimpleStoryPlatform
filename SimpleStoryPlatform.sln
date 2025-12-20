@@ -15,8 +15,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleStoryPlatform.Identit
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleStoryPlatform.Web", "SimpleStoryPlatform.Web\SimpleStoryPlatform.Web.csproj", "{46FDF70A-8364-4CA1-B4FF-9800E969DE54}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorMaterialAli", "BlazorMaterialAli\BlazorMaterialAli.csproj", "{36C36EFA-3817-4984-99FB-6A0A1F6C5C28}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,10 +45,6 @@ Global
 		{46FDF70A-8364-4CA1-B4FF-9800E969DE54}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{46FDF70A-8364-4CA1-B4FF-9800E969DE54}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{46FDF70A-8364-4CA1-B4FF-9800E969DE54}.Release|Any CPU.Build.0 = Release|Any CPU
-		{36C36EFA-3817-4984-99FB-6A0A1F6C5C28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{36C36EFA-3817-4984-99FB-6A0A1F6C5C28}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{36C36EFA-3817-4984-99FB-6A0A1F6C5C28}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{36C36EFA-3817-4984-99FB-6A0A1F6C5C28}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

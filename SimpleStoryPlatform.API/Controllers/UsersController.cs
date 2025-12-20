@@ -119,5 +119,25 @@ namespace SimpleStoryPlatform.Controllers
 
             return response;
         }
+
+        [HttpGet("Read-Notification")]
+        public async Task<BaseResponse> ReadNotification(Guid notifGuid)
+        {
+            var request = new UserReadNotificationRequest() { notifGuid = notifGuid };
+
+            var response = await _mediator.Send(request);
+
+            return response;
+        }
+
+        [HttpGet("Read-Warning")]
+        public async Task<BaseResponse> ReadWarning(Guid warningGuid)
+        {
+            var request = new UserReadWarningRequest() { warningGuid = warningGuid };
+
+            var response = await _mediator.Send(request);
+
+            return response;
+        }
     }
 }

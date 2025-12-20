@@ -10,6 +10,7 @@ namespace SimpleStoryPlatform.Application.DTOs.ReportDTOs.ServerToUser
     {
         public string Subject { get; set; }
         public string Reason { get; set; }
+        public bool IsReaded { get; set; }
         public string? Details { get; set; }
     }
 }
