@@ -21,8 +21,8 @@ namespace SimpleStoryPlatform.Domain.Entites
         public int WriterId { get; set; }
         public ICollection<StorySection> Data { get; set; }
         public ICollection<StoryReview> Reviews { get; set; } = new List<StoryReview>();
-        public StoryPlayList? PlayList { get; set; }
         public int? PlayListId { get; set; }
+        public StoryPlayList? PlayList { get; set; }
 
         public ICollection<User> InLibraryOf { get; set; } = new List<User>();
         public ICollection<StoryReport> Reports { get; set; } = new List<StoryReport>();

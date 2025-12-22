@@ -66,7 +66,7 @@ namespace SimpleStoryPlatform.Infrastructure.Services.Repositories
         {
             var entity = await _context.Set<T>().FirstOrDefaultAsync(e => e.PublicId == publicId);
 
-            return entity.Id;
+            return entity?.Id ?? 0;
         }
 
         public async Task<T> UpdateEntityAsync(T entity)

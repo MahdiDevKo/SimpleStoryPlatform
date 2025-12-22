@@ -38,6 +38,9 @@ namespace SimpleStoryPlatform.Application.Profiles
                 .ReverseMap();
 
             //story profiles
+            CreateMap<StoryPlayList, StoryPlayListDto>()
+                .ForMember(dest => dest.StoriesInPage, opt => opt.Ignore());
+
             CreateMap<StoryReview, StoryReviewDto>()
                 .ForMember(dest => dest.User, opt => opt.MapFrom(src => src.Reviewer))
                 .ForMember(dest => dest.TargetStoryGuid, opt => opt.MapFrom(src => src.TargetStory.PublicId))

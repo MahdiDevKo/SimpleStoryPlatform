@@ -41,10 +41,16 @@ namespace SimpleStoryPlatform.Infrastructure.DbSettings
                 .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<User>()
+                .HasMany(u => u.Warnings)
+                .WithOne(r => r.ReciverUser)
+                .HasForeignKey(r => r.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<User>()
                 .HasMany(u => u.WritedStories)
                 .WithOne(s => s.Writer)
                 .HasForeignKey(s => s.WriterId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.NoAction);
 
             //writed by chatGPT
             modelBuilder.Entity<User>()
@@ -62,13 +68,6 @@ namespace SimpleStoryPlatform.Infrastructure.DbSettings
                         .WithMany()
                         .HasForeignKey("InLibraryOfId")
                         .OnDelete(DeleteBehavior.NoAction));
-
-
-            modelBuilder.Entity<User>()
-                .HasMany(u => u.Warnings)
-                .WithOne(r => r.ReciverUser)
-                .HasForeignKey(r => r.UserId)
-                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<User>()
                 .HasMany(u => u.Comments)
@@ -92,6 +91,12 @@ namespace SimpleStoryPlatform.Infrastructure.DbSettings
                 .HasMany(p => p.Stories)
                 .WithOne(s => s.PlayList)
                 .HasForeignKey(s => s.PlayListId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<StoryPlayList>()
+                .HasOne(sp => sp.Owner)
+                .WithMany(u => u.CreatedPlaylists)
+                .HasForeignKey(s => s.OwnerId)
                 .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<Story>()

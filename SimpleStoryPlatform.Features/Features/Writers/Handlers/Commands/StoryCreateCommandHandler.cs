@@ -15,9 +15,9 @@ namespace SimpleStoryPlatform.Application.Features.Writers.Handlers.Commands
 {
     public class StoryCreateCommandHandler : IRequestHandler<StoryCreateCommand, BaseResponseWithData<Guid?>>
     {
-        IStoryRepository _storyRepo;
-        IUserRepository _userRepo;
-        IMapper _mapper;
+        private readonly IStoryRepository _storyRepo;
+        private readonly IUserRepository _userRepo;
+        private readonly IMapper _mapper;
         public StoryCreateCommandHandler(IMapper mapper, IStoryRepository storyRepository, IUserRepository userRepo)
         {
             _mapper = mapper;

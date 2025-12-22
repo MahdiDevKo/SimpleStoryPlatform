@@ -100,5 +100,15 @@ namespace SimpleStoryPlatform.API.Controllers
 
             return response;
         }
+
+        [HttpPost("Manage-StoryPlayList")]
+        public async Task<BaseResponse> ManageStoryPlaylist([FromBody] StoryPlayListManageDto manageDto)
+        {
+            var request = new StoryPlayListManageCommand() { manageDto = manageDto};
+
+            var response = await _mediator.Send(request);
+
+            return response;
+        }
     }
 }

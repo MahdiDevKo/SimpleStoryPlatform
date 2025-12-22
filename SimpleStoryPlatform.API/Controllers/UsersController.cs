@@ -120,7 +120,7 @@ namespace SimpleStoryPlatform.Controllers
             return response;
         }
 
-        [HttpGet("Read-Notification")]
+        [HttpGet("Set-Readed-Notification")]
         public async Task<BaseResponse> ReadNotification(Guid notifGuid)
         {
             var request = new UserReadNotificationRequest() { notifGuid = notifGuid };
@@ -130,10 +130,19 @@ namespace SimpleStoryPlatform.Controllers
             return response;
         }
 
-        [HttpGet("Read-Warning")]
+        [HttpGet("Set-Readed-Warning")]
         public async Task<BaseResponse> ReadWarning(Guid warningGuid)
         {
             var request = new UserReadWarningRequest() { warningGuid = warningGuid };
+
+            var response = await _mediator.Send(request);
+
+            return response;
+        }
+        [HttpGet("Is-New-Warning")]
+        public async Task<BaseResponseWithData<bool>> IsNewWarning()
+        {
+            var request = new UserIsHaveNewWarningRequest();
 
             var response = await _mediator.Send(request);
 

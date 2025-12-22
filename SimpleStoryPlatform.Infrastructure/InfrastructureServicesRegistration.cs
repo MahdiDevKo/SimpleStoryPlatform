@@ -31,6 +31,7 @@ namespace SimpleStoryPlatform.Infrastructure
             services.AddScoped<IStoryReportRepository, StoryReportRepository>();
             services.AddScoped<IReviewReportRepository, ReviewReportRepository>();
             services.AddScoped<IStoryReleaseRepository, StoryReleaseRepository>();
+            services.AddScoped<IStoryPlayListRepository, StoryPlayListRepository>();
 
             services.AddScoped<INotificationRepository, NotificationRepository>();
             services.AddScoped<IWarningRepository, WarningRepository>();

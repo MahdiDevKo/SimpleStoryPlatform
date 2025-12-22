@@ -13,5 +13,7 @@ namespace SimpleStoryPlatform.Domain.Entites
 
         //relations
         public ICollection<Story> Stories { get; set; }
+        public int OwnerId { get; set; }
+        public User Owner { get; set; }
     }
 }

@@ -131,5 +131,15 @@ namespace SimpleStoryPlatform.API.Controllers
             return response;
         }
 
+        [HttpPost("Play-List-Details")]
+        public async Task<BaseResponseWithData<StoryPlayListDto>> GetPlayListDetails(StoriesInPlayListRequest reqDto)
+        {
+            var request = new StoryPlayListGetDetailRequest(){ reqDto = reqDto };
+
+            var response = await _mediator.Send(request);
+
+            return response;
+        }
+
     }
 }

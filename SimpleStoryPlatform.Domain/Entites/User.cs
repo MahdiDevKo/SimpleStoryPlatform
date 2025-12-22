@@ -23,6 +23,7 @@ namespace SimpleStoryPlatform.Domain.Entites
 
         //relations
         public ICollection<Story> Library { get; set; } = new List<Story>();
+        public ICollection<StoryPlayList> CreatedPlaylists { get; set; } = new List<StoryPlayList>();
         public ICollection<Notification>? Inbox { get; set; }
         public ICollection<Warning>? Warnings { get; set; }
         public ICollection<Story>? WritedStories { get; set; }
