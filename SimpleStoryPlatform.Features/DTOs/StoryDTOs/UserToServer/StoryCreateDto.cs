@@ -15,6 +15,5 @@ namespace SimpleStoryPlatform.Application.DTOs.StoryDTOs.UserToServer
     {
         public string Name { get; set; }
         public string Preview { get; set; }
-        public Guid WriterGuid { get; set; }
     }
 }

@@ -7,6 +7,7 @@ using SimpleStoryPlatform.Application.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,33 +15,37 @@ namespace SimpleStoryPlatform.Application.Features.Writers.Handlers.Queries
 {
     public class GetStoryDetailsRequestHandler : IRequestHandler<GetStoryDetailsRequest, BaseResponseWithData<StoryDetailsDto>>
     {
-        IStoryRepository _storyRepo;
-        IMapper _mapper;
-        public GetStoryDetailsRequestHandler(IMapper mapper, IStoryRepository storyRepository)
+        private readonly IStoryRepository _storyRepo;
+        private readonly IMapper _mapper;
+        private readonly ICurrentUserToken _currentUser;
+        public GetStoryDetailsRequestHandler(IMapper mapper, IStoryRepository storyRepository, ICurrentUserToken currentUser)
         {
             _mapper = mapper;
             _storyRepo = storyRepository;
+            _currentUser = currentUser;
         }
 
         public async Task<BaseResponseWithData<StoryDetailsDto>> Handle(GetStoryDetailsRequest request, CancellationToken cancellationToken)
         {
             var response = new BaseResponseWithData<StoryDetailsDto>();
 
-            var story = _mapper.Map<StoryDetailsDto>(await _storyRepo.GetStoryDetails(request.storyGuid));
+            var story = await _storyRepo.GetStoryDetails(request.storyGuid);
+
             if (story == null)
-                response.Message = "داستان موردنظر یافت نشد.";
-            else if (story.CreatedBy == request.userGuid)
-            {
-                if (!story.IsVisible)
-                {
-                    response.data = story;
-                    response.Success = true;
-                }
-                else
-                    response.Message = "داستان شما منتشر شده. برای ویرایش داستان، لطفا آن را از حالت انتشار خارج کنید.";
-            }
+                response.Message = "story not found";
+
+            else if (story.CreatedBy != _currentUser.UserGuid)
+                response.Message = "you aren't the owner of this story";
+
+            else if (story.IsVisible)
+                response.Message = "you cant update a published story";
+
             else
-                response.Message = "این داستان متعلق به شما نیست!";
+            {
+                response.data = _mapper.Map<StoryDetailsDto>(story);
+                response.Success = true;
+            }
+
 
             return response;
         }

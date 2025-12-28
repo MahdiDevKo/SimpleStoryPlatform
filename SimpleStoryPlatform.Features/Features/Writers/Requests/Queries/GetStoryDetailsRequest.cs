@@ -11,7 +11,6 @@ namespace SimpleStoryPlatform.Application.Features.Writers.Requests.Queries
 {
     public class GetStoryDetailsRequest : IRequest<BaseResponseWithData<StoryDetailsDto>>
     {
-        public Guid userGuid { get; set; }
         public Guid storyGuid { get; set; }
     }
 }

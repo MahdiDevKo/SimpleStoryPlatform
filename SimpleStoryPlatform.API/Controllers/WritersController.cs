@@ -29,34 +29,9 @@ namespace SimpleStoryPlatform.API.Controllers
         [HttpPost("Create-New-Story")]
         public async Task<BaseResponseWithData<Guid?>> CreateStory([FromBody] StoryCreateDto createDto)
         {
-            createDto.WriterGuid = GetPublicId();
-
             var command = new StoryCreateCommand() { createDto = createDto };
 
             var response = await _mediator.Send(command);
-
-            return response;
-        }
-
-        [HttpPost("My-Stories")]
-        public async Task<PageResponse<StoryPreviewDto>> GetMyStories([FromBody] BaseRequest? req)
-        {
-            var request = new GetWritedStoriesRequest();
-
-            if (req != null)
-                request.requestProp = req;
-
-            var response = await _mediator.Send(request);
-
-            return response;
-        }
-
-        [HttpPost("My-Story-Details")]
-        public async Task<BaseResponseWithData<StoryDetailsDto>> GetStoryDetails([FromBody] Guid storyGuid)
-        {
-            var request = new GetStoryDetailsRequest() { userGuid = GetPublicId(), storyGuid = storyGuid };
-
-            var response = await _mediator.Send(request);
 
             return response;
         }
@@ -70,7 +45,19 @@ namespace SimpleStoryPlatform.API.Controllers
 
             return response;
         }
+        [HttpPost("My-Stories")]
+        public async Task<PageResponse<StoryPreviewDto>> GetMyStories([FromBody] BaseRequest? req)
+        {
+            var request = new GetWritedStoriesRequest();
 
+            if (req != null)
+                request.requestProp = req;
+
+            var response = await _mediator.Send(request);
+
+            return response;
+        }
+        
         [HttpPost("Update-Story")]
         public async Task<BaseResponse> UpdateStory([FromBody] StoryUpdateDto storyDto)
         {
@@ -81,10 +68,20 @@ namespace SimpleStoryPlatform.API.Controllers
             return response;
         }
 
-        [HttpPost("Unpublish-Story")]
-        public async Task<BaseResponse> UnpunblishStory([FromBody] Guid storyGuid)
+        [HttpPost("My-Story-Details")]
+        public async Task<BaseResponseWithData<StoryDetailsDto>> GetStoryDetails([FromBody] Guid storyGuid)
         {
-            var request = new StoryUnpublishCommand() { StoryGuid = storyGuid, UserGuid = GetPublicId() };
+            var request = new GetStoryDetailsRequest() {storyGuid = storyGuid };
+
+            var response = await _mediator.Send(request);
+
+            return response;
+        }
+
+        [HttpPost("Change-Story-Publish-Status")]
+        public async Task<BaseResponse> ChangePublishStatus([FromBody] Guid storyGuid)
+        {
+            var request = new StoryChangePublishStatusCommand() { StoryGuid = storyGuid };
 
             var response = await _mediator.Send(request);
 

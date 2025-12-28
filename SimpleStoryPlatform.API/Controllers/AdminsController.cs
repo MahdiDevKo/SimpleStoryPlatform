@@ -121,5 +121,7 @@ namespace SimpleStoryPlatform.API.Controllers
 
             return response;
         }
+
+        //Get User Status (Good/Bad dids history)
     }
 }

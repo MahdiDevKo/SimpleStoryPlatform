@@ -52,7 +52,7 @@ namespace SimpleStoryPlatform.Application.Features.Writers.Handlers.Commands
                 response.Success = true;
                 response.Message = "your story has been saved successfully :D!";
                 response.data = _mapper.Map<StoryUpdateDto>(neoStory);
-        }
+            }
 
             return response;
         }

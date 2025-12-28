@@ -8,9 +8,8 @@ using System.Threading.Tasks;
 
 namespace SimpleStoryPlatform.Application.Features.Writers.Requests.Commands
 {
-    public class StoryUnpublishCommand : IRequest<BaseResponse>
+    public class StoryChangePublishStatusCommand : IRequest<BaseResponse>
     {
-        public Guid UserGuid { get; set; }
         public Guid StoryGuid { get; set; }
     }
 }

@@ -31,11 +31,11 @@ namespace SimpleStoryPlatform.Controllers
             _httpContextAccessor = httpContextAccessor;
         }
 
-        private Guid GetPublicId()
-        => Guid.Parse(User.FindFirst("PublicId")?.Value);
+        //private Guid GetPublicId()
+        //=> Guid.Parse(User.FindFirst("PublicId")?.Value);
 
-        private string GetRole()
-        => User.FindFirst("Role")?.Value.ToString();
+        //private string GetRole()
+        //=> User.FindFirst("Role")?.Value.ToString();
 
         [HttpGet("Profile")]
         public async Task<BaseResponseWithData<UserDetailsDto>> GetUserDetails()
